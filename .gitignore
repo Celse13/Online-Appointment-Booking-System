@@ -76,3 +76,7 @@ dist/
 
 # DynamoDB Local files
 .dynamodb/
+
+
+# Node.js package lock file
+package-lock.json

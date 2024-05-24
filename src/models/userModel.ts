@@ -1,7 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import crypto from 'crypto';
 
-// User schema => this is the structure of the user document in the collection
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  username: string;
+  email: string;
+  password: string;
+  role?: { type: string, default: 'user' };
+  isVerified: boolean;
+  verificationToken: string | undefined;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
+  profilePicture?: string;
+  generatePasswordResetToken(): string;
+}
+
+const userSchema = new Schema<IUser>(
   {
     username: {
       type: String,
@@ -17,10 +30,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       required: true,
+      default: 'user'
     },
+    verificationToken: { type: String },
     passwordResetToken: String,
     passwordResetExpires: Date,
     profilePicture: {
@@ -31,5 +50,15 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const UserModel = mongoose.model('User', userSchema);
+userSchema.methods.generatePasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+  this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
+  return resetToken;
+}
+
+const UserModel = mongoose.model<IUser>('User', userSchema);
 export { userSchema, UserModel };
