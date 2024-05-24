@@ -70,13 +70,11 @@ class UserController {
         },
       );
 
-      res
-        .status(201)
-        .json({
-          ok: true,
-          message:
-            'Signed up successfully. Please verify your account before logging in.',
-        });
+      res.status(201).json({
+        ok: true,
+        message:
+          'Signed up successfully. Please verify your account before logging in.',
+      });
     } catch (error) {
       next(error);
     }
