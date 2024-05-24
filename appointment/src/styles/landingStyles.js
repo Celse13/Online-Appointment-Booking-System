@@ -33,6 +33,20 @@ export const headerStyles = StyleSheet.create({
   },
 });
 
+const sharedContainerStyles = {
+  margin: '2.5rem auto 2.5rem auto',
+  textAlign: 'center',
+  color: appColors.primaryText,
+};
+
+const sharedCardStyles = {
+  width: '90%',
+  maxHeight: '50vh',
+  margin: '5%',
+  padding: '2rem',
+  border: 'none',
+};
+
 export const homeStyles = StyleSheet.create({
   slogan: {
     color: appColors.primaryText,
@@ -41,15 +55,45 @@ export const homeStyles = StyleSheet.create({
     textAlign: 'center',
   },
   homeCard: {
-    width: '90%',
-    maxHeight: '50vh',
-    margin: '5%',
-    padding: '2rem',
-    border: 'none',
+    ...sharedCardStyles,
     backgroundColor: appColors.lightBlue,
   },
 });
 
 export const servicesStyles = StyleSheet.create({
+  servicesContainer: {
+    ...sharedContainerStyles
+  },
+  servicesCard: {
+    ...sharedCardStyles,
+    backgroundColor: appColors.lightGreen,
+  },
+  gridContainer: {
+    margin: '2rem 0 0 3rem',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    rowGap: '3rem',
+  },
+  gridContainerCard: {
+    width: '100px',
+    height: 'auto',
+    padding: '1rem',
+    ':hover': {
+      backgroundColor: appColors.primaryLight,
+      transform: 'scale(1.2)',
+    },
+  },
+  gridContainerItem: {
+    cursor: 'pointer',
+  },
+});
 
+export const aboutStyles = StyleSheet.create({
+  aboutContainer: {
+    ...sharedContainerStyles,
+  },
+  aboutCard: {
+    ...sharedCardStyles,
+    backgroundColor: appColors.lightRed,
+  },
 });
