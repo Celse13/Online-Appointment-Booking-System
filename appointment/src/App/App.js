@@ -1,12 +1,18 @@
 import React from 'react';
-import Auth from '../Auth/Auth';
 import { css, StyleSheet } from 'aphrodite';
+import Home from '../Landing/Home/home';
+import Header from '../Landing/Header/header';
 
 class App extends React.Component {
   render() {
     return (
       <div className={css(styles.app)}>
-        <Auth />
+        <header>
+          <Header />
+        </header>
+        <main>
+          <Home />
+        </main>
       </div>
     );
   }
