@@ -1,6 +1,20 @@
 import { StyleSheet } from 'aphrodite';
 import { appColors } from './colors';
 
+const sharedContainerStyles = {
+  margin: '3rem auto 2.5rem auto',
+  textAlign: 'center',
+  color: appColors.primaryText,
+};
+
+const sharedCardStyles = {
+  width: '90%',
+  maxHeight: '50vh',
+  margin: '5%',
+  padding: '2rem',
+  border: 'none',
+};
+
 export const headerStyles = StyleSheet.create({
   navBar: {
     margin: 0,
@@ -32,20 +46,6 @@ export const headerStyles = StyleSheet.create({
     }
   },
 });
-
-const sharedContainerStyles = {
-  margin: '2.5rem auto 2.5rem auto',
-  textAlign: 'center',
-  color: appColors.primaryText,
-};
-
-const sharedCardStyles = {
-  width: '90%',
-  maxHeight: '50vh',
-  margin: '5%',
-  padding: '2rem',
-  border: 'none',
-};
 
 export const homeStyles = StyleSheet.create({
   slogan: {
@@ -95,5 +95,23 @@ export const aboutStyles = StyleSheet.create({
   aboutCard: {
     ...sharedCardStyles,
     backgroundColor: appColors.lightRed,
+  },
+});
+
+export const testimonialsStyles = StyleSheet.create({
+  testimonialsContainer: {
+    ...sharedContainerStyles,
+  },
+  testimonialsCard: {
+    padding: '1rem',
+    margin: '2rem',
+    width: '70%',
+    borderRadius: '20px',
+    backgroundColor: appColors.primary,
+  },
+  testimonialsCardHeader: {
+    borderRadius: '50%',
+    padding: '.2rem',
+    backgroundColor: appColors.lightGreen,
   },
 });
