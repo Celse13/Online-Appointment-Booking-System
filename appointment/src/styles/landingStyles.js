@@ -51,5 +51,35 @@ export const homeStyles = StyleSheet.create({
 });
 
 export const servicesStyles = StyleSheet.create({
-
+  servicesContainer: {
+    margin: '5rem auto 5rem auto',
+    textAlign: 'center',
+    color: appColors.primaryText,
+  },
+  servicesCard: {
+    width: '90%',
+    maxHeight: '50vh',
+    margin: '5%',
+    padding: '2rem',
+    border: 'none',
+    backgroundColor: appColors.lightGreen,
+  },
+  gridContainer: {
+    margin: '2rem 0 0 3rem',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    rowGap: '3rem',
+  },
+  gridContainerCard: {
+    width: '90px',
+    height: 'auto',
+    padding: '1rem',
+    ':hover': {
+      backgroundColor: appColors.primaryLight,
+      transform: 'scale(1.2)',
+    },
+  },
+  gridContainerItem: {
+    cursor: 'pointer',
+  },
 });
