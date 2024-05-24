@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, StyleSheet } from 'aphrodite';
+import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
 
 class Login extends React.Component {
