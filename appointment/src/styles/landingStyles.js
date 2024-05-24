@@ -13,14 +13,21 @@ const sharedCardStyles = {
   margin: '5%',
   padding: '2rem',
   border: 'none',
+  borderRadius: '20px',
 };
 
 export const headerStyles = StyleSheet.create({
   navBar: {
     margin: 0,
-    backgroundColor: appColors.primaryDarkTrans,
+    backgroundColor: appColors.primaryText,
     padding: '1rem',
     maxWidth: '100vw',
+  },
+  navBarCard: {
+    width: '28px',
+    height: '28px',
+    position: 'absolute',
+    backgroundColor: appColors.lightRed,
   },
   navBarIcon: {
     width: '25px',
@@ -37,7 +44,7 @@ export const headerStyles = StyleSheet.create({
   },
   listItem: {
     textDecoration: 'none',
-    color: 'black',
+    color: appColors.primaryLight,
     padding: '1rem',
     ':hover': {
       color: 'white',
@@ -103,15 +110,51 @@ export const testimonialsStyles = StyleSheet.create({
     ...sharedContainerStyles,
   },
   testimonialsCard: {
-    padding: '1rem',
+    padding: '1rem 3rem',
     margin: '2rem',
     width: '70%',
     borderRadius: '20px',
-    backgroundColor: appColors.primary,
+    backgroundColor: appColors.primaryLight,
   },
   testimonialsCardHeader: {
     borderRadius: '50%',
     padding: '.2rem',
     backgroundColor: appColors.lightGreen,
   },
+});
+
+export const footerStyles = StyleSheet.create({
+  footerDiv: {
+    margin: 0,
+    color: appColors.white,
+    backgroundColor: appColors.primaryText,
+    paddingTop: '1rem',
+  },
+  header: {
+    textAlign: 'center',
+  },
+  gridContainer: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
+    margin: '2rem 0 0 0',
+  },
+  gridContainerItem: {
+    cursor: 'pointer',
+    width: '50px',
+    height: '50px',
+    ':hover': {
+      transform: 'scale(1.2)',
+    },
+  },
+  hr: {
+    border: 'none',
+    width: '100%',
+    height: '3px',
+    backgroundColor: appColors.white,
+  },
+  col: {
+    textAlign: 'center',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+  }
 });

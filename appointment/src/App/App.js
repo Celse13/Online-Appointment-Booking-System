@@ -6,6 +6,7 @@ import Services from '../Landing/Services/Services';
 import About from '../Landing/About/About';
 import Testimonials from '../Landing/Testimonials/Testimonials';
 import Footer from '../Landing/Footer/Footer';
+import { appColors } from '../styles/colors';
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
           <About />
           <Testimonials/>
         </main>
+        <hr className={css(styles.hr)}/>
         <footer>
           <Footer />
         </footer>
@@ -31,7 +33,14 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   app: {
     fontFamily: 'Poppins, sans-serif',
-  }
+    marginBottom: '7px',
+  },
+  hr: {
+    border: 'none',
+    width: '100%',
+    height: '3px',
+    backgroundColor: appColors.primaryText,
+  },
 });
 
 export default App;
