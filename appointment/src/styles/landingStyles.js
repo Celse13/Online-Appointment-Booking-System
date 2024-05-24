@@ -38,6 +38,7 @@ export const homeStyles = StyleSheet.create({
     color: appColors.primaryText,
     fontSize: '2rem',
     margin: '70px 0 0 0',
+    textAlign: 'center',
   },
   homeCard: {
     width: '90%',
@@ -47,4 +48,8 @@ export const homeStyles = StyleSheet.create({
     border: 'none',
     backgroundColor: appColors.lightBlue,
   },
+});
+
+export const servicesStyles = StyleSheet.create({
+
 });

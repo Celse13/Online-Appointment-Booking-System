@@ -1,7 +1,11 @@
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import Home from '../Landing/Home/home';
-import Header from '../Landing/Header/header';
+import Home from '../Landing/Home/Home';
+import Header from '../Landing/Header/Header';
+import Services from '../Landing/Services/Services';
+import About from '../Landing/About/About';
+import Testimonials from '../Landing/Testimonials/Testimonials';
+import Footer from '../Landing/Footer/Footer';
 
 class App extends React.Component {
   render() {
@@ -12,7 +16,13 @@ class App extends React.Component {
         </header>
         <main>
           <Home />
+          <Services />
+          <About />
+          <Testimonials/>
         </main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     );
   }
