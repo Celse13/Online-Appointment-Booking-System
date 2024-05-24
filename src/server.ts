@@ -4,8 +4,6 @@ import cors from 'cors';
 import connectDB from './database/connection';
 import routes from './routes/index';
 
-
-
 dotenv.config();
 
 const app: Express = express();
@@ -14,9 +12,7 @@ const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;
 app.use(express.json());
 app.use(cors());
 
-
 app.use('/api', routes);
-
 
 connectDB()
   .then(() => {

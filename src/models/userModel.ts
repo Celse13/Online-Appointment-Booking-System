@@ -5,7 +5,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  role?: { type: string, default: 'user' };
+  role?: { type: string; default: 'user' };
   isVerified: boolean;
   verificationToken: string | undefined;
   passwordResetToken?: string;
@@ -37,7 +37,7 @@ const userSchema = new Schema<IUser>(
     role: {
       type: String,
       required: true,
-      default: 'user'
+      default: 'user',
     },
     verificationToken: { type: String },
     passwordResetToken: String,
@@ -58,7 +58,7 @@ userSchema.methods.generatePasswordResetToken = function () {
     .digest('hex');
   this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
   return resetToken;
-}
+};
 
 const UserModel = mongoose.model<IUser>('User', userSchema);
 export { userSchema, UserModel };
