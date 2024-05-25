@@ -154,7 +154,6 @@ export const footerStyles = StyleSheet.create({
   },
   col: {
     textAlign: 'center',
-    textDecoration: 'underline',
     cursor: 'pointer',
   }
 });

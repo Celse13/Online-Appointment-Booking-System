@@ -8,6 +8,7 @@ import twitter from '../../assets/twitter-logo.png';
 import instagram from '../../assets/instagram-logo.png';
 import whatsapp from '../../assets/whatsapp-logo.png';
 import telegram from '../../assets/telegram-logo.png';
+import { getFullYear } from '../../utils/utils';
 
 class Footer extends React.Component {
   render() {
@@ -36,7 +37,7 @@ class Footer extends React.Component {
         <Container>
           <Row>
             <Col md={4} className={css(footerStyles.col)}>
-              <p>&copy; 2024 #NAME</p>
+              <p>&copy; {getFullYear()} #NAME</p>
             </Col>
             <Col md={4} className={css(footerStyles.col)}>
               <p>Privacy Policy</p>
