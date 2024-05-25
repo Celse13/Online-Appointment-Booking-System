@@ -1,8 +1,17 @@
 import React from 'react';
 import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
+import { withNavigate } from '../../HOC/withNavigate';
 
 class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleProfile = () => {
+    this.props.navigate('/profile/client');
+  }
+
   render() {
     return (
       <div className={css(signStyles.signUpBody)}>
@@ -38,13 +47,14 @@ class Signup extends React.Component {
               <option value="8">Other</option>
             </select>
           </div>
-          <input type="submit" value="SIGN UP" className={css(signStyles.button)} />
-          <p><strong> Already have an account? <span
-            className={css(signStyles.text)} onClick={this.props.toggleLogin}>Login</span></strong></p>
+          <input type="submit" value="SIGN UP" className={css(signStyles.button)} onClick={this.handleProfile}/>
+          <p><strong> Already have an account?
+            <span className={css(signStyles.text)} onClick={this.props.toggleLogin}>Login</span>
+          </strong></p>
         </form>
       </div>
     );
   }
 }
 
-export default Signup;
+export default withNavigate(Signup);

@@ -1,8 +1,17 @@
 import React from 'react';
 import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
+import { withNavigate } from '../../HOC/withNavigate';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleProfile = () => {
+    this.props.navigate('/profile/client');
+  }
+
   render() {
     return (
       <div className={css(signStyles.signUpBody)}>
@@ -16,13 +25,15 @@ class Login extends React.Component {
             <label htmlFor="password"></label>
             <input type="password" name="password" id="password" autoComplete="true" placeholder="Password" className={css(signStyles.input)} />
           </div>
-          <input type="submit" value="SIGN UP" className={css(signStyles.button)} />
+          <input type="submit" value="LOGIN" className={css(signStyles.button)} onClick={this.handleProfile}/>
           <a href="#" className={css(signStyles.aLinks)}>Forgot Password</a>
-          <p><strong> No account? <span className={css(signStyles.text)} onClick={this.props.toggleSignup}>Sign Up</span></strong></p>
+          <p><strong> No account?
+            <span className={css(signStyles.text)} onClick={this.props.toggleSignup}>Sign Up</span>
+          </strong></p>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+export default withNavigate(Login);
