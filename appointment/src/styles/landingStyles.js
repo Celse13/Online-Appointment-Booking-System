@@ -19,7 +19,7 @@ const sharedCardStyles = {
 export const headerStyles = StyleSheet.create({
   navBar: {
     margin: 0,
-    backgroundColor: appColors.primaryText,
+    backgroundColor: appColors.dusty,
     padding: '1rem',
     maxWidth: '100vw',
   },
@@ -27,7 +27,7 @@ export const headerStyles = StyleSheet.create({
     width: '28px',
     height: '28px',
     position: 'absolute',
-    backgroundColor: appColors.lightRed,
+    backgroundColor: appColors.secondaryDark,
   },
   navBarIcon: {
     width: '25px',
@@ -47,8 +47,7 @@ export const headerStyles = StyleSheet.create({
     color: appColors.primaryLight,
     padding: '1rem',
     ':hover': {
-      color: 'white',
-      backgroundColor: appColors.accent,
+      backgroundColor: appColors.secondaryDark,
       cursor: 'pointer',
     }
   },
@@ -63,7 +62,7 @@ export const homeStyles = StyleSheet.create({
   },
   homeCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.lightBlue,
+    backgroundColor: appColors.primaryLight,
   },
 });
 
@@ -73,7 +72,7 @@ export const servicesStyles = StyleSheet.create({
   },
   servicesCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.lightGreen,
+    backgroundColor: appColors.primaryLight,
   },
   gridContainer: {
     margin: '2rem 0 0 3rem',
@@ -85,9 +84,11 @@ export const servicesStyles = StyleSheet.create({
     width: '100px',
     height: 'auto',
     padding: '1rem',
+    border: `2px solid ${appColors.primaryLight}`,
+    borderRadius: '10px',
     ':hover': {
-      backgroundColor: appColors.primaryLight,
-      transform: 'scale(1.2)',
+      transform: 'scale(1.3)',
+      border: `2px solid ${appColors.primaryDark}`,
     },
   },
   gridContainerItem: {
@@ -101,7 +102,7 @@ export const aboutStyles = StyleSheet.create({
   },
   aboutCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.lightRed,
+    backgroundColor: appColors.primaryLight,
   },
 });
 
@@ -113,13 +114,14 @@ export const testimonialsStyles = StyleSheet.create({
     padding: '1rem 3rem',
     margin: '2rem',
     width: '70%',
+    border: 'none',
     borderRadius: '20px',
     backgroundColor: appColors.primaryLight,
   },
   testimonialsCardHeader: {
     borderRadius: '50%',
     padding: '.2rem',
-    backgroundColor: appColors.lightGreen,
+    backgroundColor: appColors.dusty,
   },
 });
 
@@ -127,7 +129,7 @@ export const footerStyles = StyleSheet.create({
   footerDiv: {
     margin: 0,
     color: appColors.white,
-    backgroundColor: appColors.primaryText,
+    backgroundColor: appColors.dusty,
     paddingTop: '1rem',
   },
   header: {

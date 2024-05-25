@@ -8,7 +8,7 @@ const sharedInputStyles = {
   maxWidth: '280px',
   padding: '0.7rem',
   margin: '0.7rem',
-  borderRadius: '5px',
+  borderRadius: '10px',
 };
 
 export const authStyles = StyleSheet.create({
@@ -71,8 +71,10 @@ export const signStyles = StyleSheet.create({
     backgroundColor: appColors.accent,
     cursor: 'pointer',
     ':hover': {
-      backgroundColor: appColors.lightBlue,
+      backgroundColor: appColors.primaryLight,
       color: appColors.accent,
+      border: `3px solid ${appColors.accent}`,
+      fontWeight: 'bold',
     },
   },
   aLinks: {
