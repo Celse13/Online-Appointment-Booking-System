@@ -6,6 +6,11 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*.ts", "src/routes/index.ts",  "node_modules/@types", "node_modules/@types/**/*"],
+  "include": [
+    "./src/**/*.ts",
+    "src/routes/index.ts",
+    "node_modules/@types",
+    "node_modules/@types/**/*"
+  ],
   "exclude": ["node_modules"]
 }

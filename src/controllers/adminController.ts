@@ -16,7 +16,11 @@ class AdminController {
 
   static async updateAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const admin = await AdminModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const admin = await AdminModel.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
       res.status(200).json({ message: 'Admin updated successfully', admin });
     } catch (error) {
       next(error);
@@ -54,7 +58,9 @@ class AdminController {
     try {
       const service = new ServiceModel(req.body);
       await service.save();
-      res.status(201).json({ message: 'Service created successfully', service });
+      res
+        .status(201)
+        .json({ message: 'Service created successfully', service });
     } catch (error) {
       next(error);
     }
@@ -62,8 +68,14 @@ class AdminController {
 
   static async updateService(req: Request, res: Response, next: NextFunction) {
     try {
-      const service = await ServiceModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      res.status(200).json({ message: 'Service updated successfully', service });
+      const service = await ServiceModel.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+      );
+      res
+        .status(200)
+        .json({ message: 'Service updated successfully', service });
     } catch (error) {
       next(error);
     }
@@ -81,7 +93,9 @@ class AdminController {
   static async getServices(req: Request, res: Response, next: NextFunction) {
     try {
       const services = await ServiceModel.find({});
-      res.status(200).json({ message: 'Services fetched successfully', services });
+      res
+        .status(200)
+        .json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
     }
@@ -90,34 +104,62 @@ class AdminController {
   static async getService(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await ServiceModel.findById(req.params.id);
-      res.status(200).json({ message: 'Service fetched successfully', service });
+      res
+        .status(200)
+        .json({ message: 'Service fetched successfully', service });
     } catch (error) {
       next(error);
     }
   }
 
-  static async approveAppointment(req: Request, res: Response, next: NextFunction) {
+  static async approveAppointment(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(req.params.id, { status: 'approved' }, { new: true });
-      res.status(200).json({ message: 'Appointment approved successfully', appointment });
+      const appointment = await AppointmentModel.findByIdAndUpdate(
+        req.params.id,
+        { status: 'approved' },
+        { new: true },
+      );
+      res
+        .status(200)
+        .json({ message: 'Appointment approved successfully', appointment });
     } catch (error) {
       next(error);
     }
   }
 
-  static async rejectAppointment(req: Request, res: Response, next: NextFunction) {
+  static async rejectAppointment(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(req.params.id, { status: 'rejected' }, { new: true });
-      res.status(200).json({ message: 'Appointment rejected successfully', appointment });
+      const appointment = await AppointmentModel.findByIdAndUpdate(
+        req.params.id,
+        { status: 'rejected' },
+        { new: true },
+      );
+      res
+        .status(200)
+        .json({ message: 'Appointment rejected successfully', appointment });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getAppointments(req: Request, res: Response, next: NextFunction) {
+  static async getAppointments(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       const appointments = await AppointmentModel.find({});
-      res.status(200).json({ message: 'Appointments fetched successfully', appointments });
+      res
+        .status(200)
+        .json({ message: 'Appointments fetched successfully', appointments });
     } catch (error) {
       next(error);
     }
@@ -126,7 +168,9 @@ class AdminController {
   static async getAppointment(req: Request, res: Response, next: NextFunction) {
     try {
       const appointment = await AppointmentModel.findById(req.params.id);
-      res.status(200).json({ message: 'Appointment fetched successfully', appointment });
+      res
+        .status(200)
+        .json({ message: 'Appointment fetched successfully', appointment });
     } catch (error) {
       next(error);
     }

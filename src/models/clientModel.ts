@@ -3,9 +3,9 @@ import { userSchema } from './userModel';
 
 interface IClient extends Document {
   appointment: Array<{
-    type: Schema.Types.ObjectId,
-    ref: 'Appointment'
-  }>
+    type: Schema.Types.ObjectId;
+    ref: 'Appointment';
+  }>;
 }
 
 const clientSchema = new mongoose.Schema<IClient>({
