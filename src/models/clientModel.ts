@@ -1,9 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import { userSchema } from './userModel';
 
-const clientSchema = userSchema.clone();
+interface IClient extends Document {
+  appointment: Array<{
+    type: Schema.Types.ObjectId,
+    ref: 'Appointment'
+  }>
+}
 
-clientSchema.add({
+const clientSchema = new mongoose.Schema<IClient>({
+  ...userSchema.obj,
   appointment: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -12,5 +18,5 @@ clientSchema.add({
   ],
 });
 
-const ClientModel = mongoose.model('Client', clientSchema);
+const ClientModel = mongoose.model<IClient>('Client', clientSchema);
 export default ClientModel;

@@ -2,9 +2,7 @@ import mongoose from 'mongoose';
 import StaffValidators from '../validators/staffValidators';
 
 import { userSchema } from './userModel';
-const staffSchema = userSchema.clone();
-
-staffSchema.add({
+const staffSchema = new mongoose.Schema({
   position: {
     type: String,
     required: true,
@@ -31,9 +29,12 @@ staffSchema.add({
         message: 'Invalid hour format',
       },
       required: true,
-    },
-  },
-});
+    }, 
+  }}, { timestamps: true },
+);
+
+staffSchema.add(userSchema);
+
 
 const StaffModel = mongoose.model('Staff', staffSchema);
 export default StaffModel;
