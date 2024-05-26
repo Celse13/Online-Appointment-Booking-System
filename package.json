@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon --exec ts-node src/server.ts",
-    "lint": "eslint --fix .",
+    "lint": "eslint --fix ",
     "format": "prettier --write .",
     "prepare": "husky",
     "_postinstall": "pinst --disable",
