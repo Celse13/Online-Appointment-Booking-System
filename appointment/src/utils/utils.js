@@ -1,3 +1,3 @@
-export function getFullYear() {
+export const getFullYear = () =>{
   return new Date().getFullYear();
 }

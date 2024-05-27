@@ -123,6 +123,12 @@ export const testimonialsStyles = StyleSheet.create({
     padding: '.2rem',
     backgroundColor: appColors.dusty,
   },
+  hr: {
+    border: 'none',
+    width: '100%',
+    height: '3px',
+    backgroundColor: appColors.primaryText,
+  },
 });
 
 export const footerStyles = StyleSheet.create({
