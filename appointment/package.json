@@ -43,6 +43,7 @@
     "file-loader": "^6.2.0",
     "image-webpack-loader": "^8.1.0",
     "imagemin-gifsicle": "^7.0.0",
+    "lucide-react": "^0.379.0",
     "react": "^16.14.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^16.14.0",
