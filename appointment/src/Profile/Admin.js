@@ -3,7 +3,7 @@ import { Bell, CalendarCheck, Pyramid, CircleUserRound, UsersRound } from 'lucid
 import Appointments from './Components/Appointments';
 import ClientsList from './Components/ClientsList';
 import StaffList from './Components/StaffList';
-import Notifications from './Components/Notifications/Notifications';
+import Notifications from './Components/Notifications';
 import renderComponents from '../HOC/renderComponents';
 import userProfile from './Components/userProfile';
 

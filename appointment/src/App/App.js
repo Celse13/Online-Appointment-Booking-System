@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from '../Landing/Landing';
 import Auth from '../Auth/Auth';
-import Client from '../Profile/Client/Client';
-import Staff from '../Profile/Staff/Staff';
-import Admin from '../Profile/Admin/Admin';
+import Client from '../Profile/Client';
+import Staff from '../Profile/Staff';
+import Admin from '../Profile/Admin';
 import { css, StyleSheet } from 'aphrodite';
 
 class App extends React.Component {
