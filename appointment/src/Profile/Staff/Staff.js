@@ -1,44 +1,21 @@
-import React, { Fragment, useState } from 'react';
-import Sidebar, { SidebarItem } from '../Components/Sidebar';
+import React from 'react';
 import { Bell, CalendarCheck, Pyramid } from 'lucide-react';
 import Appointments from '../Components/Appointments';
 import ClientsList from '../Components/ClientsList';
 import Notifications from '../Components/Notifications/Notifications';
-import { css } from 'aphrodite';
-import { profileStyles } from '../../styles/profileStyles';
+import renderComponents from '../../HOC/renderComponents';
 
-const Staff = () => {
-  const [selectedComponent, setSelectedComponent] = useState("Appointments");
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case "Appointments":
-        return <Appointments />;
-      case "Clients":
-        return <ClientsList />;
-      case "Notifications":
-        return <Notifications />;
-      default:
-        return <Appointments />;
-    }
-  };
+const ComponentMap = {
+  "Appointments": Appointments,
+  "Clients": ClientsList,
+  "Notifications": Notifications
+};
 
-  return (
-    <Fragment>
-      <div className={css(profileStyles.container)}>
-        <div >
-          <Sidebar onSelect={setSelectedComponent}>
-            <SidebarItem icon={<CalendarCheck />} text="Appointments" />
-            <SidebarItem icon={<Pyramid />} text="Clients" />
-            <SidebarItem icon={<Bell />} text="Notifications" alert />
-          </Sidebar>
-        </div>
-        <div>
-          <h1>HOME SPA</h1>
-          {renderComponent()}
-        </div>
-      </div>
-    </Fragment>
-  );
-}
+const SidebarItems = [
+  { icon: <CalendarCheck />, text: "Appointments" },
+  { icon: <Pyramid />, text: "Clients" },
+  { icon: <Bell />, text: "Notifications", alert: true }
+];
 
+const Staff = renderComponents(ComponentMap, SidebarItems, "HOME SPA");
 export default Staff;

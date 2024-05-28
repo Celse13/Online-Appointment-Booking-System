@@ -1,41 +1,22 @@
-import React, { Fragment, useState } from 'react';
-import Sidebar, { SidebarItem } from '../Components/Sidebar';
+import React from 'react';
 import { Bell, HandPlatter, CalendarCheck } from 'lucide-react';
 import Appointments from '../Components/Appointments';
 import Notifications from '../Components/Notifications/Notifications';
 import Services from '../../Landing/Services/Services';
-import { css } from 'aphrodite';
-import { profileStyles } from '../../styles/profileStyles';
+import renderComponents from '../../HOC/renderComponents';
 
-const Client = () => {
-  const [selectedComponent, setSelectedComponent] = useState("Appointments");
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case "Appointments":
-        return <Appointments />;
-      case "Notifications":
-        return <Notifications />;
-      case "Services":
-        return <Services />;
-      default:
-        return <Appointments />;
-    }
-  };
+const ComponentMap = {
+  "Appointments": Appointments,
+  "Notifications": Notifications,
+  "Services": Services
+};
 
-  return (
-    <Fragment>
-      <div className={css(profileStyles.container)}>
-        <Sidebar onSelect={setSelectedComponent}>
-          <SidebarItem icon={<CalendarCheck />} text="Appointments" />
-          <SidebarItem icon={<Bell />} text="Notifications" alert />
-          <SidebarItem icon={<HandPlatter />} text="Services" />
-        </Sidebar>
-        <div>
-          {renderComponent()}
-        </div>
-      </div>
-    </Fragment>
-  );
-}
+const SidebarItems = [
+  { icon: <CalendarCheck />, text: "Appointments" },
+  { icon: <Bell />, text: "Notifications", alert: true },
+  { icon: <HandPlatter />, text: "Services" }
+];
+
+const Client = renderComponents(ComponentMap, SidebarItems, "CLIENT PORTAL");
 
 export default Client;
