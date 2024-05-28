@@ -29,7 +29,6 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   app: {
     fontFamily: 'Poppins, sans-serif',
-    marginBottom: '7px',
   },
 });
 
