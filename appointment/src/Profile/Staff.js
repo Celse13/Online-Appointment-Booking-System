@@ -1,9 +1,9 @@
 import React from 'react';
 import { Bell, CalendarCheck, Pyramid } from 'lucide-react';
-import Appointments from '../Components/Appointments';
-import ClientsList from '../Components/ClientsList';
-import Notifications from '../Components/Notifications/Notifications';
-import renderComponents from '../../HOC/renderComponents';
+import Appointments from './Components/Appointments';
+import ClientsList from './Components/ClientsList';
+import Notifications from './Components/Notifications/Notifications';
+import renderComponents from './../HOC/renderComponents';
 
 const ComponentMap = {
   "Appointments": Appointments,
