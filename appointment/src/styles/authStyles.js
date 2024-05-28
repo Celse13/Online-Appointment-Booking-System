@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite';
 import { appColors } from './colors';
-import calender from '../Assets/calendar.png';
+import calendar from '../Assets/calendar2.png';
 
 const sharedInputStyles = {
   border: 'none',
@@ -16,7 +16,7 @@ export const authStyles = StyleSheet.create({
     margin: 0,
     height: '90vh',
     maxHeight: '100vh',
-    backgroundImage: `url(${calender})`,
+    backgroundImage: `url(${calendar})`,
     backgroundPosition: 'bottom left',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'auto 70%',
@@ -83,5 +83,56 @@ export const signStyles = StyleSheet.create({
       color: appColors.darkGreen,
       textDecoration: 'underline',
     },
+  },
+});
+
+export const switchStyles = StyleSheet.create({
+  switchContainer: {
+    display: 'flex',
+    width: '80%',
+    alignItems: 'center',
+  },
+  text: {
+    paddingTop: '0.5rem',
+  },
+  switch: {
+    margin: '0 10px',
+    position: 'relative',
+    display: 'inline-block',
+    width: '60px',
+    height: '30px',
+  },
+  input: {
+    opacity: 0,
+    width: 0,
+    height: 0,
+  },
+  slider: {
+    borderRadius: '30px',
+    position: 'absolute',
+    cursor: 'pointer',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: appColors.primary,
+    transition: '.4s',
+  },
+  sliderBefore: {
+    position: 'absolute',
+    content: '""',
+    height: '28px',
+    width: '28px',
+    left: '2px',
+    bottom: '1px',
+    backgroundColor: 'white',
+    transition: '.4s',
+    borderRadius: '50%',
+  },
+  sliderChecked: {
+    backgroundColor: appColors.accentOpaque,
+  },
+  sliderCheckedBefore: {
+    transform: 'translateX(28px)',
   },
 });
