@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useState } from "react";
 import { LogOut, MoreVertical, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { css } from "aphrodite";
-import logo from '../Assets/logo.png';
-import { sidebarStyles } from '../styles/sidebarStyles';
+import logo from '../../Assets/logo.png';
+import { sidebarStyles } from '../../styles/sidebarStyles';
 
 const SidebarContext = createContext(undefined);
 
-export default function Sidebar({ children }) {
+const Sidebar = ({ children }) => {
   const [expanded, setExpanded] = useState(true);
+  const [activeItem, setActiveItem] = useState(null);
+  const handleItemClick = (item) => setActiveItem(item);
+
   return (
     <aside className={css(sidebarStyles.hScreen)}>
       <nav className={css(sidebarStyles.nav)}>
@@ -19,7 +22,7 @@ export default function Sidebar({ children }) {
             {expanded ? <PanelRightOpen /> : <PanelLeftOpen />}
           </button>
         </div>
-        <SidebarContext.Provider value={{ expanded }}>
+        <SidebarContext.Provider value={{ expanded, activeItem, handleItemClick }}>
           <ul className={css(sidebarStyles.menu)}>{children}</ul>
         </SidebarContext.Provider>
         <div className={css(sidebarStyles.footer)}>
@@ -40,14 +43,12 @@ export default function Sidebar({ children }) {
   );
 }
 
-export function SidebarItem({
-  icon,
-  text,
-  active,
-  alert }) {
-  const { expanded } = useContext(SidebarContext);
+export const SidebarItem = ({ icon, text, alert }) => {
+  const { expanded, activeItem, handleItemClick } = useContext(SidebarContext);
+  const isActive = activeItem === text;
+
   return (
-    <li className={css(sidebarStyles.menuItem, active ? sidebarStyles.menuItemActive : sidebarStyles.menuItemInactive)}>
+    <li className={css(sidebarStyles.menuItem, isActive ? sidebarStyles.menuItemActive : sidebarStyles.menuItemInactive)} onClick={() => handleItemClick(text)}>
       {icon}
       <span className={css(expanded ? sidebarStyles.menuTextExpanded : sidebarStyles.menuTextCollapsed)}>{text}</span>
       {alert && <div className={css(sidebarStyles.alert, expanded ? '' : sidebarStyles.alertCollapsed)} />}
@@ -59,3 +60,5 @@ export function SidebarItem({
     </li>
   );
 }
+
+export default Sidebar;
