@@ -34,8 +34,8 @@ const Sidebar = ({ children, onSelect }) => {
           <div
             className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
             <div className={css(sidebarStyles.userDetails)}>
-              <h4 className={css(sidebarStyles.userName)}>John Doe</h4>
-              <span className={css(sidebarStyles.userEmail)}>johndoe@gmail.com</span>
+              <h4 className={css(sidebarStyles.userName)}>Aisha Minne</h4>
+              <span className={css(sidebarStyles.userEmail)}>m_aisha@gmail.com</span>
             </div>
           </div>
         </div>
