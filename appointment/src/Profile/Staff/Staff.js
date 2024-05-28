@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Sidebar, { SidebarItem } from '../Sidebar';
-import { Bell, CalendarCheck, Pyramid, UsersRound } from 'lucide-react';
+import { Bell, CalendarCheck, Pyramid } from 'lucide-react';
 
 class Staff extends React.Component {
   render() {
@@ -10,7 +10,6 @@ class Staff extends React.Component {
         <Sidebar>
           <SidebarItem icon={<CalendarCheck />} text="Appointments" active />
           <SidebarItem icon={<Pyramid />} text="Clients" />
-          <SidebarItem icon={<UsersRound/>} text="Staff" />
           <SidebarItem icon={<Bell />} text="Notifications" alert />
         </Sidebar>
       </Fragment>

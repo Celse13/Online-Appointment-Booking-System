@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Sidebar, { SidebarItem } from '../Sidebar';
-import { Bell, Home, User } from 'lucide-react';
+import { Bell, CalendarCheck, Pyramid, UsersRound } from 'lucide-react';
 
 class Admin extends React.Component {
   render() {
@@ -8,9 +8,10 @@ class Admin extends React.Component {
       <Fragment>
         <h1>HOME SPA</h1>
         <Sidebar>
-          <SidebarItem icon={<Home />} text="Home" active />
+          <SidebarItem icon={<CalendarCheck />} text="Appointments" active />
+          <SidebarItem icon={<Pyramid />} text="Clients" />
+          <SidebarItem icon={<UsersRound/>} text="Staff" />
           <SidebarItem icon={<Bell />} text="Notifications" alert />
-          <SidebarItem icon={<User />} text="Profile" />
         </Sidebar>
       </Fragment>
     );
