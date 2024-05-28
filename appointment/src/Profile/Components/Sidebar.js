@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
-import { LogOut, MoreVertical, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
+import { LogOut, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { css } from "aphrodite";
 import logo from '../../Assets/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
 
 const SidebarContext = createContext(undefined);
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children, onSelect }) => {
   const [expanded, setExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState(null);
-  const handleItemClick = (item) => setActiveItem(item);
+  const [activeItem, setActiveItem] = useState('Appointments');
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+    onSelect(item);
+  }
 
   return (
     <aside className={css(sidebarStyles.hScreen)}>
@@ -34,7 +37,6 @@ const Sidebar = ({ children }) => {
               <h4 className={css(sidebarStyles.userName)}>John Doe</h4>
               <span className={css(sidebarStyles.userEmail)}>johndoe@gmail.com</span>
             </div>
-            <MoreVertical size={20} />
           </div>
         </div>
         <h6 className={css(sidebarStyles.userLogout)}> <LogOut /> LOGOUT</h6>
@@ -46,7 +48,6 @@ const Sidebar = ({ children }) => {
 export const SidebarItem = ({ icon, text, alert }) => {
   const { expanded, activeItem, handleItemClick } = useContext(SidebarContext);
   const isActive = activeItem === text;
-
   return (
     <li className={css(sidebarStyles.menuItem, isActive ? sidebarStyles.menuItemActive : sidebarStyles.menuItemInactive)} onClick={() => handleItemClick(text)}>
       {icon}
