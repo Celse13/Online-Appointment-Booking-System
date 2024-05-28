@@ -18,10 +18,13 @@ const sharedCardStyles = {
 
 export const headerStyles = StyleSheet.create({
   navBar: {
-    margin: 0,
-    backgroundColor: appColors.dusty,
+    backgroundColor: appColors.accent,
     padding: '1rem',
     maxWidth: '100vw',
+    position: 'fixed',
+    right: 0,
+    left: 0,
+    zIndex: 1,
   },
   navBarCard: {
     width: '28px',
@@ -47,7 +50,7 @@ export const headerStyles = StyleSheet.create({
     color: appColors.primaryLight,
     padding: '1rem',
     ':hover': {
-      backgroundColor: appColors.secondaryDark,
+      backgroundColor: appColors.dusty,
       cursor: 'pointer',
     }
   },
@@ -68,7 +71,8 @@ export const homeStyles = StyleSheet.create({
 
 export const servicesStyles = StyleSheet.create({
   servicesContainer: {
-    ...sharedContainerStyles
+    ...sharedContainerStyles,
+    zIndex: 0,
   },
   servicesCard: {
     ...sharedCardStyles,

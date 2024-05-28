@@ -18,7 +18,7 @@ class Footer extends React.Component {
           <Row>
             <h1 className={css(footerStyles.header)}>Contact Us</h1>
             <Col md={4}>
-              <h4>#NAME</h4>
+              <h4>SCHEDULR</h4>
               <p>0701234567</p>
               <p>My Address</p>
               <p>00100</p>
@@ -37,7 +37,7 @@ class Footer extends React.Component {
         <Container>
           <Row>
             <Col md={4} className={css(footerStyles.col)}>
-              <p>&copy; {getFullYear()} #NAME</p>
+              <p>&copy; {getFullYear()} Schedulr</p>
             </Col>
             <Col md={4} className={css(footerStyles.col)}>
               <p>Privacy Policy</p>

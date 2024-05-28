@@ -10,11 +10,11 @@ class Home extends React.Component {
       <Container>
         <Row>
           <Col md={6}>
-            <h1 className={css(homeStyles.slogan)}>#NAME your number 1 appointment maker</h1>
+            <h1 className={css(homeStyles.slogan)}>SCHEDULR your number 1 appointment maker</h1>
           </Col>
           <Col md={6}>
             <Card className={css(homeStyles.homeCard)}>
-              <img src={home} alt="" className={css(homeStyles.homeCardImg)}/>
+              <img src={home} alt=""/>
             </Card>
           </Col>
         </Row>
