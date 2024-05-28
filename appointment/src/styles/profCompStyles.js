@@ -69,6 +69,70 @@ export const notificationsStyles = StyleSheet.create({
     height: '70vh',
     borderRadius: '25px',
     border: `3px solid ${appColors.accentOpaque}`,
-    scrollable: 'true',
+    overflow: 'scroll',
+  },
+});
+
+export const appointmentStyles = StyleSheet.create({
+  container: {
+    height: 'fit-content',
+  },
+  listContainer: {
+    border: `2px solid ${appColors.accent}`,
+    borderRadius: '25px',
+    padding: '1rem',
+    width: '80vw',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    columnGap: '2rem',
+    rowGap: '1rem',
+    height: '90vh',
+    overflow: 'scroll',
+  },
+  card: {
+    border: `1px solid ${appColors.accent}`,
+    height: 'fit-content',
+    width: '100%',
+  },
+  header: {
+    backgroundColor: appColors.accentOpaque,
+    color: appColors.white,
+    padding: '1rem',
+    textAlign: 'center',
+    border: 'none',
+  },
+  body: {
+    border: 'none',
+    color: appColors.primaryText,
+    display: 'flex',
+    justifyContent: 'start',
+  },
+  bodyDiv: {
+    textAlign: 'start',
+  },
+
+  editButton: {
+    margin: '0.5rem',
+    backgroundColor: '#39BFD7FF',
+    border: 'none',
+  },
+  deleteButton: {
+    backgroundColor: '#D73939',
+    border: 'none',
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'end',
+    backgroundColor: appColors.white,
+    padding: '.5rem',
+  },
+  button: {
+    backgroundColor: appColors.white,
+    color: appColors.primaryText,
+    border: `2px solid ${appColors.accentOpaque}`,
+    ':hover': {
+      backgroundColor: appColors.accentOpaque,
+      color: appColors.white,
+    },
   },
 });
