@@ -54,3 +54,21 @@ export const myProfileStyles = StyleSheet.create({
     },
   },
 });
+
+export const notificationsStyles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '90vh',
+    alignItems: 'center',
+  },
+  card: {
+    maxWidth: '25rem',
+    width: '20rem',
+    margin: '3rem',
+    height: '70vh',
+    borderRadius: '25px',
+    border: `3px solid ${appColors.accentOpaque}`,
+    scrollable: 'true',
+  },
+});
