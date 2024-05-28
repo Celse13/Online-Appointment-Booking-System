@@ -7,7 +7,7 @@ import { sidebarStyles } from '../../styles/sidebarStyles';
 const SidebarContext = createContext(undefined);
 
 const Sidebar = ({ children, onSelect }) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState('Appointments');
   const handleItemClick = (item) => {
     setActiveItem(item);
