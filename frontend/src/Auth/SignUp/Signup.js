@@ -4,7 +4,6 @@ import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { Switch } from '../Switch';
 
-
 const Signup = (props) => {
   const [isToggled, setIsToggled] = useState(false);
 

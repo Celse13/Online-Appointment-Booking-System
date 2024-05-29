@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 import { LogOut, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
-import { css } from "aphrodite";
+import { css } from 'aphrodite';
 import logo from '../../Assets/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
 

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { authStyles } from '../styles/authStyles';
 import Login from './Login/Login';
-import { withNavigate} from '../HOC/withNavigate';
+import { withNavigate } from '../HOC/withNavigate';
 
 class Auth extends React.Component {
   constructor(props) {

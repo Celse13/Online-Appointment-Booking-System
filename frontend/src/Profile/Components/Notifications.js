@@ -3,7 +3,6 @@ import { Card, Container } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { notificationsStyles } from '../../styles/profCompStyles';
 
-
 const notificationsData = [
   { id: 1, message: 'Notification 1', markAsRead: false },
   { id: 2, message: 'Notification 2', markAsRead: false },

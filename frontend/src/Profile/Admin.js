@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, CalendarCheck, Pyramid, CircleUserRound, UsersRound } from 'lucide-react';
+import { Bell, CalendarCheck, CircleUserRound, Pyramid, UsersRound } from 'lucide-react';
 import Appointments from './Components/Appointments';
 import ClientsList from './Components/ClientsList';
 import StaffList from './Components/StaffList';

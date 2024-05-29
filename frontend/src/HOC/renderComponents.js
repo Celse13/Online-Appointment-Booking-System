@@ -3,7 +3,6 @@ import { css } from 'aphrodite';
 import { profileStyles } from '../styles/profileStyles';
 import Sidebar, { SidebarItem } from '../Profile/Components/Sidebar';
 
-
 const renderComponents = (ComponentMap, SidebarItems, headerText) => {
   return () => {
     const [selectedComponent, setSelectedComponent] = useState(Object.keys(ComponentMap)[0]);
