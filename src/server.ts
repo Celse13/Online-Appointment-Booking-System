@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './database/connection';
 import routes from './routes/index';
+import swaggerUi from 'swagger-ui-express';
+import specs from './docs';
+
 
 dotenv.config();
 
@@ -13,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api', routes);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 connectDB()
   .then(() => {
