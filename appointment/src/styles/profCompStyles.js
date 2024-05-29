@@ -57,6 +57,7 @@ export const myProfileStyles = StyleSheet.create({
 
 export const notificationsStyles = StyleSheet.create({
   container: {
+    paddingTop: '.5rem',
     display: 'flex',
     flexDirection: 'column',
     height: '90vh',
@@ -65,11 +66,15 @@ export const notificationsStyles = StyleSheet.create({
   card: {
     maxWidth: '25rem',
     width: '20rem',
-    margin: '3rem',
     height: '70vh',
-    borderRadius: '25px',
-    border: `3px solid ${appColors.accentOpaque}`,
+    borderRadius: '15px',
+    border: `2px solid ${appColors.accentOpaque}`,
     overflow: 'scroll',
+    padding: '1rem',
+  },
+  text: {
+    color: appColors.primaryText,
+    textAlign: 'start',
   },
 });
 
@@ -88,6 +93,9 @@ export const appointmentStyles = StyleSheet.create({
     rowGap: '1rem',
     height: '90vh',
     overflow: 'scroll',
+    '@media (max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+    },
   },
   card: {
     border: `1px solid ${appColors.accent}`,
