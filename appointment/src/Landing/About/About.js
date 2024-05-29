@@ -10,7 +10,16 @@ class About extends React.Component {
       <Container className={css(aboutStyles.aboutContainer)}>
         <Row>
           <h1>ABOUT US</h1>
-          <Col md={6}></Col>
+          <Col md={6} className={css(aboutStyles.about)}>
+            <h5 className={css(aboutStyles.aboutText)}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              faucibus, nisl at luctus fermentum, nisi dui fringilla massa.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              faucibus, nisl at luctus fermentum, nisi dui fringilla massa.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              faucibus, nisl at luctus fermentum, nisi dui fringilla massa.
+            </h5>
+          </Col>
           <Col md={6}>
             <Card className={css(aboutStyles.aboutCard)}>
               <img src={about} alt=''/>

@@ -22,6 +22,7 @@ export const headerStyles = StyleSheet.create({
     padding: '1rem',
     maxWidth: '100vw',
     position: 'fixed',
+    minHeight: '50px',
     right: 0,
     left: 0,
     zIndex: 1,
@@ -31,37 +32,85 @@ export const headerStyles = StyleSheet.create({
     height: '28px',
     position: 'absolute',
     backgroundColor: appColors.secondaryDark,
+    border: 'none',
   },
   navBarIcon: {
     width: '25px',
     height: '25px',
     position: 'absolute',
   },
+  menuCard: {
+    width: '28px',
+    height: '28px',
+    position: 'absolute',
+    right: '1rem',
+    backgroundColor: 'transparent',
+    color: appColors.white,
+    border: 'none',
+    cursor: 'pointer',
+    '@media (min-width: 768px)': {
+      display: 'none',
+    },
+  },
   navBarList: {
+    listStyle: 'none',
+    margin: 0,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'end',
-    textDecoration: 'none',
-    listStyle: 'none',
-    margin: 0,
+    '@media (max-width: 768px)': {
+      width: '100%',
+      display: 'none',
+      flexDirection: 'column',
+      alignItems: 'start',
+      marginLeft: '30px',
+    },
+  },
+  navBarListOpen: {
+    '@media (max-width: 768px)': {
+      display: 'flex',
+    },
   },
   listItem: {
     textDecoration: 'none',
     color: appColors.primaryLight,
     padding: '1rem',
-    ':hover': {
-      backgroundColor: appColors.dusty,
-      cursor: 'pointer',
-    }
+    cursor: 'pointer',
+    '@media (min-width: 769px)': {
+      ':hover': {
+        backgroundColor: appColors.dusty,
+      },
+    },
+    '@media (max-width: 768px)': {
+      textAlign: 'start',
+      width: '100%',
+      ':hover': {
+        backgroundColor: 'none',
+        textDecoration: 'underline',
+      }
+    },
   },
 });
 
 export const homeStyles = StyleSheet.create({
+  homeContainer: {
+    paddingTop: '70px',
+  },
+  sloganDiv: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   slogan: {
-    color: appColors.primaryText,
-    fontSize: '2rem',
-    margin: '70px 0 0 0',
+    color: appColors.dusty,
+    fontSize: '4rem',
     textAlign: 'center',
+    '@media (max-width: 768px)': {
+      fontSize: '2rem',
+    },
+  },
+  sloganEm: {
+    color: appColors.primaryText,
   },
   homeCard: {
     ...sharedCardStyles,
@@ -104,6 +153,14 @@ export const aboutStyles = StyleSheet.create({
   aboutContainer: {
     ...sharedContainerStyles,
   },
+  about: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  aboutText: {
+    textAlign: 'center',
+  },
   aboutCard: {
     ...sharedCardStyles,
     backgroundColor: appColors.primaryLight,
@@ -117,10 +174,16 @@ export const testimonialsStyles = StyleSheet.create({
   testimonialsCard: {
     padding: '1rem 3rem',
     margin: '2rem',
-    width: '70%',
+    width: '80%',
     border: 'none',
     borderRadius: '20px',
     backgroundColor: appColors.primaryLight,
+    '@media (min-width: 769px) and (max-width: 1000px)': {
+      width: '100%'
+    },
+    '@media (min-width: 1000px) and (max-width: 1200px)': {
+      width: '90%'
+    }
   },
   testimonialsCardHeader: {
     borderRadius: '50%',

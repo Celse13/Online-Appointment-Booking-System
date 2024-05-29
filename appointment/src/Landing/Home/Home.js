@@ -7,10 +7,10 @@ import home from '../../assets/home.png';
 class Home extends React.Component {
   render() {
     return (
-      <Container>
+      <Container className={css(homeStyles.homeContainer)}>
         <Row>
-          <Col md={6}>
-            <h1 className={css(homeStyles.slogan)}>SCHEDULR your number 1 appointment maker</h1>
+          <Col md={6} className={css(homeStyles.sloganDiv)}>
+            <h1 className={css(homeStyles.slogan)}><em className={css(homeStyles.sloganEm)}>SCHEDULR</em> your number 1 appointment maker</h1>
           </Col>
           <Col md={6}>
             <Card className={css(homeStyles.homeCard)}>
