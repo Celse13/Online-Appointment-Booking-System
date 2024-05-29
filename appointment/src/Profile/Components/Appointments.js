@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Card, CardBody, CardFooter, CardHeader, Container } from 'react-bootstrap';
-import { Trash2, Pencil } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
-
 
 const appointmentsData = [
   { id: 1, name: 'Appointment 1', date: '2024-05-27', time: '10:00 AM', location: 'Location 1', status: 'Pending' },
   { id: 2, name: 'Appointment 2', date: '2024-05-28', time: '11:00 AM', location: 'Location 2', status: 'Confirmed' },
-  { id: 3, name: 'Appointment 3', date: '2024-05-28', time: '9:00 AM', location: 'Location 3', status: 'Declined' },
-  { id: 3, name: 'Appointment 3', date: '2024-05-28', time: '9:00 AM', location: 'Location 3', status: 'Confirmed' },
+  { id: 3, name: 'Appointment 3', date: '2024-05-29', time: '9:00 AM', location: 'Location 3', status: 'Declined' },
+  { id: 4, name: 'Appointment 4', date: '2024-05-30', time: '9:00 AM', location: 'Location 4', status: 'Confirmed' },
 ];
 
 const Appointments = () => {
