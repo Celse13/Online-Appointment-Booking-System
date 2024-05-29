@@ -8,7 +8,8 @@ import { appointmentStyles } from '../../styles/profCompStyles';
 const appointmentsData = [
   { id: 1, name: 'Appointment 1', date: '2024-05-27', time: '10:00 AM', location: 'Location 1', status: 'Pending' },
   { id: 2, name: 'Appointment 2', date: '2024-05-28', time: '11:00 AM', location: 'Location 2', status: 'Confirmed' },
-  { id: 2, name: 'Appointment 3', date: '2024-05-28', time: '9:00 AM', location: 'Location 3', status: 'Rejected' },
+  { id: 3, name: 'Appointment 3', date: '2024-05-28', time: '9:00 AM', location: 'Location 3', status: 'Declined' },
+  { id: 3, name: 'Appointment 3', date: '2024-05-28', time: '9:00 AM', location: 'Location 3', status: 'Confirmed' },
 ];
 
 const Appointments = () => {

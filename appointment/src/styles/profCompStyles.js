@@ -88,13 +88,19 @@ export const appointmentStyles = StyleSheet.create({
     padding: '1rem',
     width: '80vw',
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr',
     columnGap: '2rem',
     rowGap: '1rem',
     height: '90vh',
     overflow: 'scroll',
-    '@media (max-width: 768px)': {
+    '@media (max-width: 600px)': {
       gridTemplateColumns: '1fr',
+    },
+    '@media (min-width: 600px) and (max-width: 900px)': {
+      gridTemplateColumns: '1fr 1fr',
+    },
+    '@media (min-width: 900px) and (max-width: 1200px)': {
+      gridTemplateColumns: '1fr 1fr 1fr',
     },
   },
   card: {
