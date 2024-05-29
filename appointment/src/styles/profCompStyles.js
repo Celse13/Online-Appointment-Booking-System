@@ -1,6 +1,29 @@
 import { StyleSheet } from 'aphrodite';
 import { appColors } from './colors';
 
+const sharedContainerStyles = {
+  paddingTop: '.5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  height: '90vh',
+  alignItems: 'center',
+};
+
+const sharedCardStyles = {
+  maxWidth: '25rem',
+  width: '20rem',
+  height: '70vh',
+  borderRadius: '15px',
+  border: `2px solid ${appColors.accentOpaque}`,
+  overflow: 'scroll',
+  padding: '1rem',
+};
+
+const sharedTextStyles = {
+  color: appColors.primaryText,
+  textAlign: 'start',
+};
+
 export const myProfileStyles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -52,29 +75,6 @@ export const myProfileStyles = StyleSheet.create({
       backgroundColor: appColors.accentOpaque,
       color: appColors.white,
     },
-  },
-});
-
-export const notificationsStyles = StyleSheet.create({
-  container: {
-    paddingTop: '.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '90vh',
-    alignItems: 'center',
-  },
-  card: {
-    maxWidth: '25rem',
-    width: '20rem',
-    height: '70vh',
-    borderRadius: '15px',
-    border: `2px solid ${appColors.accentOpaque}`,
-    overflow: 'scroll',
-    padding: '1rem',
-  },
-  text: {
-    color: appColors.primaryText,
-    textAlign: 'start',
   },
 });
 
@@ -148,5 +148,41 @@ export const appointmentStyles = StyleSheet.create({
       backgroundColor: appColors.accentOpaque,
       color: appColors.white,
     },
+  },
+});
+
+export const notificationsStyles = StyleSheet.create({
+  container: {
+    ...sharedContainerStyles
+  },
+  card: {
+    ...sharedCardStyles
+  },
+  text: {
+    ...sharedTextStyles
+  },
+});
+
+export const clientsListStyles = StyleSheet.create({
+  container: {
+    ...sharedContainerStyles,
+  },
+  card: {
+    ...sharedCardStyles,
+  },
+  text: {
+    ...sharedTextStyles
+  },
+});
+
+export const staffListStyles = StyleSheet.create({
+  container: {
+    ...sharedContainerStyles,
+  },
+  card: {
+    ...sharedCardStyles,
+  },
+  text: {
+    ...sharedTextStyles
   },
 });
