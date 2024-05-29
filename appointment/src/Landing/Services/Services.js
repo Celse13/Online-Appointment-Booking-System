@@ -3,14 +3,25 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import services from '../../assets/services.png';
 import { css } from 'aphrodite';
 import { servicesStyles } from '../../styles/landingStyles';
-import health from '../../assets/health.png';
-import fitness from '../../assets/fitness.png';
-import consultation from '../../assets/consultation.png';
-import salon from '../../assets/salon.png';
-import spa from '../../assets/spa.png';
-import counselling from '../../assets/counselling.png';
-import tuition from '../../assets/tuition.png';
-import other from '../../assets/other.png';
+import Health from '../../Assets/Health.png';
+import Fitness from '../../Assets/Fitness.png';
+import Consultation from '../../Assets/Consultation.png';
+import Salon from '../../Assets/Salon.png';
+import Spa from '../../Assets/Spa.png';
+import Counselling from '../../Assets/Counselling.png';
+import Tuition from '../../Assets/Tuition.png';
+import Other from '../../Assets/Other.png';
+
+const serviceCategoriesData = [
+  { id: 1, category: 'Health', image: Health },
+  { id: 2, category: 'Fitness', image: Fitness },
+  { id: 3, category: 'Consultation', image: Consultation },
+  { id: 4, category: 'Salon And Barber', image: Salon },
+  { id: 5, category: 'Spa', image: Spa },
+  { id: 6, category: 'Counselling', image: Counselling },
+  { id: 7, category: 'Tuition', image: Tuition },
+  { id: 8, category: 'Other', image: Other },
+];
 
 class Services extends React.Component {
   render() {
@@ -25,30 +36,18 @@ class Services extends React.Component {
           </Col>
           <Col md={6}>
             <div className={css(servicesStyles.gridContainer)}>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={health} alt="health" aria-label="health" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={fitness} alt="fitness" aria-label="fitness" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={consultation} alt="consultation" aria-label="consultation" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={salon} alt="salon" aria-label="salon" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={spa} alt="spa" aria-label="spa" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={counselling} alt="counselling" aria-label="counselling" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={tuition} alt="tuition" aria-label="tuition" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
-              <Card className={css(servicesStyles.gridContainerCard)}>
-                <img src={other} alt="other" aria-label="other" className={css(servicesStyles.gridContainerItem)} />
-              </Card>
+              {serviceCategoriesData.map((service) => (
+                <Card
+                  key={service.id}
+                  className={css(servicesStyles.gridContainerCard)}>
+                  <img
+                    src={service.image}
+                    alt={service.category}
+                    aria-label={service.category}
+                    className={css(servicesStyles.gridContainerItem)}
+                  />
+                </Card>
+              ))}
             </div>
           </Col>
         </Row>
