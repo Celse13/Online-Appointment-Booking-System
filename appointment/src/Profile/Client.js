@@ -1,15 +1,15 @@
 import React from 'react';
-import { Bell, HandPlatter, CalendarCheck, CircleUserRound } from 'lucide-react';
+import { Bell, CalendarCheck, CircleUserRound, HandPlatter } from 'lucide-react';
 import Appointments from './Components/Appointments';
 import Notifications from './Components/Notifications';
-import Services from './../Landing/Services/Services';
 import renderComponents from './../HOC/renderComponents';
 import userProfile from './Components/userProfile';
+import ServicesContainer from './Components/ServicesContainer/ServicesContainer';
 
 const ComponentMap = {
   "Appointments": Appointments,
   "Notifications": Notifications,
-  "Services": Services,
+  "Services": ServicesContainer,
   "Profile": userProfile
 };
 
