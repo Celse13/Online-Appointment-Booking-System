@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import UserController from '../../controllers/userController';
 import authenticate from '../../utils/authenticate';
 
