@@ -3,7 +3,11 @@ import AppointmentModel from '../models/appointmentModel';
 import ClientModel from '../models/clientModel';
 
 class AppointmentController {
-  static async createAppointment(req: Request, res: Response, next: NextFunction) {
+  static async createAppointment(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       // Check if the client exists
       const client = await ClientModel.findById(req.body.clientId);
@@ -18,7 +22,9 @@ class AppointmentController {
       });
       await appointment.save();
 
-      res.status(201).json({ message: 'Appointment created successfully', appointment });
+      res
+        .status(201)
+        .json({ message: 'Appointment created successfully', appointment });
     } catch (error) {
       next(error);
     }

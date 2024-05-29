@@ -1,8 +1,6 @@
 import express from 'express';
 import AdminController from '../../controllers/adminController';
 
-
-
 const router = express.Router();
 
 // Admin routes

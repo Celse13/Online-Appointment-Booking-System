@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 const authPaths: OpenAPIV3.PathsObject = {
-  "/auth/signup": {
+  '/auth/signup': {
     post: {
       tags: ['Auth'],
       summary: 'Sign up a new user',
@@ -27,7 +27,7 @@ const authPaths: OpenAPIV3.PathsObject = {
       },
     },
   },
-  "/auth/verify/{token}": {
+  '/auth/verify/{token}': {
     get: {
       tags: ['Auth'],
       summary: 'Verify a user account',
@@ -45,7 +45,7 @@ const authPaths: OpenAPIV3.PathsObject = {
       },
     },
   },
-  "/auth/login": {
+  '/auth/login': {
     post: {
       tags: ['Auth'],
       summary: 'Log in a user',
@@ -65,12 +65,14 @@ const authPaths: OpenAPIV3.PathsObject = {
       },
       responses: {
         '200': { description: 'Logged in successfully' },
-        '400': { description: 'User is not verified or invalid email or password' },
+        '400': {
+          description: 'User is not verified or invalid email or password',
+        },
         '404': { description: 'User not found' },
       },
     },
   },
-  "/auth/forgot-password": {
+  '/auth/forgot-password': {
     post: {
       tags: ['Auth'],
       summary: 'Send password reset link',
@@ -88,13 +90,15 @@ const authPaths: OpenAPIV3.PathsObject = {
         },
       },
       responses: {
-        '200': { description: 'Password reset link sent to your email address' },
+        '200': {
+          description: 'Password reset link sent to your email address',
+        },
         '404': { description: 'User not found' },
         '500': { description: 'Failed to send email' },
       },
     },
   },
-  "/auth/reset-password/{token}": {
+  '/auth/reset-password/{token}': {
     put: {
       tags: ['Auth'],
       summary: 'Reset password',
@@ -121,7 +125,9 @@ const authPaths: OpenAPIV3.PathsObject = {
       },
       responses: {
         '200': { description: 'Password has been reset' },
-        '400': { description: 'Password reset token is invalid or has expired' },
+        '400': {
+          description: 'Password reset token is invalid or has expired',
+        },
       },
     },
   },

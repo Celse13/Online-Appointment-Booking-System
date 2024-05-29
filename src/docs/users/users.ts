@@ -134,7 +134,6 @@ const usersPaths: OpenAPIV3.PathsObject = {
       },
     },
   },
-
 };
 
 export default usersPaths;

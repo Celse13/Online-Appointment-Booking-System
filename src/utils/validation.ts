@@ -11,7 +11,9 @@ class Validation {
       username: Joi.string().alphanum().min(3).max(30).required(),
       email: Joi.string().email().required(),
       password: Joi.string()
-        .pattern(new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'))
+        .pattern(
+          new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'),
+        )
         .required(),
     });
 
@@ -27,7 +29,9 @@ class Validation {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string()
-        .pattern(new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'))
+        .pattern(
+          new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'),
+        )
         .required(),
     });
 
