@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 class Validation {
   public static validateSignup(

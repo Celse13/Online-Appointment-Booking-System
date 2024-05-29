@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import AdminModel from '../models/adminModel';
 import ServiceModel from '../models/serviceModel';
 import AppointmentModel from '../models/appointmentModel';

@@ -1,6 +1,7 @@
 import UserController from '../../controllers/userController';
 import { Router } from 'express';
 import Validation from '../../utils/validation';
+
 const router = Router();
 
 router.post('/signup', Validation.validateSignup, UserController.signup);

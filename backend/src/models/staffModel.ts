@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import StaffValidators from '../validators/staffValidators';
 
 import { userSchema } from './userModel';
+
 const staffSchema = new mongoose.Schema(
   {
     position: {

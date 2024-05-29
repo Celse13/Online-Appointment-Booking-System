@@ -1,10 +1,9 @@
-import { Request, Response, NextFunction, text } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../models/userModel';
 import JWT from '../utils/jwt';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
-import { SentMessageInfo } from 'nodemailer';
+import nodemailer, { SentMessageInfo } from 'nodemailer';
 import crypto from 'crypto';
 
 const BCRYPT_SALT_ROUNDS: number = 12;

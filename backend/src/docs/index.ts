@@ -1,6 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import { OpenAPIV3 } from 'openapi-types';
-import { version } from 'chai';
 import allPaths from './paths';
 import servers from './server';
 
