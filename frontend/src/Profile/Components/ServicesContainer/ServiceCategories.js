@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { servicesCategoriesStyles } from '../../../styles/profCompStyles';
+import { serviceCategoriesData } from './servicesData';
 
 const ServiceCategories = ({ onSelectCategory }) => {
   return (
