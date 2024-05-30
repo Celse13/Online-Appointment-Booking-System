@@ -3,26 +3,47 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Container } from 'react
 import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { myProfileStyles } from '../../styles/profCompStyles';
+import { servicesListData } from './ServicesContainer/servicesData';
 
-const Profile = () => {
+const Profile = ({ userType }) => {
+  const isClient = userType === 'client';
+  const isAdmin = userType === 'admin';
+
+  const renderMyServices = () => {
+    return servicesListData.map((service) => (
+      <div className={css(myProfileStyles.myServicesItem)}>
+        <h6 className={css(myProfileStyles.myServicesItemName)} key={service.id}>{service.name}</h6>
+        <Button className={css(myProfileStyles.myServicesItemButton)} variant='danger'>Delete</Button>
+      </div>
+    ));
+  };
   return (
-    <Container className={css(myProfileStyles.container)}>
-      <h3>My Profile</h3>
-      <Card className={css(myProfileStyles.card)}>
-        <CardHeader className={css(myProfileStyles.header)}>
-          <img src={ppic} alt='profile picture' className={css(myProfileStyles.ppic)}/>
-        </CardHeader>
-        <CardBody className={css(myProfileStyles.body)}>
-          <div className={css(myProfileStyles.bodyDiv)}>
-            <h6>Name: Aisha Minne</h6>
-            <h6>Email: m_aisha@gmail.com</h6>
-            <a href="#">Reset password</a>
-          </div>
-        </CardBody>
-        <CardFooter className={css(myProfileStyles.footer)}>
-          <Button className={css(myProfileStyles.button)}>Edit Profile</Button>
-        </CardFooter>
-      </Card>
+    <Container>
+      <Container className={css(isClient && myProfileStyles.clientContainer, isAdmin && myProfileStyles.adminContainer)}>
+        <Card className={css(isClient && myProfileStyles.clientCard, isAdmin && myProfileStyles.adminCard)}>
+          <CardHeader className={css(myProfileStyles.header)}>
+            <img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} />
+          </CardHeader>
+          <CardBody className={css(myProfileStyles.body)}>
+            <div className={css(myProfileStyles.bodyDiv)}>
+              <h6>Name: Aisha Minne</h6>
+              <h6>Email: m_aisha@gmail.com</h6>
+              <a href="#">Reset password</a>
+            </div>
+          </CardBody>
+          <CardFooter className={css(myProfileStyles.footer)}>
+            <Button className={css(myProfileStyles.button)}>Edit Profile</Button>
+          </CardFooter>
+        </Card>
+        {isAdmin && (
+          <Container className={css(myProfileStyles.myServices)}>
+            <h2>My Services</h2>
+            <div className={css(myProfileStyles.myServicesDiv)}>
+              {renderMyServices()}
+            </div>
+          </Container>
+        )}
+      </Container>
     </Container>
 
   );

@@ -59,14 +59,14 @@ const sharedBodyStyles = {
 };
 
 export const myProfileStyles = StyleSheet.create({
-  container: {
+  clientContainer: {
     display: 'flex',
     width: '100vw',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  card: {
+  clientCard: {
     width: '25rem',
     margin: '3rem',
     borderRadius: '25px',
@@ -78,7 +78,7 @@ export const myProfileStyles = StyleSheet.create({
     borderBottom: `1px solid ${appColors.accentOpaque}`,
   },
   ppic: {
-    width: '10rem',
+    width: '5rem',
     padding: '1rem',
     borderRadius: '50%',
     border: `2px solid ${appColors.primary}`,
@@ -99,6 +99,46 @@ export const myProfileStyles = StyleSheet.create({
   },
   button: {
     ...sharedButtonStyles,
+  },
+  adminContainer: {
+    maxHeight: '90vh',
+    display: 'flex',
+    width: '100vw',
+    flexDirection: 'row',
+    alignItems: 'start',
+    '@media (max-width: 750px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  },
+  adminCard: {
+    width: '25rem',
+    margin: '3rem',
+    borderRadius: '25px',
+    border: `3px solid ${appColors.accentOpaque}`,
+    '@media (max-width: 750px)': {
+      width: '20rem',
+    },
+  },
+  myServices: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '@media (max-width: 750px)': {
+      maxHeight: '50vh',
+    },
+    '@media (min-width: 600px)': {
+      maxHeight: '70vh',
+    },
+  },
+  myServicesDiv: {
+    overflowY: 'auto',
+  },
+  myServicesItem: {
+    display: 'flex',
+    marginBottom: '1rem',
+    justifyContent: 'space-between',
   },
 });
 
@@ -288,5 +328,52 @@ export const servicesListStyles = StyleSheet.create({
   },
   button: {
     ...sharedButtonStyles
+  },
+});
+
+const sharedInputStyles = {
+  color: appColors.primaryText,
+  backgroundColor: appColors.white,
+  marginTop: '.3rem',
+  border: `2px solid ${appColors.accentOpaque}`,
+};
+
+export const createServiceStyles = StyleSheet.create({
+  container: {
+    ...sharedContainerStyles,
+  },
+  form: {
+    backgroundColor: appColors.white,
+    width: '25rem',
+    height: 'fit-content',
+    padding: '3rem',
+    color: appColors.primaryText,
+    border: `2px solid ${appColors.primary}`,
+    borderRadius: '15px',
+    '@media (max-width: 600px)': {
+      width: '20rem',
+    },
+  },
+  input: {
+    ...sharedInputStyles,
+    borderRadius: '10px',
+  },
+  label: {
+    width: '100%',
+    textAlign: 'end',
+    fontWeight: '200',
+  },
+  inputDuration: {
+    ...sharedInputStyles,
+    borderTopLeftRadius: '10px',
+    borderBottomLeftRadius: '10px',
+  },
+  inputDurationText: {
+    ...sharedInputStyles,
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
+  },
+  button: {
+    ...sharedButtonStyles,
   },
 });

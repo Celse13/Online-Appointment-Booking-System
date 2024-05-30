@@ -3,13 +3,13 @@ import { css } from 'aphrodite';
 import { profileStyles } from '../styles/profileStyles';
 import Sidebar, { SidebarItem } from '../Profile/Components/Sidebar';
 
-const renderComponents = (ComponentMap, SidebarItems, headerText) => {
+const renderComponents = (ComponentMap, SidebarItems, headerText, userType) => {
   return () => {
     const [selectedComponent, setSelectedComponent] = useState(Object.keys(ComponentMap)[0]);
 
     const renderComponent = () => {
       const SelectedComponent = ComponentMap[selectedComponent];
-      return <SelectedComponent />;
+      return selectedComponent === "Profile" ? <SelectedComponent userType={userType} /> : <SelectedComponent />;
     };
 
     return (

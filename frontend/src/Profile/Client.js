@@ -20,6 +20,6 @@ const SidebarItems = [
   { icon: <CircleUserRound />, text: "Profile" }
 ];
 
-const Client = renderComponents(ComponentMap, SidebarItems, "");
+const Client = renderComponents(ComponentMap, SidebarItems, "", 'client');
 
 export default Client;
