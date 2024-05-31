@@ -1,6 +1,11 @@
 import { appColors } from './colors';
 import { StyleSheet } from 'aphrodite';
 
+const sharedFooterStyles = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
 export const sidebarStyles = StyleSheet.create({
   hScreen: {
     height: '100vh',
@@ -36,11 +41,11 @@ export const sidebarStyles = StyleSheet.create({
     transition: 'width 0.3s'
   },
   toggleButton: {
-    padding: '0.25rem',
+    padding: '0.35rem',
     borderRadius: '0.375rem',
     border: 'none',
     color: appColors.white,
-    backgroundColor: appColors.accent,
+    backgroundColor: 'transparent',
     ':hover': {
       color: appColors.accentOpaque,
       backgroundColor: appColors.white,
@@ -51,10 +56,9 @@ export const sidebarStyles = StyleSheet.create({
     padding: '0.75rem'
   },
   footer: {
+    ...sharedFooterStyles,
+    padding: '0.3rem 0 0 0.75rem',
     borderTop: '1px solid #e5e7eb',
-    display: 'flex',
-    padding: '0.75rem',
-    alignItems: 'center'
   },
   avatar: {
     width: '2.5rem',
@@ -151,11 +155,11 @@ export const sidebarStyles = StyleSheet.create({
     }
   },
   userLogout: {
-    marginLeft: '.1rem',
+    marginTop: '.7rem',
     padding: '0.5rem',
     color: appColors.white,
     width: 'fit-content',
-    fontSize: '.7rem',
+    fontSize: '1rem',
     overflow: 'hidden',
     ':hover': {
       color: appColors.accentOpaque,
@@ -163,12 +167,18 @@ export const sidebarStyles = StyleSheet.create({
       borderRadius: '0.375rem',
       cursor: 'pointer',
     },
-    userLogoutCollapsed: {
-      width: '0',
-      overflow: 'hidden',
-      transition: 'width 0.3s',
-      color:appColors.accent,
-      fontSize: '1px',
-    },
+  },
+  logoutDiv: {
+    ...sharedFooterStyles,
+    marginTop: '.1rem',
+    padding: '0 0 0.5rem 0.75rem',
+  },
+  logoutImg: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: appColors.white,
+    width: '40px',
+    height: '40px',
   },
 });

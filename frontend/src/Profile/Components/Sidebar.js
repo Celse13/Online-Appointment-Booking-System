@@ -21,32 +21,48 @@ const Sidebar = ({ children, onSelect }) => {
           <div className={css(expanded ? sidebarStyles.logoExpanded : sidebarStyles.logoCollapsed)}>
             <img src={logo} alt="" width="100px" />
           </div>
-          <button onClick={() => setExpanded((curr) => !curr)} className={css(sidebarStyles.toggleButton)}>
+          <button onClick={() => setExpanded((curr) => !curr)}
+                  className={css(sidebarStyles.toggleButton)}>
             {expanded ? <PanelRightOpen /> : <PanelLeftOpen />}
           </button>
         </div>
-        <SidebarContext.Provider value={{ expanded, activeItem, handleItemClick }}>
+        <SidebarContext.Provider value={{
+          expanded,
+          activeItem,
+          handleItemClick,
+        }}>
           <ul className={css(sidebarStyles.menu)}>{children}</ul>
         </SidebarContext.Provider>
         <div className={css(sidebarStyles.footer)}>
-          <img src="https://ui-avatars.com/api/?background=ffffff&color=986D8E&bold=true" alt=""
-               className={css(sidebarStyles.avatar)} width="40px" height="40px" />
-          <div
-            className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
+          <img src="https://ui-avatars.com/api/?background=ffffff&color=986D8E&bold=true" alt="" className={css(sidebarStyles.avatar)} width="40px" height="40px" />
+          <div className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
             <div className={css(sidebarStyles.userDetails)}>
               <h4 className={css(sidebarStyles.userName)}>Aisha Minne</h4>
               <span className={css(sidebarStyles.userEmail)}>m_aisha@gmail.com</span>
             </div>
           </div>
         </div>
-        <h6 className={css(sidebarStyles.userLogout)}> <LogOut /> LOGOUT</h6>
+        <div className={css(sidebarStyles.logoutDiv)}>
+          <div className={css(sidebarStyles.logoutImg)}><LogOut /></div>
+          <h6 className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
+            <span className={css(sidebarStyles.userLogout)}>LOGOUT</span>
+          </h6>
+        </div>
       </nav>
     </aside>
   );
 }
 
-export const SidebarItem = ({ icon, text, alert }) => {
-  const { expanded, activeItem, handleItemClick } = useContext(SidebarContext);
+export const SidebarItem = ({
+  icon,
+  text,
+  alert,
+}) => {
+  const {
+    expanded,
+    activeItem,
+    handleItemClick,
+  } = useContext(SidebarContext);
   const isActive = activeItem === text;
   return (
     <li className={css(sidebarStyles.menuItem, isActive ? sidebarStyles.menuItemActive : sidebarStyles.menuItemInactive)} onClick={() => handleItemClick(text)}>
