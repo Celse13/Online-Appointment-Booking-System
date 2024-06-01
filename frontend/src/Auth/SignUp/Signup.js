@@ -10,13 +10,8 @@ const Signup = (props) => {
   const handleProfile = (event) => {
     event.preventDefault();
     const role = document.getElementById('role').value;
-    if (role === "1") {
-      props.navigate('/profile/admin');
-    } else {
-      props.navigate('/profile/client');
-    }
+    role === "1" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
   }
-
 
   return (
     <div className={css(signStyles.signUpBody)}>
@@ -53,6 +48,13 @@ const Signup = (props) => {
               )}
           </select>
         </div>
+        {isToggled && (
+          <div>
+            <label htmlFor="description"></label>
+            <textarea name="description" id="description" placeholder="Business Description"
+                      className={css(signStyles.input)} />
+          </div>
+        )}
         <input type="submit" value="SIGN UP" className={css(signStyles.button)}
                onClick={handleProfile} />
         <p><strong> Already have an account?
