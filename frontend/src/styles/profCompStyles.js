@@ -334,8 +334,13 @@ export const servicesListStyles = StyleSheet.create({
 const sharedInputStyles = {
   color: appColors.primaryText,
   backgroundColor: appColors.white,
-  marginTop: '.3rem',
+  marginBottom: '1rem',
   border: `2px solid ${appColors.accentOpaque}`,
+  '::placeholder': {
+    color: appColors.primaryText,
+    opacity: '0.5',
+    fontWeight: '200',
+  },
 };
 
 export const createServiceStyles = StyleSheet.create({
@@ -346,7 +351,7 @@ export const createServiceStyles = StyleSheet.create({
     backgroundColor: appColors.white,
     width: '25rem',
     height: 'fit-content',
-    padding: '3rem',
+    padding: '1rem 3rem',
     color: appColors.primaryText,
     border: `2px solid ${appColors.primary}`,
     borderRadius: '15px',
@@ -354,14 +359,18 @@ export const createServiceStyles = StyleSheet.create({
       width: '20rem',
     },
   },
+  formHeader: {
+    marginBottom: '2rem',
+  },
   input: {
     ...sharedInputStyles,
     borderRadius: '10px',
   },
   label: {
     width: '100%',
-    textAlign: 'end',
-    fontWeight: '200',
+    textAlign: 'start',
+    fontWeight: '300',
+    margin: 0,
   },
   inputDuration: {
     ...sharedInputStyles,
