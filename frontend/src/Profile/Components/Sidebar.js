@@ -3,10 +3,12 @@ import { LogOut, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { css } from 'aphrodite';
 import logo from '../../Assets/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
+import { withNavigate } from '../../HOC/withNavigate';
+import { handleBackHome } from '../../utils/utils';
 
 const SidebarContext = createContext(undefined);
 
-const Sidebar = ({ children, onSelect }) => {
+const Sidebar = ({ children, onSelect, navigate }) => {
   const [expanded, setExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState('Appointments');
   const handleItemClick = (item) => {
@@ -21,16 +23,11 @@ const Sidebar = ({ children, onSelect }) => {
           <div className={css(expanded ? sidebarStyles.logoExpanded : sidebarStyles.logoCollapsed)}>
             <img src={logo} alt="" width="100px" />
           </div>
-          <button onClick={() => setExpanded((curr) => !curr)}
-                  className={css(sidebarStyles.toggleButton)}>
+          <button onClick={() => setExpanded((curr) => !curr)} className={css(sidebarStyles.toggleButton)}>
             {expanded ? <PanelRightOpen /> : <PanelLeftOpen />}
           </button>
         </div>
-        <SidebarContext.Provider value={{
-          expanded,
-          activeItem,
-          handleItemClick,
-        }}>
+        <SidebarContext.Provider value={{ expanded, activeItem, handleItemClick, }}>
           <ul className={css(sidebarStyles.menu)}>{children}</ul>
         </SidebarContext.Provider>
         <div className={css(sidebarStyles.footer)}>
@@ -44,7 +41,10 @@ const Sidebar = ({ children, onSelect }) => {
         </div>
         <div className={css(sidebarStyles.logoutDiv)}>
           <div className={css(sidebarStyles.logoutImg)}><LogOut /></div>
-          <h6 className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
+          <h6
+            className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}
+            onClick={() => handleBackHome(navigate)}
+          >
             <span className={css(sidebarStyles.userLogout)}>LOGOUT</span>
           </h6>
         </div>
@@ -53,16 +53,8 @@ const Sidebar = ({ children, onSelect }) => {
   );
 }
 
-export const SidebarItem = ({
-  icon,
-  text,
-  alert,
-}) => {
-  const {
-    expanded,
-    activeItem,
-    handleItemClick,
-  } = useContext(SidebarContext);
+export const SidebarItem = ({ icon, text, alert, }) => {
+  const { expanded, activeItem, handleItemClick } = useContext(SidebarContext);
   const isActive = activeItem === text;
   return (
     <li className={css(sidebarStyles.menuItem, isActive ? sidebarStyles.menuItemActive : sidebarStyles.menuItemInactive)} onClick={() => handleItemClick(text)}>
@@ -78,4 +70,4 @@ export const SidebarItem = ({
   );
 }
 
-export default Sidebar;
+export default withNavigate(Sidebar);
