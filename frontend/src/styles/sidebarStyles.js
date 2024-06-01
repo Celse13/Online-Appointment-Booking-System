@@ -7,7 +7,7 @@ const sharedFooterStyles = {
 };
 
 export const sidebarStyles = StyleSheet.create({
-  hScreen: {
+  container: {
     height: '100vh',
     width:'fit-content',
   },

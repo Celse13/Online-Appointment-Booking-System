@@ -17,7 +17,7 @@ const Sidebar = ({ children, onSelect, navigate }) => {
   }
 
   return (
-    <aside className={css(sidebarStyles.hScreen)}>
+    <aside className={css(sidebarStyles.container)}>
       <nav className={css(sidebarStyles.nav)}>
         <div className={css(sidebarStyles.header)}>
           <div className={css(expanded ? sidebarStyles.logoExpanded : sidebarStyles.logoCollapsed)}>
