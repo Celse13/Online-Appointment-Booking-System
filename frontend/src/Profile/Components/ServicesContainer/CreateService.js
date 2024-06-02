@@ -14,7 +14,7 @@ const CreateService = () => {
     serviceDuration: '',
     servicePrice: '',
     serviceLocation: '',
-    operatingDays: [],
+    serviceDays: [],
   });
 
   const handleChange = (e) => {
@@ -23,9 +23,9 @@ const CreateService = () => {
     if (type === 'checkbox') {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        operatingDays: checked
-          ? [...prevFormData.operatingDays, value]
-          : prevFormData.operatingDays.filter(day => day !== value)
+        serviceDays: checked
+          ? [...prevFormData.serviceDays, value]
+          : prevFormData.serviceDays.filter(day => day !== value)
       }));
     } else {
       setFormData({
@@ -153,9 +153,9 @@ const CreateService = () => {
                 key={day}
                 type="checkbox"
                 label={day}
-                name="operatingDays"
+                name="serviceDays"
                 value={day}
-                checked={formData.operatingDays.includes(day)}
+                checked={formData.serviceDays.includes(day)}
                 onChange={handleChange}
                 className={css(createServiceStyles.checkbox)}
               />

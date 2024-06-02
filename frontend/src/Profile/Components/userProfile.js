@@ -12,7 +12,7 @@ const Profile = ({ userType }) => {
   const renderMyServices = () => {
     return servicesListData.map((service) => (
       <div className={css(myProfileStyles.myServicesItem)}>
-        <h6 key={service.id}>{service.name}</h6>
+        <h6 key={service.id}>{service.serviceName}</h6>
         <Button variant='danger'>Delete</Button>
       </div>
     ));

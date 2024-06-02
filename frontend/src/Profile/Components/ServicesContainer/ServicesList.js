@@ -7,14 +7,14 @@ import { servicesListData } from './servicesData';
 import { getCurrentDate } from '../../../utils/utils';
 
 const initializeFormData = (service) => ({
-  serviceName: service ? service.name : '',
+  serviceName: service ? service.serviceName : '',
   servicePrice: service ? service.cost : '',
   serviceDuration: service ? service.duration : '',
   time: '',
   date: '',
   openingTime: service ? service.openingTime : '',
   closingTime: service ? service.closingTime : '',
-  operatingDays: service ? service.operatingDays : [],
+  serviceDays: service ? service.serviceDays : [],
 });
 
 const checkTimeDateError = (name, value, formData) => {
@@ -33,8 +33,8 @@ const checkTimeDateError = (name, value, formData) => {
     const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const selectedDay = daysMap[dayOfWeek];
 
-    if (!formData.operatingDays.includes(selectedDay)) {
-      return `Please select a date on ${formData.operatingDays.join(', ')}`;
+    if (!formData.serviceDays.includes(selectedDay)) {
+      return `Please select a date on ${formData.serviceDays.join(', ')}`;
     }
   }
   return '';
@@ -89,7 +89,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
           filteredServices.map((service) => (
             <Card key={service.id} className={css(servicesListStyles.card)}>
               <CardHeader className={css(servicesListStyles.header)}>
-                <h3>{service.name}</h3>
+                <h3>{service.serviceName}</h3>
               </CardHeader>
               <CardBody className={css(servicesListStyles.body)}>
                 <div className={css(servicesListStyles.bodyDiv)}>
@@ -97,13 +97,13 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
                   <h6>Cost: {service.cost}</h6>
                   <h6>Time: {service.openingTime} - {service.closingTime}</h6>
                   <h6>Location: {service.location}</h6>
-                  <h6>Days: {service.operatingDays.join(',\n')}</h6>
+                  <h6>Days: {service.serviceDays.join(',\n')}</h6>
                 </div>
               </CardBody>
               <CardFooter className={css(servicesListStyles.footer)}>
                 <Button className={css(servicesListStyles.button)} onClick={() => handleBookClick(service)}>Book</Button>
               </CardFooter>
-              {isFormVisible && formData.serviceName === service.name && (
+              {isFormVisible && formData.serviceName === service.serviceName && (
                 <Form onSubmit={handleConfirmClick} className={css(servicesListStyles.bookingForm)}>
                   <FormGroup>
                     <FormLabel className={css(servicesListStyles.label)}>Time</FormLabel>
