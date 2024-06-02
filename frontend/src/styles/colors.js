@@ -15,4 +15,5 @@ export const appColors = {
   white: '#FFFFFF',
   black: '#000000',
   dusty: '#985d6c',
+  red: '#C04E24',
 }
