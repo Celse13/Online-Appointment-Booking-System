@@ -9,7 +9,7 @@ class Login extends React.Component {
   }
 
   handleProfile = (role) => {
-    role === "Business" ? this.props.navigate('/profile/admin') : this.props.navigate('/profile/client');
+    role === "business" ? this.props.navigate('/profile/admin') : this.props.navigate('/profile/client');
   }
 
   render() {
@@ -25,7 +25,7 @@ class Login extends React.Component {
             <label htmlFor="password"></label>
             <input type="password" name="password" id="password" autoComplete="true" placeholder="Password" className={css(signStyles.input)} />
           </div>
-          <input type="submit" value="LOGIN" className={css(signStyles.button)} onClick={() => handleProfile('Business')}/>
+          <input type="submit" value="LOGIN" className={css(signStyles.button)} onClick={() => handleProfile('business')}/>
           <a href="#" className={css(signStyles.aLinks)}>Forgot Password</a>
           <p><strong> No account?
             <span className={css(signStyles.text)} onClick={this.props.toggleSignup}>Sign Up</span>

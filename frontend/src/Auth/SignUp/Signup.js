@@ -15,7 +15,7 @@ const Signup = (props) => {
   const handleProfile = (event) => {
     event.preventDefault();
     const role = document.getElementById('role').value;
-    role === "Business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
+    role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
   }
 
   return (
@@ -49,28 +49,26 @@ const Signup = (props) => {
         </div>
         <div>
           <span><UserRoundCog />
-            <input type="text" name="role" id="role" value={isToggled ? 'Business' : 'Client'}
+            <input type="text" name="role" id="role" value={isToggled ? 'business' : 'client'}
                    className={css(signStyles.input)} readOnly />
           </span>
         </div>
-        <div>
-          <span><Phone />
-            <PhoneInput country={'ke'} value={phone} onChange={phone => setPhone(phone)}
-                        inputStyle={{ width: '100%' }}
-                        className={css(signStyles.input)} />
-          </span>
-        </div>
-        <div>
-          <span><Pin />
-            <input type="text" name="location" id="location" autoComplete="true"
-                   placeholder="Location"
-                   className={css(signStyles.input)} value={location}
-                   onChange={(e) => setLocation(e.target.value)} required />
-          </span>
-        </div>
         {isToggled && (
-          <textarea name="description" id="description" placeholder="Business Description"
-                    className={css(signStyles.input)} />
+          <div>
+            <span><Phone />
+              <PhoneInput country={'ke'} value={phone} onChange={phone => setPhone(phone)}
+                          inputStyle={{ width: '100%' }}
+                          className={css(signStyles.input)} />
+            </span>
+            <span><Pin />
+              <input type="text" name="location" id="location" autoComplete="true"
+                     placeholder="Location"
+                     className={css(signStyles.input)} value={location}
+                     onChange={(e) => setLocation(e.target.value)} required />
+            </span>
+            <textarea name="description" id="description" placeholder="Business Description"
+                      className={css(signStyles.input)} />
+          </div>
         )}
         <input type="submit" value="SIGN UP" className={css(signStyles.button)} />
         <p><strong> Already have an account?
