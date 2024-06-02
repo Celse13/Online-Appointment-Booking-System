@@ -40,6 +40,7 @@ const servicePath: OpenAPIV3.PathsObject = {
                   ],
                 },
                 serviceDays: { type: 'array', items: { type: 'string' } },
+                serviceDescription: { type: 'string'}
               },
               required: [
                 'serviceName',
