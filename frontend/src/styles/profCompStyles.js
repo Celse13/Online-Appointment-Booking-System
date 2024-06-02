@@ -408,4 +408,7 @@ export const createServiceStyles = StyleSheet.create({
   button: {
     ...sharedButtonStyles,
   },
+  checkboxGroup: {
+
+  },
 });
