@@ -13,17 +13,34 @@ const CreateService = () => {
     closingTime: '',
     serviceDuration: '',
     servicePrice: '',
-    serviceLocation: ''
+    serviceLocation: '',
+    operatingDays: [],
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value, type, checked } = e.target;
+
+    if (type === 'checkbox') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        operatingDays: checked
+          ? [...prevFormData.operatingDays, value]
+          : prevFormData.operatingDays.filter(day => day !== value)
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
-  const handleSubmit = (e) => e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form Data Submitted:', formData);
+  };
+
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   return (
     <Container className={css(createServiceStyles.container)}>
@@ -127,6 +144,23 @@ const CreateService = () => {
             placeholder="description"
             value={formData.serviceDescription}
             onChange={handleChange} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label className={css(createServiceStyles.label)}>Operating Days</Form.Label>
+          <div className={css(createServiceStyles.checkboxGroup)}>
+            {daysOfWeek.map((day) => (
+              <Form.Check
+                key={day}
+                type="checkbox"
+                label={day}
+                name="operatingDays"
+                value={day}
+                checked={formData.operatingDays.includes(day)}
+                onChange={handleChange}
+                className={css(createServiceStyles.checkbox)}
+              />
+            ))}
+          </div>
         </Form.Group>
         <Button type="submit" className={css(createServiceStyles.button)}>CREATE</Button>
       </Form>

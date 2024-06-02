@@ -14,9 +14,10 @@ const initializeFormData = (service) => ({
   date: '',
   openingTime: service ? service.openingTime : '',
   closingTime: service ? service.closingTime : '',
+  operatingDays: service ? service.operatingDays : [],
 });
 
-const checkTimeError = (name, value, formData) => {
+const checkTimeDateError = (name, value, formData) => {
   if (name === 'time') {
     const selectedTime = new Date(`2000-01-01T${value}`);
     const openingTime = new Date(`2000-01-01T${formData.openingTime}`);
@@ -26,9 +27,18 @@ const checkTimeError = (name, value, formData) => {
       return `Please select a time between ${formData.openingTime} and ${formData.closingTime}`;
     }
   }
+  if (name === 'date') {
+    const selectedDate = new Date(value);
+    const dayOfWeek = selectedDate.getDay();
+    const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const selectedDay = daysMap[dayOfWeek];
+
+    if (!formData.operatingDays.includes(selectedDay)) {
+      return `Please select a date on ${formData.operatingDays.join(', ')}`;
+    }
+  }
   return '';
 };
-
 const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected }) => {
   const filteredServices = servicesListData
     .filter((service) => service.categoryId === selectedCategoryId
@@ -40,7 +50,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const error = checkTimeError(name, value, formData);
+    const error = checkTimeDateError(name, value, formData);
 
     if (error) {
       setErrorMessage(error);
@@ -87,6 +97,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
                   <h6>Cost: {service.cost}</h6>
                   <h6>Time: {service.openingTime} - {service.closingTime}</h6>
                   <h6>Location: {service.location}</h6>
+                  <h6>Days: {service.operatingDays.join(',\n')}</h6>
                 </div>
               </CardBody>
               <CardFooter className={css(servicesListStyles.footer)}>
