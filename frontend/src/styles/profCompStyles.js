@@ -58,6 +58,19 @@ const sharedBodyStyles = {
   justifyContent: 'start',
 };
 
+const sharedInputStyles = {
+  color: appColors.primaryText,
+  backgroundColor: appColors.white,
+  marginBottom: '1rem',
+  border: `2px solid ${appColors.accentOpaque}`,
+  '::placeholder': {
+    color: appColors.primaryText,
+    opacity: '0.5',
+    fontWeight: '200',
+  },
+};
+
+
 export const myProfileStyles = StyleSheet.create({
   clientContainer: {
     display: 'flex',
@@ -329,19 +342,29 @@ export const servicesListStyles = StyleSheet.create({
   button: {
     ...sharedButtonStyles
   },
-});
-
-const sharedInputStyles = {
-  color: appColors.primaryText,
-  backgroundColor: appColors.white,
-  marginBottom: '1rem',
-  border: `2px solid ${appColors.accentOpaque}`,
-  '::placeholder': {
-    color: appColors.primaryText,
-    opacity: '0.5',
-    fontWeight: '200',
+  bookingForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '1rem',
   },
-};
+  input: {
+    ...sharedInputStyles,
+    textAlign: 'start',
+  },
+  label: {
+    width: '100%',
+    textAlign: 'start',
+    margin: 0,
+    color: appColors.primaryText,
+  },
+  error: {
+    color: appColors.red,
+    fontWeight: 'bold',
+    padding: '0.5rem',
+  },
+});
 
 export const createServiceStyles = StyleSheet.create({
   container: {
