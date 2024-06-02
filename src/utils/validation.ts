@@ -15,6 +15,7 @@ class Validation {
           new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'),
         )
         .required(),
+      role: Joi.string().valid('business', 'client').required(),
     });
 
     const { error } = schema.validate(req.body);

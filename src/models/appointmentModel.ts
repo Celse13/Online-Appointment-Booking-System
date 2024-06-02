@@ -6,8 +6,22 @@ const appointmentSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    time: {
-      type: String,
+    startTime: {
+      hour: {
+        type: Number,
+        min: 0,
+        max: 23,
+        required: true,
+      },
+      minute: {
+        type: Number,
+        min: 0,
+        max: 59,
+        required: true,
+      },
+    },
+    duration: {
+      type: Number,
       required: true,
     },
     client: {
@@ -17,7 +31,7 @@ const appointmentSchema = new mongoose.Schema(
     },
     admin: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Admin',
+      ref: 'Business',
       required: false,
     },
     staff: {
@@ -30,11 +44,21 @@ const appointmentSchema = new mongoose.Schema(
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
     },
-    service: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Service',
-      required: true,
-    },
+    service: [{
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service',
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      cost: {
+        type: Number,
+        required: true,
+      },
+    }],
   },
   { timestamps: true },
 );

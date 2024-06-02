@@ -14,7 +14,7 @@ class UserController {
   static async signup(req: Request, res: Response, next: NextFunction) {
     try {
       // Extract email, username, and password from req.body
-      const { email, username, password } = req.body;
+      const { email, username, password, role } = req.body;
 
       const existingEmail = await UserModel.findOne({ email });
       if (existingEmail) {
@@ -36,6 +36,7 @@ class UserController {
       const user = new UserModel({
         email,
         username,
+        role,
         password: hashedPassword,
         verificationToken,
       });
@@ -117,12 +118,12 @@ class UserController {
       if (!isPasswordCorrect) {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
-      const role = user.role && user.role.type ? user.role.type : 'user';
+
       const token = JWT.generateJwt(
         String(user._id),
         user.email,
         user.username,
-        role,
+        user.role
       );
       res.status(200).json({ message: 'Logged in successfully', token });
     } catch (error) {

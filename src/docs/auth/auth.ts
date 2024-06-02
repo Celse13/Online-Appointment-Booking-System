@@ -12,9 +12,10 @@ const authPaths: OpenAPIV3.PathsObject = {
               type: 'object',
               required: ['email', 'username', 'password'],
               properties: {
-                email: { type: 'string' },
                 username: { type: 'string' },
+                email: { type: 'string' },
                 password: { type: 'string' },
+                role: { type: 'string' }
               },
             },
           },

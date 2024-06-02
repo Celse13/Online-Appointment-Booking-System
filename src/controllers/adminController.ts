@@ -1,12 +1,34 @@
 import { Request, Response, NextFunction } from 'express';
-import AdminModel from '../models/adminModel';
+import { BusinessModel, IBusiness } from '../models/businessModel';
+import { UserModel } from '../models/userModel';
 import ServiceModel from '../models/serviceModel';
 import AppointmentModel from '../models/appointmentModel';
+import mongoose from 'mongoose';
 
 class AdminController {
+
+  static async changeUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.id;
+      const newRole = req.body.role;
+
+      const user = await UserModel.findById((userId));
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      user.role = newRole;
+      await user.save();
+      res.status(200).json({ message: 'User role changed successfully', user });
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async createAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const admin = new AdminModel(req.body);
+      const admin = new BusinessModel(req.body);
       await admin.save();
       res.status(201).json({ message: 'Admin created successfully', admin });
     } catch (error) {
@@ -16,7 +38,7 @@ class AdminController {
 
   static async updateAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const admin = await AdminModel.findByIdAndUpdate(
+      const admin = await BusinessModel.findByIdAndUpdate(
         req.params.id,
         req.body,
         { new: true },
@@ -29,7 +51,7 @@ class AdminController {
 
   static async deleteAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      await AdminModel.findByIdAndDelete(req.params.id);
+      await BusinessModel.findByIdAndDelete(req.params.id);
       res.status(200).json({ message: 'Admin deleted successfully' });
     } catch (error) {
       next(error);
@@ -38,7 +60,7 @@ class AdminController {
 
   static async getAdmins(req: Request, res: Response, next: NextFunction) {
     try {
-      const admins = await AdminModel.find({});
+      const admins = await BusinessModel.find({});
       res.status(200).json({ message: 'Admins fetched successfully', admins });
     } catch (error) {
       next(error);
@@ -47,130 +69,74 @@ class AdminController {
 
   static async getAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const admin = await AdminModel.findById(req.params.id);
+      const admin = await BusinessModel.findById(req.params.id);
       res.status(200).json({ message: 'Admin fetched successfully', admin });
     } catch (error) {
       next(error);
     }
   }
 
-  static async createService(req: Request, res: Response, next: NextFunction) {
+  static async addServiceToAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const service = new ServiceModel(req.body);
-      await service.save();
-      res
-        .status(201)
-        .json({ message: 'Service created successfully', service });
+      const adminId = new mongoose.Types.ObjectId(req.params.adminId);
+      const serviceId = new mongoose.Types.ObjectId(req.params.serviceId);
+
+      const admin = await BusinessModel.findById(adminId);
+
+      if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+      admin.services.push(serviceId);
+      await admin.save();
+      res.status(200).json({ message: 'Service added to admin successfully', admin });
     } catch (error) {
       next(error);
     }
   }
 
-  static async updateService(req: Request, res: Response, next: NextFunction) {
+  static async removeServiceFromAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const service = await ServiceModel.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true },
-      );
-      res
-        .status(200)
-        .json({ message: 'Service updated successfully', service });
+      const adminId = new mongoose.Types.ObjectId(req.params.adminId);
+      const serviceId = new mongoose.Types.ObjectId(req.params.serviceId);
+
+      const admin = await BusinessModel.findById(adminId);
+
+      if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+      admin.services = admin.services.filter((id: mongoose.Types.ObjectId) => !id.equals(serviceId));
+      await admin.save();
+      res.status(200).json({ message: 'Service removed from admin successfully', admin });
     } catch (error) {
       next(error);
     }
   }
 
-  static async deleteService(req: Request, res: Response, next: NextFunction) {
+  static async addStaffToAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      await ServiceModel.findByIdAndDelete(req.params.id);
-      res.status(200).json({ message: 'Service deleted successfully' });
+      const admin = await BusinessModel.findById(req.params.adminId);
+      if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+      const staffId = new mongoose.Types.ObjectId(req.params.staffId);
+      admin.staff.push(staffId);
+      await admin.save();
+      res.status(200).json({ message: 'Staff added to admin successfully', admin });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getServices(req: Request, res: Response, next: NextFunction) {
+  static async removeStaffFromAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const services = await ServiceModel.find({});
-      res
-        .status(200)
-        .json({ message: 'Services fetched successfully', services });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getService(req: Request, res: Response, next: NextFunction) {
-    try {
-      const service = await ServiceModel.findById(req.params.id);
-      res
-        .status(200)
-        .json({ message: 'Service fetched successfully', service });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async approveAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { status: 'approved' },
-        { new: true },
-      );
-      res
-        .status(200)
-        .json({ message: 'Appointment approved successfully', appointment });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async rejectAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { status: 'rejected' },
-        { new: true },
-      );
-      res
-        .status(200)
-        .json({ message: 'Appointment rejected successfully', appointment });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getAppointments(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointments = await AppointmentModel.find({});
-      res
-        .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getAppointment(req: Request, res: Response, next: NextFunction) {
-    try {
-      const appointment = await AppointmentModel.findById(req.params.id);
-      res
-        .status(200)
-        .json({ message: 'Appointment fetched successfully', appointment });
+      const admin = await BusinessModel.findById(req.params.adminId);
+      if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+      const staffIdToRemove: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(req.params.staffId);
+      admin.staff = admin.staff.filter((staffId: mongoose.Types.ObjectId) => !staffId.equals(staffIdToRemove));
+      await admin.save();
+      res.status(200).json({ message: 'Staff removed from admin successfully', admin });
     } catch (error) {
       next(error);
     }

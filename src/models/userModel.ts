@@ -1,11 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import crypto from 'crypto';
+import ClientModel from './clientModel';
 
 export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  role?: { type: string; default: 'user' };
+  role: string;
   isVerified: boolean;
   verificationToken: string | undefined;
   passwordResetToken?: string;
@@ -37,7 +38,6 @@ const userSchema = new Schema<IUser>(
     role: {
       type: String,
       required: true,
-      default: 'client',
     },
     verificationToken: { type: String },
     passwordResetToken: String,
@@ -59,6 +59,7 @@ userSchema.methods.generatePasswordResetToken = function () {
   this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
   return resetToken;
 };
+
 
 const UserModel = mongoose.model<IUser>('User', userSchema);
 export { userSchema, UserModel };

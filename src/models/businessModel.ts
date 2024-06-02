@@ -4,8 +4,21 @@ import AdminValidators from '../validators/adminValidators';
 
 // Admin schema => this is the structure of the admin document in the collection
 
-const adminSchema = new mongoose.Schema(
+interface IBusiness extends Document {
+  [key: string]: any;
+}
+
+
+
+const BusinessSchema = new mongoose.Schema(
   {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true
+    },
+
     permission: {
       type: [String],
       default: ['manage_users', 'approve_appointments'],
@@ -96,7 +109,6 @@ const adminSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-adminSchema.add(userSchema);
 
-const AdminModel = mongoose.model('Admin', adminSchema);
-export default AdminModel;
+const BusinessModel = mongoose.model<IBusiness>('Business', BusinessSchema);
+export  { BusinessModel, IBusiness};
