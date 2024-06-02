@@ -10,12 +10,15 @@ const authPaths: OpenAPIV3.PathsObject = {
           'application/json': {
             schema: {
               type: 'object',
-              required: ['email', 'username', 'password'],
+              required: ['email', 'name', 'password', 'role'],
               properties: {
-                username: { type: 'string' },
+                name: { type: 'string' },
                 email: { type: 'string' },
                 password: { type: 'string' },
                 role: { type: 'string' },
+                businessDescription: { type: 'string' }, // optional
+                phoneNumber: { type: 'string' }, // optional
+                location: { type: 'string' }, // optional
               },
             },
           },
@@ -23,7 +26,7 @@ const authPaths: OpenAPIV3.PathsObject = {
       },
       responses: {
         '201': { description: 'User created successfully' },
-        '409': { description: 'Email or username already exists' },
+        '409': { description: 'Email or name already exists' },
         '500': { description: 'Failed to send email' },
       },
     },

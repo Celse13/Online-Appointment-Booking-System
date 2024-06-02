@@ -8,14 +8,29 @@ class Validation {
     next: NextFunction,
   ) {
     const schema = Joi.object({
-      username: Joi.string().alphanum().min(3).max(30).required(),
+      name: Joi.string().alphanum().min(3).max(30).required(),
       email: Joi.string().email().required(),
       password: Joi.string()
         .pattern(
           new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'),
         )
         .required(),
-      role: Joi.string().valid('business', 'client').required(),
+        role: Joi.string().valid('client', 'business').required(),
+        businessDescription: Joi.string().when('role', {
+          is: 'business',
+          then: Joi.required(),
+          otherwise: Joi.forbidden(),
+        }),
+        phoneNumber: Joi.string().when('role', {
+          is: 'business',
+          then: Joi.required(),
+          otherwise: Joi.forbidden(),
+        }),
+        location: Joi.string().when('role', {
+          is: 'business',
+          then: Joi.required(),
+          otherwise: Joi.forbidden(),
+        }),
     });
 
     const { error } = schema.validate(req.body);

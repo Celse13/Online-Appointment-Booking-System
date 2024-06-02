@@ -19,7 +19,7 @@ const BusinessSchema = new mongoose.Schema(
 
     permission: {
       type: [String],
-      default: ['manage_users', 'approve_appointments'],
+      default: ['manage_client', 'approve_appointments'],
     },
     notifications: {
       type: [String],
@@ -31,9 +31,20 @@ const BusinessSchema = new mongoose.Schema(
         ref: 'Appointment',
       },
     ],
-    businessType: {
+    businessDescription: {
       type: String,
-      required: true,
+      required: false,
+      validate: [function(value: string) {
+        return value.length >= 10 && value.length <= 500;
+      }, 'The business description should be between 10 and 500 characters.'],
+    },
+    phoneNumber: {
+      type: String,
+      required: false,
+    },
+    location: {
+      type: String,
+      required: false,
     },
     services: [
       {
@@ -47,65 +58,9 @@ const BusinessSchema = new mongoose.Schema(
         ref: 'Staff',
       },
     ],
-    workingHours: {
-      startHour: {
-        type: String,
-        validate: {
-          validator: AdminValidators.validateHour,
-          message: 'Invalid hour format',
-        },
-        required: true,
-      },
-      endHour: {
-        type: String,
-        validate: {
-          validator: AdminValidators.validateHour,
-          message: 'Invalid hour format',
-        },
-        required: true,
-      },
-    },
-    workingDays: {
-      type: [String],
-      validate: {
-        validator: AdminValidators.validateWorkingDays,
-        message: 'Invalid working days',
-      },
-      default: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    },
-    availability: [
-      {
-        startDate: {
-          type: Date,
-          required: true,
-        },
-        endDate: {
-          type: Date,
-          required: true,
-        },
-      },
-    ],
-    businessAddress: {
-      street: {
-        type: String,
-        required: true,
-      },
-      city: {
-        type: String,
-        required: true,
-      },
-      state: {
-        type: String,
-        required: true,
-      },
-      zipCode: {
-        type: String,
-        required: true,
-      },
-    },
+    
   },
   { timestamps: true },
 );
-
 const BusinessModel = mongoose.model<IBusiness>('Business', BusinessSchema);
 export { BusinessModel, IBusiness };
