@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Container,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
-} from 'react-bootstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormControl, FormGroup, FormLabel, } from 'react-bootstrap';
 import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
