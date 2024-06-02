@@ -30,12 +30,10 @@ class AppointmentController {
         time,
       });
       if (existingAppointment) {
-        return res
-          .status(400)
-          .json({
-            message:
-              'This time slot is already booked. Please choose a different time.',
-          });
+        return res.status(400).json({
+          message:
+            'This time slot is already booked. Please choose a different time.',
+        });
       }
 
       const appointment = new AppointmentModel({
@@ -56,12 +54,10 @@ class AppointmentController {
       client.appointments.push(savedAppointment._id);
       await client.save();
 
-      res
-        .status(201)
-        .json({
-          message: 'Appointment created successfully',
-          appointment: savedAppointment,
-        });
+      res.status(201).json({
+        message: 'Appointment created successfully',
+        appointment: savedAppointment,
+      });
     } catch (error) {
       next(error);
     }
