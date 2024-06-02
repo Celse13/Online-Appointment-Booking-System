@@ -5,7 +5,7 @@ const appointmentControllerPath: OpenAPIV3.PathsObject = {
     post: {
       summary: 'Create a new appointment',
       tags: ['Appointments'],
-      security: [{ bearerAuth: []}],
+      security: [{ bearerAuth: [] }],
       description: 'Create a new appointment for a specific client.',
       requestBody: {
         content: {
@@ -31,13 +31,13 @@ const appointmentControllerPath: OpenAPIV3.PathsObject = {
                 type: 'object',
                 properties: {
                   message: { type: 'string' },
-                  appointment: { 
+                  appointment: {
                     type: 'object',
                     properties: {
                       date: { type: 'string', format: 'date-time' },
                       time: { type: 'string' },
                       client: { type: 'string' },
-                      service: { 
+                      service: {
                         type: 'array',
                         items: {
                           type: 'object',

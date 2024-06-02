@@ -44,21 +44,23 @@ const appointmentSchema = new mongoose.Schema(
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
     },
-    service: [{
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Service',
-        required: true,
+    service: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Service',
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        cost: {
+          type: Number,
+          required: true,
+        },
       },
-      name: {
-        type: String,
-        required: true,
-      },
-      cost: {
-        type: Number,
-        required: true,
-      },
-    }],
+    ],
   },
   { timestamps: true },
 );

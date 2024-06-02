@@ -6,14 +6,13 @@ import appointmentControllerPath from './appointment/appointment';
 import adminPaths from './admin/business';
 import servicePath from './services/services';
 
-
 const allPaths: OpenAPIV3.PathsObject = {
   ...examples,
   ...authPaths,
   ...usersPaths,
   ...appointmentControllerPath,
   ...adminPaths,
-  ...servicePath
+  ...servicePath,
 };
 
 export default allPaths;

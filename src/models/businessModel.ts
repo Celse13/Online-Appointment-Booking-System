@@ -8,15 +8,13 @@ interface IBusiness extends Document {
   [key: string]: any;
 }
 
-
-
 const BusinessSchema = new mongoose.Schema(
   {
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      unique: true
+      unique: true,
     },
 
     permission: {
@@ -109,6 +107,5 @@ const BusinessSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-
 const BusinessModel = mongoose.model<IBusiness>('Business', BusinessSchema);
-export  { BusinessModel, IBusiness};
+export { BusinessModel, IBusiness };

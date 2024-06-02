@@ -6,7 +6,6 @@ export function checkRole(roles: string[]) {
   return function (req: Request, res: Response, next: NextFunction) {
     const user = req.user as IUser;
 
-
     if (user && user.role && roles.includes(user.role)) {
       next();
     } else {

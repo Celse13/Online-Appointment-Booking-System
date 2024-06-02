@@ -123,7 +123,7 @@ class UserController {
         String(user._id),
         user.email,
         user.username,
-        user.role
+        user.role,
       );
       res.status(200).json({ message: 'Logged in successfully', token });
     } catch (error) {

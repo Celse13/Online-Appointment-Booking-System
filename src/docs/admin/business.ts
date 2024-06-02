@@ -13,18 +13,18 @@ const businessPath: OpenAPIV3.PathsObject = {
               type: 'object',
               properties: {
                 businessType: { type: 'string' },
-                workingHours: { 
+                workingHours: {
                   type: 'object',
                   properties: {
                     startHour: { type: 'string' },
                     endHour: { type: 'string' },
                   },
                 },
-                workingDays: { 
+                workingDays: {
                   type: 'array',
                   items: { type: 'string' },
                 },
-                businessAddress: { 
+                businessAddress: {
                   type: 'object',
                   properties: {
                     street: { type: 'string' },
@@ -43,8 +43,7 @@ const businessPath: OpenAPIV3.PathsObject = {
           description: 'Business created successfully',
           content: {
             'application/json': {
-              schema: {
-              },
+              schema: {},
             },
           },
         },
@@ -79,8 +78,7 @@ const businessPath: OpenAPIV3.PathsObject = {
         '200': {
           description: 'A successful response',
           content: {
-            'application/json': {
-            },
+            'application/json': {},
           },
         },
         '404': {
@@ -130,18 +128,18 @@ const businessPath: OpenAPIV3.PathsObject = {
               type: 'object',
               properties: {
                 businessType: { type: 'string' },
-                workingHours: { 
+                workingHours: {
                   type: 'object',
                   properties: {
                     startHour: { type: 'string' },
                     endHour: { type: 'string' },
                   },
                 },
-                workingDays: { 
+                workingDays: {
                   type: 'array',
                   items: { type: 'string' },
                 },
-                businessAddress: { 
+                businessAddress: {
                   type: 'object',
                   properties: {
                     street: { type: 'string' },
@@ -159,9 +157,7 @@ const businessPath: OpenAPIV3.PathsObject = {
         '200': {
           description: 'Business updated successfully',
           content: {
-            'application/json': {
-
-            },
+            'application/json': {},
           },
         },
         '400': {
@@ -208,8 +204,7 @@ const businessPath: OpenAPIV3.PathsObject = {
         '200': {
           description: 'Business deleted successfully',
           content: {
-            'application/json': {
-            },
+            'application/json': {},
           },
         },
         '404': {

@@ -5,7 +5,7 @@ const usersPaths: OpenAPIV3.PathsObject = {
     get: {
       summary: 'Get all users',
       tags: ['Users'],
-      security: [{ bearerAuth: []}],
+      security: [{ bearerAuth: [] }],
       responses: {
         '200': {
           description: 'A list of users',
@@ -65,7 +65,7 @@ const usersPaths: OpenAPIV3.PathsObject = {
     put: {
       summary: 'Update a user',
       tags: ['Users'],
-      security: [{ bearerAuth: []}],
+      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'userId',
@@ -110,7 +110,7 @@ const usersPaths: OpenAPIV3.PathsObject = {
     delete: {
       summary: 'Delete a user',
       tags: ['Users'],
-      security: [{ bearerAuth: []}],
+      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'userId',
