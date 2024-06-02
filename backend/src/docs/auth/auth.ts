@@ -16,8 +16,8 @@ const authPaths: OpenAPIV3.PathsObject = {
                 email: { type: 'string' },
                 password: { type: 'string' },
                 role: { type: 'string' },
-                businessDescription: { type: 'string' }, // optional
-                phoneNumber: { type: 'string' }, // optional
+                description: { type: 'string' }, // optional
+                phone: { type: 'string' }, // optional
                 location: { type: 'string' }, // optional
               },
             },

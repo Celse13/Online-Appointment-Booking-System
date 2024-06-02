@@ -31,7 +31,7 @@ const BusinessSchema = new mongoose.Schema(
         ref: 'Appointment',
       },
     ],
-    businessDescription: {
+    description: {
       type: String,
       required: false,
       validate: [
@@ -41,7 +41,7 @@ const BusinessSchema = new mongoose.Schema(
         'The business description should be between 10 and 500 characters.',
       ],
     },
-    phoneNumber: {
+    phone: {
       type: String,
       required: false,
     },
