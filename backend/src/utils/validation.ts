@@ -15,22 +15,22 @@ class Validation {
           new RegExp('^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'),
         )
         .required(),
-        role: Joi.string().valid('client', 'business').required(),
-        businessDescription: Joi.string().when('role', {
-          is: 'business',
-          then: Joi.required(),
-          otherwise: Joi.forbidden(),
-        }),
-        phoneNumber: Joi.string().when('role', {
-          is: 'business',
-          then: Joi.required(),
-          otherwise: Joi.forbidden(),
-        }),
-        location: Joi.string().when('role', {
-          is: 'business',
-          then: Joi.required(),
-          otherwise: Joi.forbidden(),
-        }),
+      role: Joi.string().valid('client', 'business').required(),
+      businessDescription: Joi.string().when('role', {
+        is: 'business',
+        then: Joi.required(),
+        otherwise: Joi.forbidden(),
+      }),
+      phoneNumber: Joi.string().when('role', {
+        is: 'business',
+        then: Joi.required(),
+        otherwise: Joi.forbidden(),
+      }),
+      location: Joi.string().when('role', {
+        is: 'business',
+        then: Joi.required(),
+        otherwise: Joi.forbidden(),
+      }),
     });
 
     const { error } = schema.validate(req.body);

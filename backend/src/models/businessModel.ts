@@ -34,9 +34,12 @@ const BusinessSchema = new mongoose.Schema(
     businessDescription: {
       type: String,
       required: false,
-      validate: [function(value: string) {
-        return value.length >= 10 && value.length <= 500;
-      }, 'The business description should be between 10 and 500 characters.'],
+      validate: [
+        function (value: string) {
+          return value.length >= 10 && value.length <= 500;
+        },
+        'The business description should be between 10 and 500 characters.',
+      ],
     },
     phoneNumber: {
       type: String,
@@ -58,7 +61,6 @@ const BusinessSchema = new mongoose.Schema(
         ref: 'Staff',
       },
     ],
-    
   },
   { timestamps: true },
 );

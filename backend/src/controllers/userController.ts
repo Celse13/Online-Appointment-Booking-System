@@ -12,7 +12,6 @@ const BCRYPT_SALT_ROUNDS: number = 12;
 const baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
 class UserController {
-  
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await UserModel.find({});
