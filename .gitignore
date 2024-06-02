@@ -1,3 +1,4 @@
 .idea/
 /*/package-lock.json
 /frontend/dist/bundle.js
+/backend/node_modules/
