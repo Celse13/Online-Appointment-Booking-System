@@ -1,4 +1,11 @@
-# SCHEDULR
+<div style="text-align:center;">
+    <span style="display:block;width:400px;margin:0 auto;">
+        <img src="logo.png" alt="logo" style="width:100%;">
+    </span>
+</div>
+
+<h1 style="text-align:center">SCHEDULR</h1>
+
 ## Table of Contents
 - [Description](#Description)
 - [Technologies Used](#Technologies-Used)
@@ -52,4 +59,4 @@ Licensed under [MIT License](LICENSE)
 ## Contact
 Dru Mumba - [Github](https://github.com/DruSadeMumba)\
 Celse Rugira - [Github](https://github.com/Celse13)
-```
+
