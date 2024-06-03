@@ -181,6 +181,165 @@ const servicePath: OpenAPIV3.PathsObject = {
       },
     },
   },
+  '/service/business': {
+    get: {
+      security: [{ bearerAuth: [] }],
+      tags: ['Service'],
+      summary: 'Get all services for a business',
+      operationId: 'getBusinessServices',
+      responses: {
+        '200': {
+          description: 'Services fetched successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {},
+              },
+            },
+          },
+        },
+        '401': { description: 'Unauthorized' },
+        '500': { description: 'Internal server error' },
+      },
+    },
+  },
+  '/appointments/{id}/approve': {
+    patch: {
+      summary: 'Approve an appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to approve',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment approved successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  '/appointments/{id}/reject': {
+    patch: {
+      summary: 'Reject an appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to reject',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment rejected successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/appointments/{id}': {
+    get: {
+      summary: 'Get a specific appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to fetch',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment fetched successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default servicePath;

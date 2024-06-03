@@ -2,17 +2,17 @@ import authRouter from './auth/auth';
 import { Router } from 'express';
 import userRouter from './users/users';
 import adminRouter from './admin/admin';
-import servicesRouter from './services/services';
-import businessRouter from './business/business';
-import appointmentRouter from './appointments/appointments';
+import { businessRouter as businessAppointmentRouter, clientRouter as clientAppointmentRouter } from './appointments/appointments';
+import { businessRouter as businessServiceRouter, clientRouter as clientServiceRouter } from './services/services';
 
 const router = Router();
 
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/admin', adminRouter);
-router.use('/service', servicesRouter);
-router.use('/business', businessRouter);
-router.use('/appointments', appointmentRouter);
+router.use('/business/appointments', businessAppointmentRouter);
+router.use('/client/appointments', clientAppointmentRouter);
+router.use('/business/services', businessServiceRouter);
+router.use('/client/services', clientServiceRouter);
 
 export default router;

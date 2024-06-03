@@ -3,36 +3,41 @@ import AppointmentController from '../../controllers/appointmentController';
 import authenticate from '../../utils/authenticate';
 import { checkRole } from '../../utils/isBusiness';
 
-const router = Router();
+const businessRouter = Router();
+const clientRouter = Router();
 
 // Business routes
-router.put(
+businessRouter.put(
   '/approve/:id',
   authenticate,
   checkRole(['business', 'staff']),
   AppointmentController.approveAppointment,
 );
-router.put(
+businessRouter.put(
   '/reject/:id',
   authenticate,
   checkRole(['business', 'staff']),
   AppointmentController.rejectAppointment,
 );
-router.get(
+businessRouter.get(
   '/',
   authenticate,
   checkRole(['business', 'staff']),
-  AppointmentController.getAppointments,
+  AppointmentController.getBusinessAppointments,
 );
-router.get('/:id', authenticate, AppointmentController.getAppointment);
 
 // Clients routes
-
-router.post(
+clientRouter.get(
+  '/',
+  authenticate,
+  checkRole(['client']),
+  AppointmentController.getClientAppointments,
+);
+clientRouter.post(
   '/',
   authenticate,
   checkRole(['client']),
   AppointmentController.createAppointment,
 );
 
-export default router;
+export { businessRouter, clientRouter };

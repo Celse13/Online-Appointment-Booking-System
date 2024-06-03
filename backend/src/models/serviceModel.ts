@@ -22,6 +22,11 @@ const serviceDaysData = [
 ];
 
 const serviceSchema = new mongoose.Schema({
+  business: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Business',
+    required: true,
+  },
   serviceName: {
     type: String,
     required: true,
@@ -82,14 +87,9 @@ const serviceSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  business: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Business',
-    required: true,
-  },
   serviceDescription: {
     type: String,
-    required: true,
+    required: false,
     validate: [
       function (value: string) {
         return value.length >= 10 && value.length <= 500;

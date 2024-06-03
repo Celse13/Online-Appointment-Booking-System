@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import ClientModel from '../models/clientModel';
 import AppointmentModel from '../models/appointmentModel';
 import ServiceModel from '../models/serviceModel';
+import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class AppointmentController {
   static async createAppointment(
@@ -10,9 +11,10 @@ class AppointmentController {
     next: NextFunction,
   ) {
     try {
-      const client = await ClientModel.findOne({ client: req.user?._id });
+      let client = await ClientModel.findOne({ client: req.user?._id });
       if (!client) {
-        return res.status(404).json({ message: 'Client not found' });
+        client = new ClientModel({ client: req.user?._id });
+        await client.save();
       }
 
       // Get the service details
@@ -23,11 +25,11 @@ class AppointmentController {
 
       // Get the date and time from the request body
       const { date, time } = req.body;
-
+      const dateTime = new Date(`${date}T${time}`);
       // Check for existing appointments at the requested time
       const existingAppointment = await AppointmentModel.findOne({
-        date,
-        time,
+        dateTime,
+        'service.id': req.body.serviceId,
       });
       if (existingAppointment) {
         return res.status(400).json({
@@ -39,8 +41,7 @@ class AppointmentController {
       const appointment = new AppointmentModel({
         ...req.body,
         client: client._id,
-        date,
-        time,
+        dateTime,
         service: [
           {
             id: service._id,
@@ -54,6 +55,12 @@ class AppointmentController {
       client.appointments.push(savedAppointment._id);
       await client.save();
 
+      const business = await BusinessModel.findById(service.business);
+      if (!business) {
+        return res.status(404).json({ message: 'Business not found' });
+      }
+      business.appointments.push(savedAppointment._id);
+      await business.save();
       res.status(201).json({
         message: 'Appointment created successfully',
         appointment: savedAppointment,
@@ -101,13 +108,52 @@ class AppointmentController {
     }
   }
 
-  static async getAppointments(
+  static async getBusinessAppointments(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
+
+    const userId = req.user ? req.user._id : undefined;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
     try {
-      const appointments = await AppointmentModel.find({});
+      const business = (await BusinessModel.findOne({
+        owner: userId,
+      })) as IBusiness;
+
+      if (!business) {
+        return res.status(404).json({ message: 'Business not found' });
+      }
+
+      const appointments = await AppointmentModel.find({
+        'service.business': business._id,
+      });
+      res
+        .status(200)
+        .json({ message: 'Appointments fetched successfully', appointments });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getClientAppointments(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const userId = req.user ? req.user._id : undefined;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    try {
+      const client = await ClientModel.findOne({ client: userId });
+      if (!client) {
+        return res.status(404).json({ message: 'Client not found' });
+      }
+
+      const appointments = await AppointmentModel.find({ client: client._id });
       res
         .status(200)
         .json({ message: 'Appointments fetched successfully', appointments });

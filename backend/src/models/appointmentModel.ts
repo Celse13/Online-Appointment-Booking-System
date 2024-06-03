@@ -2,24 +2,12 @@ import mongoose from 'mongoose';
 
 const appointmentSchema = new mongoose.Schema(
   {
-    date: {
-      type: Date,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
-    duration: {
-      type: Number,
-      required: true,
-    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Client',
       required: true,
     },
-    admin: {
+    business: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Business',
       required: false,
@@ -28,6 +16,10 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Staff',
       required: false,
+    },
+    dateTime: {
+      type: Date,
+      required: true,
     },
     status: {
       type: String,
