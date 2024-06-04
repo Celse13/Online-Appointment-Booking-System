@@ -96,6 +96,178 @@ const appointmentControllerPath: OpenAPIV3.PathsObject = {
         },
       },
     },
+    get: {
+      summary: 'Get all appointments',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      responses: {
+        '200': {
+          description: 'Appointments fetched successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointments: { type: 'array', items: { type: 'object' } },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+  },
+  '/appointments/{id}/approve': {
+    put: {
+      summary: 'Approve an appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to approve',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment approved successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  // New '/appointments/{id}/reject' PUT route documentation for rejectAppointment
+  '/appointments/{id}/reject': {
+    put: {
+      summary: 'Reject an appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to reject',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment rejected successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  // New '/appointments' GET route documentation for getAppointments
+  // New '/appointments/{id}' GET route documentation for getAppointment
+  '/appointments/{id}': {
+    get: {
+      summary: 'Get a specific appointment',
+      tags: ['Appointments'],
+      security: [{ bearerAuth: [] }],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          required: true,
+          description: 'ID of the appointment to fetch',
+          schema: { type: 'string' },
+        },
+      ],
+      responses: {
+        '200': {
+          description: 'Appointment fetched successfully',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  appointment: { type: 'object' },
+                },
+              },
+            },
+          },
+        },
+        '500': {
+          description: 'Internal server error',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 

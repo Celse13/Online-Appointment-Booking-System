@@ -1,9 +1,10 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import crypto from 'crypto';
 import ClientModel from './clientModel';
+import { BusinessModel } from './businessModel';
 
 export interface IUser extends Document {
-  username: string;
+  name: string;
   email: string;
   password: string;
   role: string;
@@ -11,13 +12,16 @@ export interface IUser extends Document {
   verificationToken: string | undefined;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
-  profilePicture?: string;
+  profilePicture: string;
+  businessDescription: string;
+  phoneNumber: string;
+  location?: string;
   generatePasswordResetToken(): string;
 }
 
 const userSchema = new Schema<IUser>(
   {
-    username: {
+    name: {
       type: String,
       required: true,
       unique: true,
@@ -59,6 +63,18 @@ userSchema.methods.generatePasswordResetToken = function () {
   this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
   return resetToken;
 };
+
+// userSchema.post('save', async function(doc: IUser) {
+//   if (doc.role === 'business') {
+//     const businessDoc = new BusinessModel({
+//       owner: doc._id,
+//       businessDescription: doc.businessDescription,
+//       phoneNumber: doc.phoneNumber,
+//       location: doc.location,
+//     });
+//     await businessDoc.save();
+//   }
+// });
 
 const UserModel = mongoose.model<IUser>('User', userSchema);
 export { userSchema, UserModel };

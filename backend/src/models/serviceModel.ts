@@ -22,6 +22,11 @@ const serviceDaysData = [
 ];
 
 const serviceSchema = new mongoose.Schema({
+  business: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Business',
+    required: true,
+  },
   serviceName: {
     type: String,
     required: true,
@@ -82,11 +87,16 @@ const serviceSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  business: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Business',
-    required: true,
-  },
+  serviceDescription: {
+    type: String,
+    required: false,
+    validate: [
+      function (value: string) {
+        return value.length >= 10 && value.length <= 500;
+      },
+      'The service description should be between 10 and 500 characters.',
+    ], 
+  }
 });
 
 serviceSchema.pre('save', async function (next) {
@@ -98,6 +108,18 @@ serviceSchema.pre('save', async function (next) {
     .updateOne({ _id: service.business }, { $push: { services: service._id } });
   next();
 });
+
+
+serviceSchema.pre('save', async function (next) {
+  const service = this as mongoose.Document & {
+    business: mongoose.Types.ObjectId;
+  };
+  await mongoose
+    .model('Business')
+    .updateOne({ _id: service.business }, { $push: { services: service._id } });
+  next();
+});
+
 
 serviceSchema.pre(/^remove/, async function (next) {
   const service = this as mongoose.Document;
