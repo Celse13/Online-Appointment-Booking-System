@@ -1,3 +1,6 @@
 .idea/
 /*/package-lock.json
 /frontend/dist/bundle.js
+/.env
+/package-lock.json
+/node_modules/
