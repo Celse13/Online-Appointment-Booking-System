@@ -25,7 +25,7 @@ const Signup = (props) => {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const role = isToggled ? 'business' : 'client';
-    const phone = isToggled ? phone : null;
+    const phone = isToggled ? document.getElementById('phone') : null;
     const location = isToggled ? location : null;
     const description = isToggled ? document.getElementById('description').value : null;
 
@@ -46,8 +46,11 @@ const Signup = (props) => {
 
     if (role === 'business') {
       user.phone = phone;
+      console.log(phone);
+      console.log(typeof phone)
       user.location = location;
       user.description = description;
+      console.log(user)
     }
 
 
@@ -98,9 +101,8 @@ const Signup = (props) => {
         {isToggled && (
           <div>
             <span><Phone />
-              <PhoneInput country={'ke'} value={phone} onChange={phone => setPhone(phone)}
-                inputStyle={{ width: '100%' }}
-                className={css(signStyles.input)} />
+              <input type="text" name="phone" id="phone" autoComplete="true"
+              placeholder="Phone" className={css(signStyles.input)} required />  
             </span>
             <span><Pin />
               <input type="text" name="location" id="location" autoComplete="true"

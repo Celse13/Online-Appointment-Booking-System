@@ -2,14 +2,31 @@ import React from 'react';
 import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:5500/api/auth/login';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  handleProfile = (role) => {
-    role === "business" ? this.props.navigate('/profile/admin') : this.props.navigate('/profile/client');
+  handleProfile = async (role) => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const user = {
+      email,
+      password
+    }
+  
+    try {
+      const response = await axios.post(BASE_URL, user);
+      console.log(response.data);
+      role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render() {
