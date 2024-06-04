@@ -1,8 +1,6 @@
-<h1 align="center">SCHEDULR</h1>
-
 <div align="center">
     <span>
-        <img src="logo.png" alt="logo" style="width:20%;">
+        <img src="logo.png" alt="logo" style="width:40%;">
     </span>
 </div>
 
