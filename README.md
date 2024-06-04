@@ -1,10 +1,12 @@
-<div style="text-align:center;">
-    <span style="display:block;width:150px;margin:0 auto;">
-        <img src="logo.png" alt="logo" style="width:100%;">
+<h1 align="center">SCHEDULR</h1>
+
+<div align="center">
+    <span>
+        <img src="logo.png" alt="logo" style="width:20%;">
     </span>
 </div>
 
-<h1 style="text-align:center">SCHEDULR</h1>
+
 
 ## Table of Contents
 - [Description](#Description)
