@@ -1,23 +1,60 @@
-import React, { useState } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Container } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Alert } from 'react-bootstrap';
 import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
-
-const appointmentsData = [
-  { id: 1, name: 'Appointment 1', date: '2024-05-27', time: '10:00 AM', location: 'Location 1', status: 'Pending' },
-  { id: 2, name: 'Appointment 2', date: '2024-05-28', time: '11:00 AM', location: 'Location 2', status: 'Confirmed' },
-  { id: 3, name: 'Appointment 3', date: '2024-05-29', time: '9:00 AM', location: 'Location 3', status: 'Declined' },
-  { id: 4, name: 'Appointment 4', date: '2024-05-30', time: '9:00 AM', location: 'Location 4', status: 'Confirmed' },
-];
+import { BusinessAppointments } from '../../Api/Services/handleAppointments';
 
 const Appointments = () => {
-  const [showDetails, setShowDetails] = useState(appointmentsData.map(() => false));
+  const [appointmentsData, setAppointmentsData] = useState([]);
+  const [showDetails, setShowDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const role = localStorage.getItem('role');
+        const getAppointments = role === 'business' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
+        const response = await getAppointments();
+        const appointments = response.appointment.map(appointment => ({
+          id: appointment._id,
+          name: appointment.client,
+          date: new Date(appointment.dateTime).toLocaleDateString(),
+          time: new Date(appointment.dateTime).toLocaleTimeString(),
+          location: appointment.service[0].location,
+          status: appointment.status,
+        }));
+        setAppointmentsData(appointments);
+        setShowDetails(appointments.map(() => false));
+      } catch (error) {
+        setIsError(true);
+      }
+      setIsLoading(false);
+    };
+
+    fetchAppointments();
+  }, []);
+
   const toggleDetails = (index) => {
     setShowDetails((prevDetails) =>
       prevDetails.map((detail, i) => (i === index ? !detail : detail))
     );
   };
+
+  if (isLoading) {
+    return <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>;
+  }
+
+  if (isError) {
+    return <Alert variant="danger">An error occurred while fetching appointments.</Alert>;
+  }
+
+  if (appointmentsData.length === 0) {
+    return <Alert variant="info">No appointments found.</Alert>;
+  }
 
   return (
     <Container className={css(appointmentStyles.container)}>
