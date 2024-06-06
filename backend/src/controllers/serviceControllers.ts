@@ -12,12 +12,13 @@ class ServiceController {
     try {
       const {
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        servicePrice,
+        serviceCategory,
+        serviceLocation,
         workingHours,
         serviceDays,
+        serviceDescription,
       } = req.body;
 
       const business = (await BusinessModel.findOne({
@@ -29,12 +30,13 @@ class ServiceController {
 
       const service = new ServiceModel({
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        servicePrice,
+        serviceCategory,
+        serviceLocation,
         workingHours,
         serviceDays,
+        serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
 

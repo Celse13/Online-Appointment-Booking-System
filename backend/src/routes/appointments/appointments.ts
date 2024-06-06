@@ -26,6 +26,20 @@ businessRouter.get(
   AppointmentController.getBusinessAppointments,
 );
 
+businessRouter.delete(
+  '/:id',
+  authenticate,
+  checkRole(['business', 'staff']),
+  AppointmentController.deleteAppointment,
+);
+
+businessRouter.put(
+  '/:id',
+  authenticate,
+  checkRole(['business', 'staff']),
+  AppointmentController.updateAppointment,
+);
+
 // Clients routes
 clientRouter.get(
   '/',
@@ -38,6 +52,14 @@ clientRouter.post(
   authenticate,
   checkRole(['client']),
   AppointmentController.createAppointment,
+);
+
+
+clientRouter.delete(
+  '/:id',
+  authenticate,
+  checkRole(['client']),
+  AppointmentController.deleteAppointment,
 );
 
 export { businessRouter, clientRouter };

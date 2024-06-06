@@ -31,7 +31,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  durations: [
+  serviceDuration: [
     {
       type: Number,
       min: 15,
@@ -39,16 +39,16 @@ const serviceSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  cost: {
+  servicePrice: {
     type: Number,
     required: true,
   },
-  category: {
+  serviceCategory: {
     type: String,
     required: true,
     enum: serviceCategoriesData,
   },
-  location: {
+  serviceLocation: {
     type: String,
     required: true,
   },
@@ -98,17 +98,6 @@ const serviceSchema = new mongoose.Schema({
     ], 
   }
 });
-
-serviceSchema.pre('save', async function (next) {
-  const service = this as mongoose.Document & {
-    business: mongoose.Types.ObjectId;
-  };
-  await mongoose
-    .model('Business')
-    .updateOne({ _id: service.business }, { $push: { services: service._id } });
-  next();
-});
-
 
 serviceSchema.pre('save', async function (next) {
   const service = this as mongoose.Document & {
