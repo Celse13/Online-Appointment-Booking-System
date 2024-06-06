@@ -4,28 +4,27 @@ import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { Switch } from '../Switch';
 import { Lock, Mail, Phone, Pin, UserRound, UserRoundCog } from 'lucide-react';
-import axios from 'axios';
 import { servicesListStyles } from '../../styles/profCompStyles';
 import { handleChange } from '../../utils/utils';
+import AuthApi from '../../Api/Services/handleAuthApi';
 
 const Signup = (props) => {
   const [isToggled, setIsToggled] = useState(false);
-  const BASE_URL = 'http://localhost:5500/api/auth/signup'
 
-  const [errorMessages, setErrorMessages] = useState({
-    name,
+  const initializeFormData = {
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+  };
+  const [errorMessages, setErrorMessages] = useState({
+    ...initializeFormData,
     phone: '',
     description: ''
   });
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    ...initializeFormData,
     role: '',
     phone: isToggled ? '' : null,
     location: isToggled ? '' : null,
@@ -63,7 +62,7 @@ const Signup = (props) => {
     }
 
     try {
-      await axios.post(BASE_URL, user);
+      await AuthApi.signup(user);
       role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
     } catch (error) {
       alert('Error creating user. Try again later!');
