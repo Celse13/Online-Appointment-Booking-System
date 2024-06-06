@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
-import axios from 'axios';
+import AuthApi from '../../Api/Services/handleAuthApi';
+import { Lock, Mail } from 'lucide-react';
+import { servicesListStyles } from '../../styles/profCompStyles';
+import { handleLoginChange } from '../../utils/utils';
 
-const BASE_URL = 'http://localhost:5500/api/auth/login';
 
 const Login = (props) => {
-  const handleProfile = async () => {
+  const initializeFormData = {
+    email: '',
+    password: ''
+  }
+  const [errorMessages, setErrorMessages] = useState({ ...initializeFormData });
+  const [formData, setFormData] = useState({ ...initializeFormData });
+
+  const handleProfile = async (event) => {
+    event.preventDefault();
+    const hasErrors = Object.values(errorMessages).some(msg => msg !== '');
+
+    if (hasErrors) {
+      alert('Please fix the errors in the form before submitting.');
+      return;
+    }
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -15,30 +31,46 @@ const Login = (props) => {
       email,
       password
     }
-
+    console.log(user);
     try {
-      const response = await axios.post(BASE_URL, user);
-      const userData = response.data;
-      await console.log(response.data);
-      await console.log(userData);
+      const response = await AuthApi.login(user);
 
-      userData.role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
+      // Getting the token from response
+      const token = response.token;
+      localStorage.setItem('token', token);
+
+      user.role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
     } catch (error) {
+      alert('Error logging in user. Try again later!');
       console.error(error);
     }
   }
 
   return (
     <div className={css(signStyles.signUpBody)}>
-      <form className={css(signStyles.form)} onSubmit={() => handleProfile()}>
+      <form className={css(signStyles.form)} onSubmit={handleProfile}>
         <h1>LOGIN</h1>
         <div>
-          <label htmlFor="email"></label>
-          <input type="email" name="email" id="email" autoComplete="true" placeholder="Email" className={css(signStyles.input)} required/>
+          <span><Mail />
+            <input type="email" name="email" id="email" autoComplete="true" placeholder="Email"
+                 className={css(signStyles.input)} required onChange={(e) => handleLoginChange(e, formData, setFormData, setErrorMessages)}/>
+          </span>
+          {errorMessages.email && (
+            <div className={css(servicesListStyles.error)}>
+              {errorMessages.email}
+            </div>
+          )}
         </div>
         <div>
-          <label htmlFor="password"></label>
-          <input type="password" name="password" id="password" autoComplete="true" placeholder="Password" className={css(signStyles.input)} required/>
+          <span><Lock />
+            <input type="password" name="password" id="password" autoComplete="true" placeholder="Password"
+                 className={css(signStyles.input)} required onChange={(e) => handleLoginChange(e, formData, setFormData, setErrorMessages)}/>
+          </span>
+          {errorMessages.password && (
+            <div className={css(servicesListStyles.error)}>
+              {errorMessages.password}
+            </div>
+          )}
         </div>
         <input type="submit" value="LOGIN" className={css(signStyles.button)}/>
         <a href="#" className={css(signStyles.aLinks)}>Forgot Password</a>
