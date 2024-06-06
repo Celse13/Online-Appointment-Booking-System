@@ -4,6 +4,7 @@ import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import axios from 'axios';
 import AuthApi from '../../Api/Services/handleAuthApi';
+import { jwtDecode } from 'jwt-decode';
 
 
 const Login = (props) => {
@@ -22,9 +23,11 @@ const Login = (props) => {
       
       // Getting the token from response
       const token = response.token;
+      const decoded = jwtDecode(token);
+      const role = decoded.role;
       localStorage.setItem('token', token);
 
-      user.role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
+      role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
     } catch (error) {
       console.error(error);
     }
