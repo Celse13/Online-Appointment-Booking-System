@@ -5,8 +5,9 @@ import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
 
 
-// Adding the ServicesApi import
-import ServicesApi from '../../../Api/Services/handleServicesApi'; 
+// Adding the BusinessServicesApi and ClientServicesApi import
+import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
+
 
 const CreateService = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const CreateService = () => {
     serviceDescription: '',
     openingTime: '',
     closingTime: '',
+    openingPeriod: 'AM',
+    closingPeriod: 'AM',
     serviceDuration: '',
     servicePrice: '',
     serviceLocation: '',
@@ -42,6 +45,7 @@ const CreateService = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const serviceData = {
         serviceName: formData.serviceName,
         serviceDuration: [formData.serviceDuration],
@@ -50,21 +54,36 @@ const CreateService = () => {
         serviceLocation: formData.serviceLocation,
         serviceDescription: formData.serviceDescription,
         workingHours: {
-          startHour: parseInt(formData.openingTime.split(':')[0]),
-          startMinute: parseInt(formData.openingTime.split(':')[1]),
-          endHour: parseInt(formData.openingTime.split(':')[0]),
-          endMinute: parseInt(formData.openingTime.split(':')[1]),
+          startHour: formatHour(formData.openingTime),
+          startMinute: formatMinute(formData.openingTime),
+          startPeriod: formatPeriod(formData.openingTime),
+          endHour: formatHour(formData.closingTime),
+          endMinute: formatMinute(formData.closingTime),
+          endPeriod: formatPeriod(formData.closingTime),
         },
         serviceDays: formData.serviceDays,
         
       };
       console.log(serviceData);
-      const response = await ServicesApi.createServices(serviceData);
+      const response = await BusinessServicesApi.createServices(serviceData, token);
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   }
+  const formatHour = (time) => {
+    const hour = parseInt(time.split(':')[0]);
+    return hour > 12 ? hour - 12 : hour;
+  };
+
+  const formatMinute = (time) => {
+    return parseInt(time.split(':')[1]);
+  };
+
+  const formatPeriod = (time) => {
+    const hour = parseInt(time.split(':')[0]);
+    return hour >= 12 ? 'PM' : 'AM';
+  };
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
