@@ -4,10 +4,15 @@ const BASE_URL = 'http://localhost:5500/api';
 
 
 class BusinessAppointments {
-    static async getBusinessAppointments() {
+    static async getBusinessAppointments(token) {
         try {
-            const response = await axios.get(`${BASE_URL}/business/appointments`);
+            const response = await axios.get(`${BASE_URL}/business/appointments`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -41,10 +46,15 @@ class BusinessAppointments {
 }
 
 class ClientAppointments {
-    static async getClientAppointments() {
+    static async getClientAppointments(token) {
         try {
-            const response = await axios.get(`${BASE_URL}/client/appointments`);
+            const response = await axios.get(`${BASE_URL}/client/appointments`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }

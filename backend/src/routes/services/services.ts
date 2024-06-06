@@ -3,38 +3,49 @@ import ServiceController from '../../controllers/serviceControllers';
 import authenticate from '../../utils/authenticate';
 import { checkRole } from '../../utils/isBusiness';
 
-const router = Router();
+const businessRouter = Router();
+const clientRouter = Router();
 
-// Service routes
-router.post(
+// Business routes
+businessRouter.post(
   '/',
   authenticate,
   checkRole(['business', 'staff']),
   ServiceController.createService,
 );
-router.put(
+businessRouter.put(
   '/:id',
   authenticate,
   checkRole(['business', 'staff']),
   ServiceController.updateService,
 );
-router.delete(
+businessRouter.delete(
   '/:id',
   authenticate,
   checkRole(['business', 'staff']),
   ServiceController.deleteService,
 );
-router.get(
+
+businessRouter.get(
+  '/',
+  authenticate,
+  checkRole(['business', 'client', 'staff']),
+  ServiceController.getBusinessServices,
+);
+
+// Client routes
+
+clientRouter.get(
   '/',
   authenticate,
   checkRole(['business', 'client', 'staff']),
   ServiceController.getServices,
 );
-router.get(
+clientRouter.get(
   '/:id',
   authenticate,
   checkRole(['business', 'client', 'staff']),
   ServiceController.getService,
 );
 
-export default router;
+export { businessRouter, clientRouter };

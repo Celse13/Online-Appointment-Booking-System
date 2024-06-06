@@ -13,10 +13,10 @@ class AuthApi {
         }
     }
 
-    static async login() {
+    static async login(userData) {
         try {
-            const response = await axios.post(`${BASE_URL}/auth/login`);
-            console.log(response.data);
+            const response = await axios.post(`${BASE_URL}/auth/login`, userData);
+            return response.data;
         } catch (error) {
             console.error(error);
         }

@@ -3,7 +3,8 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Ale
 import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
-import { BusinessAppointments } from '../../Api/Services/handleAppointments';
+import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
+import { jwtDecode } from 'jwt-decode';
 
 const Appointments = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
@@ -16,11 +17,13 @@ const Appointments = () => {
       setIsLoading(true);
       setIsError(false);
       try {
-        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        const role = decoded.role;
         const getAppointments = role === 'business' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
-        const response = await getAppointments();
-        const appointments = response.appointment.map(appointment => ({
-          id: appointment._id,
+        const response = await getAppointments(token);
+        const appointments = response.appointments.map((appointment, index) => ({ // added parentheses
+          id: index + 1,
           name: appointment.client,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: new Date(appointment.dateTime).toLocaleTimeString(),
@@ -30,6 +33,7 @@ const Appointments = () => {
         setAppointmentsData(appointments);
         setShowDetails(appointments.map(() => false));
       } catch (error) {
+        console.error(error);
         setIsError(true);
       }
       setIsLoading(false);
@@ -61,7 +65,7 @@ const Appointments = () => {
       <h3>Appointments List</h3>
       <Container className={css(appointmentStyles.listContainer)}>
         {appointmentsData.map((appointment, index) => (
-          <Card key={appointment.id} className={css(appointmentStyles.card)}>
+          <Card key={index + 1} className={css(appointmentStyles.card)}>
             <CardHeader className={css(appointmentStyles.header)}>
               <h6>{appointment.name}</h6>
             </CardHeader>

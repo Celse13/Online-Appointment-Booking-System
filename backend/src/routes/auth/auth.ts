@@ -1,13 +1,12 @@
-import UserController from '../../controllers/userController';
 import { Router } from 'express';
+import AuthController from '../../controllers/authControllers';
 import Validation from '../../utils/validation';
 const router = Router();
 
-router.post('/signup', Validation.validateSignup, UserController.signup);
-router.post('/login', Validation.validateLogin, UserController.login);
-router.post('/forgot-password', UserController.forgotPassword);
-router.put('/reset-password/:token', UserController.resetPassword);
-router.post('/change-password/:userId', UserController.changePassword);
-router.get('/verify/:token', UserController.verify);
+router.post('/signup', Validation.validateSignup, AuthController.signup);
+router.post('/login', Validation.validateLogin, AuthController.login);
+router.post('/forgot-password', AuthController.forgotPassword);
+router.put('/reset-password/:token', AuthController.resetPassword);
+router.get('/verify/:token', AuthController.verify);
 
 export default router;
