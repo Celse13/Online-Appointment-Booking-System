@@ -4,6 +4,10 @@ import { serviceCategoriesData } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
 
+
+// Adding the ServicesApi import
+import ServicesApi from '../../../Api/Services/handleServicesApi'; 
+
 const CreateService = () => {
   const [formData, setFormData] = useState({
     serviceName: '',
@@ -35,10 +39,32 @@ const CreateService = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
-  };
+    try {
+      const serviceData = {
+        serviceName: formData.serviceName,
+        serviceDuration: [formData.serviceDuration],
+        servicePrice: formData.servicePrice,
+        serviceCategory: formData.serviceCategory,
+        serviceLocation: formData.serviceLocation,
+        serviceDescription: formData.serviceDescription,
+        workingHours: {
+          startHour: parseInt(formData.openingTime.split(':')[0]),
+          startMinute: parseInt(formData.openingTime.split(':')[1]),
+          endHour: parseInt(formData.openingTime.split(':')[0]),
+          endMinute: parseInt(formData.openingTime.split(':')[1]),
+        },
+        serviceDays: formData.serviceDays,
+        
+      };
+      console.log(serviceData);
+      const response = await ServicesApi.createServices(serviceData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
