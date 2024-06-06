@@ -16,8 +16,12 @@ export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   let errorMessage = '';
 
   if (name === 'name') {
+    const nameRegex = /^[A-Za-z]+$/;
     if (value.length < 3) {
       errorMessage = 'Name should contain at least 3 characters';
+    }
+    if (!nameRegex.test(value)) {
+      errorMessage = 'Name should contain only letters';
     }
   } else if (name === 'email') {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -25,9 +29,11 @@ export const handleChange = (e, formData, setFormData, setErrorMessages) => {
       errorMessage = 'Invalid email address';
     }
   } else if (name === 'phone') {
-    const phoneRegex = /^[\d()-]{7,15}$/;
+    const phoneRegex = /^\+?[\d()-]+$/;
     if (!phoneRegex.test(value)) {
-      errorMessage = 'Invalid phone number';
+      errorMessage = 'Phone number should only contain digits, -, +,and ()';
+    } else if (value.length < 7 || value.length > 15) {
+      errorMessage = 'Phone number should be between 7 and 15 characters';
     }
   } else if (name === 'description') {
     if (value.length < 10) {
@@ -57,6 +63,24 @@ export const handleChange = (e, formData, setFormData, setErrorMessages) => {
     }
   }
 
+  setErrorMessages((prevErrors) => ({
+    ...prevErrors,
+    [name]: errorMessage
+  }));
+
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    [name]: value,
+  }));
+};
+
+export const handleLoginChange = (e, formData, setFormData, setErrorMessages) => {
+  const { name, value } = e.target;
+  let errorMessage = '';
+
+  if (name === 'email') {
+    errorMessage = 'Account with associated email does not exist!';
+  }
   setErrorMessages((prevErrors) => ({
     ...prevErrors,
     [name]: errorMessage
