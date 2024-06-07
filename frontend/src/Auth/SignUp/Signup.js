@@ -8,8 +8,6 @@ import { servicesListStyles } from '../../styles/profCompStyles';
 import { handleChange } from '../../utils/utils';
 import AuthApi from '../../Api/Services/handleAuthApi';
 
-import AuthApi from '../../Api/Services/handleAuthApi';
-
 const Signup = (props) => {
   const [isToggled, setIsToggled] = useState(false);
 
@@ -59,11 +57,8 @@ const Signup = (props) => {
 
     if (role === 'business') {
       user.phone = phone;
-      console.log(phone);
-      console.log(typeof phone)
       user.location = location;
       user.description = description;
-      console.log(user)
     }
 
     try {
