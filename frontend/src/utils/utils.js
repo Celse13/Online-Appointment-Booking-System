@@ -73,21 +73,3 @@ export const handleChange = (e, formData, setFormData, setErrorMessages) => {
     [name]: value,
   }));
 };
-
-export const handleLoginChange = (e, formData, setFormData, setErrorMessages) => {
-  const { name, value } = e.target;
-  let errorMessage = '';
-
-  if (name === 'email') {
-    errorMessage = 'Account with associated email does not exist!';
-  }
-  setErrorMessages((prevErrors) => ({
-    ...prevErrors,
-    [name]: errorMessage
-  }));
-
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    [name]: value,
-  }));
-};
