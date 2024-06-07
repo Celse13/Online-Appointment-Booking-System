@@ -22,9 +22,9 @@ const Appointments = () => {
         const role = decoded.role;
         const getAppointments = role === 'business' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
         const response = await getAppointments(token);
-        const appointments = response.appointments.map((appointment, index) => ({ // added parentheses
+        const appointments = response.appointments.map((appointment, index) => ({
           id: index + 1,
-          name: appointment.client,
+          name: `Appointment ${index + 1}`,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: new Date(appointment.dateTime).toLocaleTimeString(),
           location: appointment.service[0].location,

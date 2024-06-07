@@ -3,43 +3,78 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:5500/api';
 
 
-class ServicesApi {
-    static async createServices(services) {
+class BusinessServicesApi {
+    static async createServices(services, token) {
         try {
-            const response = await axios.post(`${BASE_URL}/business/services`, services);
+            const response = await axios.post(`${BASE_URL}/business/services`, services, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
 
-    static async getServices() {
+    static async getBusinessServices(token) {
         try {
-            const response = await axios.get(`${BASE_URL}/business/services`);
+            const response = await axios.get(`${BASE_URL}/business/services`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    static async updateServices(services, token) {
+        try {
+            const response = await axios.put(`${BASE_URL}/business/services`, services, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
 
-    static async updateServices(services) {
+    static async deleteServices(services, token) {
         try {
-            const response = await axios.put(`${BASE_URL}/business/services`, services);
+            const response = await axios.delete(`${BASE_URL}/business/services`, services, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
-
-    // static async deleteServices(services) {
-    //     try {
-    //         const response = await axios.delete(`${BASE_URL}/business/services`, services);
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
 }
 
 
-export default ServicesApi;
+class ClientServiceApi {
+    static async getClientServices(token) {
+        try {
+            const response = await axios.get(`${BASE_URL}/client/services`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            return response.data;
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export { BusinessServicesApi, ClientServiceApi };
