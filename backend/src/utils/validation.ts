@@ -16,12 +16,12 @@ class Validation {
         )
         .required(),
       role: Joi.string().valid('client', 'business').required(),
-      businessDescription: Joi.string().when('role', {
+      description: Joi.string().when('role', {
         is: 'business',
         then: Joi.required(),
         otherwise: Joi.forbidden(),
       }),
-      phoneNumber: Joi.string().when('role', {
+      phone: Joi.string().when('role', {
         is: 'business',
         then: Joi.required(),
         otherwise: Joi.forbidden(),
