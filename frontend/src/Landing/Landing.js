@@ -24,7 +24,7 @@ class Landing extends React.Component {
           </main>
           <footer>
             <hr className={css(testimonialsStyles.hr)} />
-            <section id="footer"><Footer /></section>
+            <section id="contacts"><Footer /></section>
           </footer>
         </div>
       </Fragment>
