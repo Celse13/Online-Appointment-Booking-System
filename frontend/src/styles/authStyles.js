@@ -84,6 +84,67 @@ export const signStyles = StyleSheet.create({
       textDecoration: 'underline',
     },
   },
+  verificationDiv: {
+    maxHeight: '100vh',
+    height: '100vh',
+    width: '100vw',
+    position: 'fixed',
+    zIndex: '1000',
+    top: 0,
+    right: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appColors.blackTrans,
+  },
+  verificationCard: {
+    border: `2px solid ${appColors.accentOpaque}`,
+    borderRadius: '15px',
+    height: '50vh',
+    width: '50vw',
+    maxWidth: '400px',
+    padding: '1rem',
+    backgroundColor: appColors.primaryLight,
+    color: appColors.primaryText,
+    opacity: 1,
+  },
+  verificationCardHeader: {
+    backgroundColor: appColors.primaryLight,
+    color: appColors.accentOpaque,
+    border: 'none',
+    fontSize: '2rem',
+    padding: 0,
+    display: 'flex',
+    justifyContent: 'end',
+  },
+  verificationCardHeaderClose: {
+    cursor: 'pointer',
+    ':hover': {
+      transform: 'scale(1.3)',
+    },
+  },
+  verificationCardTitle: {
+    color: appColors.accentOpaque,
+    fontSize: '1.5rem',
+    textAlign: 'center',
+  },
+  verificationCardText: {
+    color: appColors.primaryText,
+    fontSize: '1rem',
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+  verificationEmailAddress: {
+    color: appColors.accentOpaque,
+    fontWeight: '400',
+    textDecoration: 'underline',
+  },
+  verificationCardFooter: {
+    display: 'flex',
+    justifyContent: 'center',
+    border: 'none',
+    backgroundColor: appColors.primaryLight,
+  },
 });
 
 export const switchStyles = StyleSheet.create({
