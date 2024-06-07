@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, text } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserModel } from '../models/userModel';
 import JWT from '../utils/jwt';
 import bcrypt from 'bcrypt';
@@ -144,6 +144,37 @@ class AuthController {
     }
   }
 
+  static async checkEmail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: 'Email not found' });
+      }
+      return res.status(200).json({ message: 'Email exists' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async checkPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ message: 'Invalid password' });
+      } else {
+        return res.status(200).json({ message: 'Valid password' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async forgotPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const { email } = req.body;
@@ -218,9 +249,7 @@ class AuthController {
           .status(400)
           .json({ message: 'Password reset token is invalid or has expired' });
       }
-
-      const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
-      user.password = hashedPassword;
+      user.password = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
       await user.save();

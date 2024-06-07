@@ -40,7 +40,25 @@ class AuthApi {
         }
     }
 
+    static async checkEmail(email) {
+      try {
+        const response = await axios.post(`${BASE_URL}/auth/check-email`, { email });
+        console.log(response.data);
+      } catch (error) {
+        console.log('check email Err')
+        console.error(error);
+      }
+    }
 
+  static async checkPassword(email, password) {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/check-password`, { email, password });
+      console.log(response.data);
+    } catch (error) {
+      console.log('check pass Err');
+      console.error(error);
+    }
+  }
 }
 
 
