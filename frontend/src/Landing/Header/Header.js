@@ -5,6 +5,7 @@ import icon from '../../Assets/icon.png';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AlignJustify, X } from 'lucide-react';
+import { HashLink } from 'react-router-hash-link';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,12 +21,12 @@ const Header = () => {
           {menuOpen ? <X size={28} /> : <AlignJustify size={28} />}
         </Card>
         <ul className={css(headerStyles.navBarList, menuOpen && headerStyles.navBarListOpen)}>
-          <li><a href="#home" className={css(headerStyles.listItem)}>HOME</a></li>
+          <li><HashLink to="/#home" className={css(headerStyles.listItem)}>HOME</HashLink></li>
           <li><Link to="/auth" className={css(headerStyles.listItem)}>LOGIN</Link></li>
-          <li><a href="#services" className={css(headerStyles.listItem)}>SERVICES</a></li>
-          <li><a href="#about" className={css(headerStyles.listItem)}>ABOUT</a></li>
-          <li><a href="#testimonials" className={css(headerStyles.listItem)}>TESTIMONIALS</a></li>
-          <li><a href="#footer" className={css(headerStyles.listItem)}>CONTACT</a></li>
+          <li><HashLink to='/#services' className={css(headerStyles.listItem)}>SERVICES</HashLink> </li>
+          <li><HashLink to="/#about" className={css(headerStyles.listItem)}>ABOUT</HashLink></li>
+          <li><HashLink to="/#testimonials" className={css(headerStyles.listItem)}>TESTIMONIALS</HashLink></li>
+          <li><HashLink to="/#contacts" className={css(headerStyles.listItem)}>CONTACT</HashLink></li>
         </ul>
       </nav>
     </Fragment>
