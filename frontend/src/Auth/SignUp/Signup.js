@@ -63,9 +63,10 @@ const Signup = (props) => {
     }
 
     try {
-      const response = await AuthApi.signup(user);
-      const token = response.token;
-      localStorage.setItem('token', token);
+      await AuthApi.signup(user);
+      //const response = await AuthApi.signup(user);
+      //const token = response.token;
+      //localStorage.setItem('token', token);
 
       setShowVerification(true);
     } catch (error) {
@@ -75,8 +76,13 @@ const Signup = (props) => {
   }
 
   const handleProceed = () => {
-    const role = isToggled ? 'business' : 'client';
-    const path = role === 'business' ? '/profile/admin' : '/profile/client';
+    {/*
+      const role = isToggled ? 'business' : 'client';
+      const path = role === 'business' ? '/profile/admin' : '/profile/client';
+      props.navigate(path);
+      window.location.reload();
+    */}
+    const path = props.toggleLogin;
     props.navigate(path);
     window.location.reload();
   }
@@ -191,7 +197,7 @@ const Signup = (props) => {
                 className={css(signStyles.verificationCardTitle)}>VERIFICATION</Card.Title>
               <Card.Text className={css(signStyles.verificationCardText)}>
                 Account verification email has been sent to your email address: <br /><span
-                className={css(signStyles.verificationEmailAddress)}> {formData.email}. Email@example.com</span><br /> Please
+                className={css(signStyles.verificationEmailAddress)}> {formData.email}.</span><br /> Please
                 verify your account to proceed.
               </Card.Text>
             </Card.Body>
@@ -202,7 +208,6 @@ const Signup = (props) => {
         </div>
       )}
     </Fragment>
-
   );
 }
 
