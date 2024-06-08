@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import ServiceModel, { serviceCategories } from '../models/serviceModel';
+import ServiceModel from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class ServiceController {
@@ -18,6 +18,7 @@ class ServiceController {
         serviceLocation,
         workingHours,
         serviceDays,
+        serviceDescription,
       } = req.body;
 
       const business = (await BusinessModel.findOne({
@@ -41,8 +42,11 @@ class ServiceController {
         serviceLocation,
         workingHours,
         serviceDays,
+        categoryId,
+        serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
+
 
       await service.save();
       res
@@ -83,6 +87,15 @@ class ServiceController {
       res
         .status(200)
         .json({ message: 'Services fetched successfully', services });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { categoryId } = req.body
+      const services = await ServiceModel.find({categoryId: categoryId});
+      res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
     }

@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 const appointmentControllerPath: OpenAPIV3.PathsObject = {
-  '/appointments': {
+  '/client/appointments': {
     post: {
       summary: 'Create a new appointment',
       tags: ['Appointments'],

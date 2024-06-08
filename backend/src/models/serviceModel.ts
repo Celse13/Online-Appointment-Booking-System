@@ -70,6 +70,11 @@ const serviceSchema = new mongoose.Schema({
       max: 59,
       required: true,
     },
+    startPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
+      required: true,
+    },
     endHour: {
       type: Number,
       min: 0,
@@ -80,6 +85,11 @@ const serviceSchema = new mongoose.Schema({
       type: Number,
       min: 0,
       max: 59,
+      required: true,
+    },
+    endPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
       required: true,
     },
   },
@@ -103,17 +113,6 @@ const serviceSchema = new mongoose.Schema({
     ],
   }
 });
-
-serviceSchema.pre('save', async function (next) {
-  const service = this as mongoose.Document & {
-    business: mongoose.Types.ObjectId;
-  };
-  await mongoose
-    .model('Business')
-    .updateOne({ _id: service.business }, { $push: { services: service._id } });
-  next();
-});
-
 
 serviceSchema.pre('save', async function (next) {
   const service = this as mongoose.Document & {
