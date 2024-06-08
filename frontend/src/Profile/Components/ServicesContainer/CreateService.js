@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, InputGroup } from 'react-bootstrap';
-import { serviceCategoriesData } from './servicesData';
+import { serviceCategoriesFilter } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
 
@@ -62,7 +62,7 @@ const CreateService = () => {
           endPeriod: formatPeriod(formData.closingTime),
         },
         serviceDays: formData.serviceDays,
-        
+
       };
       console.log(serviceData);
       const response = await BusinessServicesApi.createServices(serviceData, token);
@@ -112,7 +112,7 @@ const CreateService = () => {
             onChange={handleChange}
             required>
             <option value="" disabled>Select service category</option>
-            {serviceCategoriesData.map(category => (
+            {serviceCategoriesFilter.map(category => (
               <option
                 key={category.id}
                 value={category.category}>

@@ -3,7 +3,7 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import services from '../../assets/services.png';
 import { css } from 'aphrodite';
 import { servicesStyles } from '../../styles/landingStyles';
-import { serviceCategoriesData } from '../../Profile/Components/ServicesContainer/servicesData';
+import { serviceCategoriesFilter } from '../../Profile/Components/ServicesContainer/servicesData';
 
 class Services extends React.Component {
   render() {
@@ -18,7 +18,7 @@ class Services extends React.Component {
           </Col>
           <Col md={6}>
             <div className={css(servicesStyles.gridContainer)}>
-              {serviceCategoriesData.map((service) => (
+              {serviceCategoriesFilter.map((service) => (
                 <Card
                   key={service.id}
                   className={css(servicesStyles.gridContainerCard)}>
