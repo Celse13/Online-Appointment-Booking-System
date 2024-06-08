@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormControl, FormGroup, FormLabel, } from 'react-bootstrap';
 import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
-import { servicesListData } from './servicesData';
 import { getCurrentDate } from '../../../utils/utils';
+import { fetchServicesByCategory } from '../../../Api/Services/handleServicesApi';
 
 const initializeFormData = (service) => ({
   serviceName: service ? service.serviceName : '',
-  servicePrice: service ? service.cost : '',
-  serviceDuration: service ? service.duration : '',
+  servicePrice: service ? service.servicePrice : '',
+  serviceDuration: service ? service.serviceDuration : '',
   time: '',
   date: '',
-  openingTime: service ? service.openingTime : '',
-  closingTime: service ? service.closingTime : '',
+  serviceLocation: service ? service.serviceLocation : '',
+  openingTime: service ? service.workingHours.startHour + ':' + service.workingHours.startMinute : '',
+  closingTime: service ? service.workingHours.endHour + ':' + service.workingHours.endMinute : '',
   serviceDays: service ? service.serviceDays : [],
 });
 
@@ -40,13 +41,26 @@ const checkTimeDateError = (name, value, formData) => {
   return '';
 };
 const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected }) => {
-  const filteredServices = servicesListData
-    .filter((service) => service.categoryId === selectedCategoryId
-  );
-
+  const [services, setServices] = useState([]);
   const [formData, setFormData] = useState(initializeFormData());
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const fetchedServices = await fetchServicesByCategory(selectedCategoryId, token);
+        setServices(fetchedServices);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        console.error('Error fetching services: IS IT HERE??');
+      }
+    };
+
+    fetchServices()
+      .then(() => {});
+  }, [selectedCategoryId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,18 +99,18 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
       </Card>
       <h1>{selectedCategoryName} Service Providers</h1>
       <Container className={css(servicesListStyles.container)}>
-        {filteredServices.length > 0 ? (
-          filteredServices.map((service) => (
+        {services.length > 0 ? (
+          services.map((service) => (
             <Card key={service.id} className={css(servicesListStyles.card)}>
               <CardHeader className={css(servicesListStyles.header)}>
                 <h3>{service.serviceName}</h3>
               </CardHeader>
               <CardBody className={css(servicesListStyles.body)}>
                 <div className={css(servicesListStyles.bodyDiv)}>
-                  <h6>Duration: {service.duration}</h6>
-                  <h6>Cost: {service.cost}</h6>
-                  <h6>Time: {service.openingTime} - {service.closingTime}</h6>
-                  <h6>Location: {service.location}</h6>
+                  <h6>Duration: {service.serviceDuration} min</h6>
+                  <h6>Cost: ${service.servicePrice}</h6>
+                  <h6>Time: {service.workingHours.startHour}:{service.workingHours.startMinute} - {service.workingHours.endHour}:{service.workingHours.endMinute}</h6>
+                  <h6>Location: {service.serviceLocation}</h6>
                   <h6>Days: {service.serviceDays.join(',\n')}</h6>
                 </div>
               </CardBody>
