@@ -33,6 +33,6 @@ const SidebarItems = [
   { icon: <Bell />, text: "Notifications", alert: true },
 ];
 
-const Admin = renderComponents(ComponentMap, SidebarItems, "HOME SPA", 'admin');
+const Admin = renderComponents(ComponentMap, SidebarItems, "", 'admin');
 
 export default Admin;

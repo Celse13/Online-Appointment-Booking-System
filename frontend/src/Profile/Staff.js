@@ -17,5 +17,5 @@ const SidebarItems = [
   { icon: <Bell />, text: "Notifications", alert: true }
 ];
 
-const Staff = renderComponents(ComponentMap, SidebarItems, "HOME SPA");
+const Staff = renderComponents(ComponentMap, SidebarItems, "");
 export default Staff;

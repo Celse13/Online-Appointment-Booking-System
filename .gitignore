@@ -1,11 +1,6 @@
 .idea/
 /*/package-lock.json
 /frontend/dist/bundle.js
-<<<<<<<< HEAD:.gitignore
 /backend/node_modules/
 /backend/.env
-========
-/.env
 /package-lock.json
-/node_modules/
->>>>>>>> refs/heads/backend:backend/.gitignore

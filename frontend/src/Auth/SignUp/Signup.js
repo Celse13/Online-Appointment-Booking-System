@@ -4,29 +4,27 @@ import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { Switch } from '../Switch';
 import { Lock, Mail, Phone, Pin, UserRound, UserRoundCog } from 'lucide-react';
-import axios from 'axios';
 import { servicesListStyles } from '../../styles/profCompStyles';
 import { handleChange } from '../../utils/utils';
-
 import AuthApi from '../../Api/Services/handleAuthApi';
 
 const Signup = (props) => {
   const [isToggled, setIsToggled] = useState(false);
 
-  const [errorMessages, setErrorMessages] = useState({
-    name,
+  const initializeFormData = {
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+  };
+  const [errorMessages, setErrorMessages] = useState({
+    ...initializeFormData,
     phone: '',
     description: ''
   });
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    ...initializeFormData,
     role: '',
     phone: isToggled ? '' : null,
     location: isToggled ? '' : null,
@@ -59,11 +57,8 @@ const Signup = (props) => {
 
     if (role === 'business') {
       user.phone = phone;
-      console.log(phone);
-      console.log(typeof phone)
       user.location = location;
       user.description = description;
-      console.log(user)
     }
 
     try {
