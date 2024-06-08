@@ -31,14 +31,10 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  serviceDuration: [
-    {
-      type: Number,
-      min: 15,
-      max: 480,
-      required: true,
-    },
-  ],
+  serviceDuration: {
+    type: Number,
+    required: true,
+  },
   servicePrice: {
     type: Number,
     required: true,
