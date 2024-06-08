@@ -13,8 +13,8 @@ class ServiceController {
       const {
         serviceName,
         serviceDuration,
-        serviceCost,
-        serviceCategoryId,
+        servicePrice,
+        categoryId,
         serviceLocation,
         workingHours,
         serviceDays,
@@ -28,7 +28,7 @@ class ServiceController {
         return res.status(404).json({ message: 'Business not found' });
       }
 
-      const category = serviceCategories.find((cat: { id: number; }) => cat.id === serviceCategoryId);
+      const category = serviceCategories.find((cat: { id: number; }) => cat.id === categoryId);
       if (!category) {
         return res.status(400).json({ message: 'Invalid category ID' });
       }
@@ -36,16 +36,15 @@ class ServiceController {
       const service = new ServiceModel({
         serviceName,
         serviceDuration,
-        serviceCost,
-        serviceCategoryName: category.name,
-        serviceCategoryId,
+        servicePrice,
+        categoryName: category.name,
+        categoryId,
         serviceLocation,
         workingHours,
         serviceDays,
         serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
-
 
       await service.save();
       res
@@ -92,8 +91,8 @@ class ServiceController {
   }
   static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
     try {
-      const { categoryId } = req.body
-      const services = await ServiceModel.find({categoryId: categoryId});
+      const { categoryId } = req.params;
+      const services = await ServiceModel.find({categoryId: Number(categoryId)});
       res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
