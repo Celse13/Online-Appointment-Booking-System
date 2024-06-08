@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import ServiceModel from '../models/serviceModel';
+import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class ServiceController {
@@ -42,7 +42,6 @@ class ServiceController {
         serviceLocation,
         workingHours,
         serviceDays,
-        categoryId,
         serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });

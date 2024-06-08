@@ -31,7 +31,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  durations: [
+  serviceDuration: [
     {
       type: Number,
       min: 15,
@@ -39,7 +39,7 @@ const serviceSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  cost: {
+  servicePrice: {
     type: Number,
     required: true,
   },
@@ -53,7 +53,7 @@ const serviceSchema = new mongoose.Schema({
     required: true,
     enum: serviceCategories.map(category => category.id),
   },
-  location: {
+  serviceLocation: {
     type: String,
     required: true,
   },
