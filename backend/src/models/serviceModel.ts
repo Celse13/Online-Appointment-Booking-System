@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
-export const serviceCategoriesData = [
-  'Health',
-  'Fitness',
-  'Consultation',
-  'Salon And Barber',
-  'Massage And Spa',
-  'Counselling',
-  'Tuition',
-  'Other',
+export const serviceCategories = [
+  { id: 1, name: 'Health' },
+  { id: 2, name: 'Fitness' },
+  { id: 3, name: 'Consultation' },
+  { id: 4, name: 'Salon And Barber' },
+  { id: 5, name: 'Massage And Spa' },
+  { id: 6, name: 'Counselling' },
+  { id: 7, name: 'Tuition' },
+  { id: 8, name: 'Other' },
 ];
 
 const serviceDaysData = [
@@ -31,22 +31,23 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  serviceDuration: [
-    {
-      type: Number,
-      min: 15,
-      max: 480,
-      required: true,
-    },
-  ],
+  serviceDuration: {
+    type: Number,
+    required: true,
+  },
   servicePrice: {
     type: Number,
     required: true,
   },
-  serviceCategory: {
+  categoryName: {
     type: String,
     required: true,
-    enum: serviceCategoriesData,
+    enum: serviceCategories.map(category => category.name),
+  },
+  categoryId: {
+    type: Number,
+    required: true,
+    enum: serviceCategories.map(category => category.id),
   },
   serviceLocation: {
     type: String,
@@ -56,7 +57,7 @@ const serviceSchema = new mongoose.Schema({
     startHour: {
       type: Number,
       min: 0,
-      max: 12,
+      max: 23,
       required: true,
     },
     startMinute: {
@@ -73,7 +74,7 @@ const serviceSchema = new mongoose.Schema({
     endHour: {
       type: Number,
       min: 0,
-      max: 12,
+      max: 23,
       required: true,
     },
     endMinute: {
@@ -105,12 +106,8 @@ const serviceSchema = new mongoose.Schema({
         return value.length >= 10 && value.length <= 500;
       },
       'The service description should be between 10 and 500 characters.',
-    ], 
-  },
-  categoryId: {
-    type: Number,
-    required: true,
-  },
+    ],
+  }
 });
 
 serviceSchema.pre('save', async function (next) {

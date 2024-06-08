@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import ServiceModel from '../models/serviceModel';
+import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
-import { serviceCategoriesData } from '../models/serviceModel';
 
 class ServiceController {
   static async createService(req: Request, res: Response, next: NextFunction) {
@@ -15,13 +14,13 @@ class ServiceController {
         serviceName,
         serviceDuration,
         servicePrice,
-        serviceCategory,
+        categoryId,
         serviceLocation,
         workingHours,
         serviceDays,
         serviceDescription,
       } = req.body;
-      const categoryId = serviceCategoriesData.findIndex(category => category === serviceCategory) + 1;
+
       const business = (await BusinessModel.findOne({
         owner: userId,
       })) as IBusiness;
@@ -29,19 +28,23 @@ class ServiceController {
         return res.status(404).json({ message: 'Business not found' });
       }
 
+      const category = serviceCategories.find((cat: { id: number; }) => cat.id === categoryId);
+      if (!category) {
+        return res.status(400).json({ message: 'Invalid category ID' });
+      }
+
       const service = new ServiceModel({
         serviceName,
         serviceDuration,
         servicePrice,
-        serviceCategory,
+        categoryName: category.name,
+        categoryId,
         serviceLocation,
         workingHours,
         serviceDays,
-        categoryId,
         serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
-
 
       await service.save();
       res
@@ -88,8 +91,8 @@ class ServiceController {
   }
   static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
     try {
-      const { categoryId } = req.body
-      const services = await ServiceModel.find({categoryId: categoryId});
+      const { categoryId } = req.params;
+      const services = await ServiceModel.find({categoryId: Number(categoryId)});
       res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
@@ -105,7 +108,7 @@ class ServiceController {
       const business = (await BusinessModel.findOne({
         owner: userId,
       })) as IBusiness;
-      
+
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }

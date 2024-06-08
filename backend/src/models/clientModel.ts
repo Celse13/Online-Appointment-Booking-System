@@ -13,7 +13,11 @@ const clientSchema = new mongoose.Schema<IClient>({
     ref: 'User',
     required: true,
   },
-  appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' }],
+  appointments: [
+    { type: mongoose.Schema.Types.ObjectId,
+      ref: 'Appointment'
+    }
+  ],
 });
 
 const ClientModel = mongoose.model<IClient>('Client', clientSchema);

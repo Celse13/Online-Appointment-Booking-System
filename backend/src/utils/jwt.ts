@@ -13,7 +13,7 @@ class JWT {
     role: string,
   ): string {
     return jwt.sign({ _id, email, username, role }, SECRET_KEY, {
-      expiresIn: '1h',
+      expiresIn: '1d',
     });
   }
 }

@@ -46,7 +46,7 @@ const servicePath: OpenAPIV3.PathsObject = {
                 'serviceName',
                 'durations',
                 'cost',
-                'category',
+                'categoryId',
                 'location',
                 'workingHours',
                 'serviceDays',

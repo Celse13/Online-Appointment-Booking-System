@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, text } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserModel } from '../models/userModel';
 import JWT from '../utils/jwt';
 import bcrypt from 'bcrypt';
@@ -83,11 +83,16 @@ class AuthController {
           }
         },
       );
-
+      const token = JWT.generateJwt(
+        String(user._id),
+        user.email,
+        user.name,
+        user.role,
+      );
       res.status(201).json({
         ok: true,
         message:
-          'Signed up successfully. Please verify your account before logging in.',
+          'Signed up successfully. Please verify your account before logging in.', token,
       });
     } catch (error) {
       next(error);
@@ -139,6 +144,55 @@ class AuthController {
         user.role,
       );
       res.status(200).json({ message: 'Logged in successfully', token });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async checkEmail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: 'Email not found' });
+      }
+      return res.status(200).json({ message: 'Email exists' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async checkPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ message: 'Invalid password' });
+      } else {
+        return res.status(200).json({ message: 'Valid password' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async checkVerification(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const user = await UserModel.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      if (user.isVerified) {
+        return res.status(200).json({ message: 'User is verified' });
+      } else {
+        return res.status(400).json({ message: 'User is not verified' });
+      }
     } catch (error) {
       next(error);
     }
@@ -218,9 +272,7 @@ class AuthController {
           .status(400)
           .json({ message: 'Password reset token is invalid or has expired' });
       }
-
-      const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
-      user.password = hashedPassword;
+      user.password = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
       await user.save();

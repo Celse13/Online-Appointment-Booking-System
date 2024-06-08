@@ -36,7 +36,7 @@ businessRouter.get(
 // Client routes
 
 clientRouter.get(
-  '/',
+  '/category/:categoryId',
   authenticate,
   checkRole(['client', 'staff']),
   ServiceController.getServicesByCategory,
