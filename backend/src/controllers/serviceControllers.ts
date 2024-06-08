@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import ServiceModel from '../models/serviceModel';
+import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class ServiceController {
@@ -12,10 +12,10 @@ class ServiceController {
     try {
       const {
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        serviceCost,
+        serviceCategoryId,
+        serviceLocation,
         workingHours,
         serviceDays,
       } = req.body;
@@ -27,12 +27,18 @@ class ServiceController {
         return res.status(404).json({ message: 'Business not found' });
       }
 
+      const category = serviceCategories.find((cat: { id: number; }) => cat.id === serviceCategoryId);
+      if (!category) {
+        return res.status(400).json({ message: 'Invalid category ID' });
+      }
+
       const service = new ServiceModel({
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        serviceCost,
+        serviceCategoryName: category.name,
+        serviceCategoryId,
+        serviceLocation,
         workingHours,
         serviceDays,
         business: business._id as mongoose.Types.ObjectId,
@@ -91,7 +97,7 @@ class ServiceController {
       const business = (await BusinessModel.findOne({
         owner: userId,
       })) as IBusiness;
-      
+
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
