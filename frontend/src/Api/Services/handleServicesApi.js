@@ -60,9 +60,9 @@ class BusinessServicesApi {
 
 
 class ClientServiceApi {
-    static async getClientServices(token) {
+    static async getServicesByCategory(token, categoryId) {
         try {
-            const response = await axios.get(`${BASE_URL}/client/services`, {
+            const response = await axios.get(`${BASE_URL}/client/services`, categoryId, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

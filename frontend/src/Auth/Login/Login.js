@@ -15,7 +15,8 @@ const Login = (props) => {
 
     const user = {
       email,
-      password
+      password,
+      
     }
     console.log(user);
     try {
