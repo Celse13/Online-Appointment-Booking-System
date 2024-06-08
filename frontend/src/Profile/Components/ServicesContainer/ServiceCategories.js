@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { servicesCategoriesStyles } from '../../../styles/profCompStyles';
-import { serviceCategoriesData } from './servicesData';
+import { serviceCategoriesFilter } from './servicesData';
 
 const ServiceCategories = ({ onSelectCategory }) => {
   return (
@@ -10,7 +10,7 @@ const ServiceCategories = ({ onSelectCategory }) => {
       <h1>SERVICES</h1>
       <Row>
         <div className={css(servicesCategoriesStyles.gridContainer)}>
-          {serviceCategoriesData.map((service) => (
+          {serviceCategoriesFilter.map((service) => (
             <Card
               key={service.id}
               className={css(servicesCategoriesStyles.gridContainerCard)}
