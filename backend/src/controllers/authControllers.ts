@@ -20,7 +20,7 @@ class AuthController {
         password,
         role,
         businessDescription,
-        phoneNumber,
+        phone,
         location,
       } = req.body;
       const existingEmail = await UserModel.findOne({ email });
@@ -50,7 +50,7 @@ class AuthController {
         const business = new BusinessModel({
           owner: user._id,
           businessDescription,
-          phoneNumber,
+          phone,
           location,
         });
         await business.save();

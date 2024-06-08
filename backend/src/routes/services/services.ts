@@ -29,7 +29,7 @@ businessRouter.delete(
 businessRouter.get(
   '/',
   authenticate,
-  checkRole(['business', 'client', 'staff']),
+  checkRole(['business', 'staff']),
   ServiceController.getBusinessServices,
 );
 
@@ -38,8 +38,8 @@ businessRouter.get(
 clientRouter.get(
   '/',
   authenticate,
-  checkRole(['business', 'client', 'staff']),
-  ServiceController.getServices,
+  checkRole(['client', 'staff']),
+  ServiceController.getServicesByCategory,
 );
 clientRouter.get(
   '/:id',

@@ -5,6 +5,17 @@ import ServiceModel from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class AppointmentController {
+  static convertTo24Hour(time: string) {
+    const [hour, minute] = time.split(':');
+    let hours = parseInt(hour);
+    const isPM = time.match('PM');
+    if (hours === 12) {
+      return `${isPM ? hours : hours - 12}:${minute}`;
+    } else {
+      return `${isPM ? hours + 12 : hours}:${minute}`;
+    }
+  }
+
   static async createAppointment(
     req: Request,
     res: Response,
@@ -25,7 +36,8 @@ class AppointmentController {
 
       // Get the date and time from the request body
       const { date, time } = req.body;
-      const dateTime = new Date(`${date}T${time}`);
+      const time24 = AppointmentController.convertTo24Hour(time);
+      const dateTime = new Date(`${date} ${time}`);
       // Check for existing appointments at the requested time
       const existingAppointment = await AppointmentModel.findOne({
         dateTime,
@@ -44,9 +56,10 @@ class AppointmentController {
         dateTime,
         service: [
           {
-            id: service._id,
+            _id: service._id,
             name: service.serviceName,
-            cost: service.cost,
+            location: service.serviceLocation,
+            cost: service.servicePrice
           },
         ],
       });
@@ -121,18 +134,16 @@ class AppointmentController {
     try {
       const business = (await BusinessModel.findOne({
         owner: userId,
-      })) as IBusiness;
+      }).populate('appointments')) as IBusiness;
 
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
 
-      const appointments = await AppointmentModel.find({
-        'service.business': business._id,
-      });
+    
       res
         .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments });
+        .json({ message: 'Appointments fetched successfully', appointments: business.appointments });
     } catch (error) {
       next(error);
     }
@@ -172,6 +183,50 @@ class AppointmentController {
       next(error);
     }
   }
+
+
+  static async updateAppointment(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { date, time } = req.body;
+      const dateTime = new Date(`${date}T${time}`);
+      const appointment = await AppointmentModel.findByIdAndUpdate(
+        req.params.id,
+        { ...req.body, dateTime },
+        { new: true },
+      );
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+      res
+        .status(200)
+        .json({ message: 'Appointment updated successfully', appointment });
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+  static async deleteAppointment(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const appointment = await AppointmentModel.findByIdAndDelete(req.params.id);
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+      res
+        .status(200)
+        .json({ message: 'Appointment deleted successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 export default AppointmentController;
