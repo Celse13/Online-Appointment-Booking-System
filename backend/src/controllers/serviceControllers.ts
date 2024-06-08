@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import ServiceModel from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
+import { serviceCategoriesData } from '../models/serviceModel';
 
 class ServiceController {
   static async createService(req: Request, res: Response, next: NextFunction) {
@@ -20,7 +21,7 @@ class ServiceController {
         serviceDays,
         serviceDescription,
       } = req.body;
-
+      const categoryId = serviceCategoriesData.findIndex(category => category === serviceCategory) + 1;
       const business = (await BusinessModel.findOne({
         owner: userId,
       })) as IBusiness;
@@ -36,9 +37,11 @@ class ServiceController {
         serviceLocation,
         workingHours,
         serviceDays,
+        categoryId,
         serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
+
 
       await service.save();
       res
@@ -79,6 +82,15 @@ class ServiceController {
       res
         .status(200)
         .json({ message: 'Services fetched successfully', services });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { categoryId } = req.body
+      const services = await ServiceModel.find({categoryId: categoryId});
+      res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
     }

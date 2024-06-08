@@ -39,7 +39,7 @@ clientRouter.get(
   '/',
   authenticate,
   checkRole(['client', 'staff']),
-  ServiceController.getServices,
+  ServiceController.getServicesByCategory,
 );
 clientRouter.get(
   '/:id',

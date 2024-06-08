@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const serviceCategoriesData = [
+export const serviceCategoriesData = [
   'Health',
   'Fitness',
   'Consultation',
@@ -56,7 +56,7 @@ const serviceSchema = new mongoose.Schema({
     startHour: {
       type: Number,
       min: 0,
-      max: 23,
+      max: 12,
       required: true,
     },
     startMinute: {
@@ -65,16 +65,26 @@ const serviceSchema = new mongoose.Schema({
       max: 59,
       required: true,
     },
+    startPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
+      required: true,
+    },
     endHour: {
       type: Number,
       min: 0,
-      max: 23,
+      max: 12,
       required: true,
     },
     endMinute: {
       type: Number,
       min: 0,
       max: 59,
+      required: true,
+    },
+    endPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
       required: true,
     },
   },
@@ -96,7 +106,11 @@ const serviceSchema = new mongoose.Schema({
       },
       'The service description should be between 10 and 500 characters.',
     ], 
-  }
+  },
+  categoryId: {
+    type: Number,
+    required: true,
+  },
 });
 
 serviceSchema.pre('save', async function (next) {
