@@ -140,7 +140,7 @@ class AppointmentController {
         return res.status(404).json({ message: 'Business not found' });
       }
 
-    
+
       res
         .status(200)
         .json({ message: 'Appointments fetched successfully', appointments: business.appointments });
@@ -159,15 +159,18 @@ class AppointmentController {
       return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
-      const client = await ClientModel.findOne({ client: userId });
+      const client = (await ClientModel.findOne({
+        client: userId,
+
+      }).populate('appointments')) as any;
+
       if (!client) {
-        return res.status(404).json({ message: 'Client not found' });
+        return res.status(200).json({ message: 'No appointments found', appointments: [] });
       }
 
-      const appointments = await AppointmentModel.find({ client: client._id });
       res
         .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments });
+        .json({ message: 'Appointments fetched successfully', appointments: client.appointments  });
     } catch (error) {
       next(error);
     }
@@ -208,7 +211,7 @@ class AppointmentController {
       next(error);
     }
   }
-  
+
   static async deleteAppointment(
     req: Request,
     res: Response,
