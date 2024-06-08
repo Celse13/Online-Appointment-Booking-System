@@ -63,6 +63,7 @@ class ClientAppointments {
     static async createAppointment(appointments) {
         try {
             const response = await axios.post(`${BASE_URL}/client/appointments`, appointments);
+            console.log(response.data);
         } catch (error){
             console.error(error);
         }
