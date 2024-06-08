@@ -8,7 +8,6 @@ import Tuition from '../../../Assets/Tuition.png';
 import Other from '../../../Assets/Other.png';
 import { ClientServiceApi } from '../../../Api/Services/handleServicesApi';
 
-
 export const serviceCategoriesData = [
   { id: 1, category: 'Health', image: Health },
   { id: 2, category: 'Fitness', image: Fitness },
@@ -25,27 +24,23 @@ export const servicesListData = [
 ];
 
 
-
-
 const getServices = async (token, categoryId) => {
   try {
     const response = await ClientServiceApi.getServicesByCategory(token, categoryId);
     console.log(response);
     const services = response.services;
 
-    const mappedServices = services.map(service => ({
+    return services.map(service => ({
       id: service._id,
       categoryId: service.categoryId,
       serviceName: service.serviceName,
-      duration: service.serviceDuration[0] + ' minutes', 
+      duration: service.serviceDuration[0] + ' minutes',
       cost: service.servicePrice,
       openingTime: `${service.workingHours.startHour}:${service.workingHours.startMinute} ${service.workingHours.startPeriod}`,
       closingTime: `${service.workingHours.endHour}:${service.workingHours.endMinute} ${service.workingHours.endPeriod}`,
       location: service.serviceLocation,
       serviceDays: service.serviceDays,
     }));
-
-    return mappedServices;
   } catch (error) {
     console.error(error);
   }
