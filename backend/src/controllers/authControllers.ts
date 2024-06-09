@@ -282,6 +282,24 @@ class AuthController {
       next(error);
     }
   }
+
+  static async getUserData(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.userId;
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const userData = {
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      };
+      res.status(200).json(userData);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default AuthController;
