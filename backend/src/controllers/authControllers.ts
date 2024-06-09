@@ -290,11 +290,12 @@ class AuthController {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      const userData = {
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      };
+      const userData = JWT.generateJwt(
+        String(user._id),
+        user.email,
+        user.name,
+        user.role,
+      );
       res.status(200).json(userData);
     } catch (error) {
       next(error);
