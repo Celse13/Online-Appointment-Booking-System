@@ -14,8 +14,8 @@ const initializeFormData = (service) => ({
   time: '',
   date: '',
   serviceLocation: service ? service.serviceLocation : '',
-  openingTime: service ? service.workingHours.startHour + ':' + service.workingHours.startMinute : '',
-  closingTime: service ? service.workingHours.endHour + ':' + service.workingHours.endMinute : '',
+  openingTime: service ? `${service.workingHours.startHour}:${service.workingHours.startMinute} ${service.workingHours.startPeriod}` : '',
+  closingTime: service ? `${service.workingHours.endHour}:${service.workingHours.endMinute} ${service.workingHours.endPeriod}` : '',
   serviceDays: service ? service.serviceDays : [],
 });
 
