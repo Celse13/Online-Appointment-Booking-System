@@ -147,11 +147,19 @@ export const myProfileStyles = StyleSheet.create({
   },
   myServicesDiv: {
     overflowY: 'auto',
+    padding: '1rem',
   },
   myServicesItem: {
     display: 'flex',
     marginBottom: '1rem',
     justifyContent: 'space-between',
+  },
+  resetPass: {
+    color: appColors.accentOpaque,
+    cursor: 'pointer',
+    ':hover': {
+      color: appColors.dusty,
+    },
   },
 });
 
