@@ -1,22 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, CardHeader, Container } from 'react-bootstrap';
 import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { myProfileStyles } from '../../styles/profCompStyles';
-import { servicesListData } from './ServicesContainer/servicesData';
+import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
 
 const Profile = ({ userType }) => {
   const isClient = userType === 'client';
   const isAdmin = userType === 'admin';
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await BusinessServicesApi.getBusinessServices(token);
+        const servicesData = response.services;
+        if (Array.isArray(servicesData)) {
+          setServices(servicesData);
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      }
+    };
+
+    if (isAdmin) {
+      fetchServices()
+        . then();
+    }
+  }, [isAdmin]);
 
   const renderMyServices = () => {
-    return servicesListData.map((service) => (
-      <div className={css(myProfileStyles.myServicesItem)}>
-        <h6 key={service.id}>{service.serviceName}</h6>
+    return services.map((service) => (
+      <div key={service._id} className={css(myProfileStyles.myServicesItem)}>
+        <h6>{service.serviceName}</h6>
         <Button variant='danger'>Delete</Button>
       </div>
     ));
   };
+
   return (
     <Container>
       <Container className={css(isClient && myProfileStyles.clientContainer, isAdmin && myProfileStyles.adminContainer)}>
@@ -39,7 +61,7 @@ const Profile = ({ userType }) => {
           <Container className={css(myProfileStyles.myServices)}>
             <h2>My Services</h2>
             <div className={css(myProfileStyles.myServicesDiv)}>
-              {renderMyServices()}
+              {services.length > 0 ? renderMyServices() : <h6>No services available</h6>}
             </div>
           </Container>
         )}
