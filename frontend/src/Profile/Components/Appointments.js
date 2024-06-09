@@ -24,7 +24,7 @@ const Appointments = () => {
         const response = await getAppointments(token);
         const appointments = response.appointments.map((appointment, index) => ({
           id: index + 1,
-          name: `Appointment ${index + 1}`,
+          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.serviceName}` ,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: new Date(appointment.dateTime).toLocaleTimeString(),
           location: appointment.service[0].location,
@@ -39,7 +39,8 @@ const Appointments = () => {
       setIsLoading(false);
     };
 
-    fetchAppointments();
+    fetchAppointments()
+      .then();
   }, []);
 
   const toggleDetails = (index) => {
