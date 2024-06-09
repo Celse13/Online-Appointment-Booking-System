@@ -160,7 +160,7 @@ export const appointmentStyles = StyleSheet.create({
     height: 'fit-content',
   },
   listContainer: {
-    border: `2px solid ${appColors.accent}`,
+    border: "none",
     borderRadius: '25px',
     padding: '1rem',
     width: '80vw',
@@ -285,7 +285,7 @@ export const servicesCategoriesStyles = StyleSheet.create({
 
 export const servicesListStyles = StyleSheet.create({
   container: {
-    border: `2px solid ${appColors.accent}`,
+    border: 'none',
     borderRadius: '25px',
     padding: '1rem',
     width: '80vw',

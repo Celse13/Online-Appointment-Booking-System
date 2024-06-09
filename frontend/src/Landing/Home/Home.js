@@ -10,7 +10,8 @@ class Home extends React.Component {
       <Container className={css(homeStyles.homeContainer)}>
         <Row>
           <Col md={6} className={css(homeStyles.sloganDiv)}>
-            <h1 className={css(homeStyles.slogan)}><em className={css(homeStyles.sloganEm)}>SCHEDULR</em> your number 1 appointment maker</h1>
+            <h1 className={css(homeStyles.slogan)}><em className={css(homeStyles.sloganEm)}>SCHEDULR</em> Where Quality Service Meets Convenience
+            </h1>
           </Col>
           <Col md={6}>
             <Card className={css(homeStyles.homeCard)}>
