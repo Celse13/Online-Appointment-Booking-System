@@ -17,7 +17,7 @@ class BusinessServicesApi {
         }
     }
 
-    static async getBusinessServices(token) {
+    /*static async getBusinessServices(token) {
         try {
             const response = await axios.get(`${BASE_URL}/business/services`, {
                 headers: {
@@ -74,7 +74,24 @@ class ClientServiceApi {
             console.log(error);
         }
     }
+  }*/
 }
 
+export const fetchServicesByCategory = async (categoryId, token) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/client/services/category/${categoryId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(token);
+    return response.data.services;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    console.log('Error fetching services: IS or HERE!!!!');
+    throw error;
+  }
+};
 
-export { BusinessServicesApi, ClientServiceApi };
+
+export { BusinessServicesApi/*, ClientServiceApi */};

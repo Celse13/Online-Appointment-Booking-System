@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 
 
 const Login = (props) => {
-  const initializeFormData = { email: '', password: '' }
+  const initializeFormData = { email: '', password: '', form: 'Login with a verified account'}
   const [errorMessages, setErrorMessages] = useState({ ...initializeFormData });
   const [formData, setFormData] = useState({ ...initializeFormData });
 

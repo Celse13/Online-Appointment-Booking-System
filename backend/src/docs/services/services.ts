@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 const servicePath: OpenAPIV3.PathsObject = {
-  '/service': {
+  '/client/services': {
     post: {
       security: [{ bearerAuth: [] }],
       tags: ['Service'],
@@ -46,7 +46,7 @@ const servicePath: OpenAPIV3.PathsObject = {
                 'serviceName',
                 'durations',
                 'cost',
-                'category',
+                'categoryId',
                 'location',
                 'workingHours',
                 'serviceDays',

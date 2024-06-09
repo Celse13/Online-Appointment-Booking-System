@@ -7,7 +7,7 @@ class AuthApi {
     static async signup(userData) {
         try {
             const response = await axios.post(`${BASE_URL}/auth/signup`, userData);
-            console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -56,6 +56,15 @@ class AuthApi {
       console.log(response.data);
     } catch (error) {
       console.log('check pass Err');
+      console.error(error);
+    }
+  }
+
+  static async checkVerificationStatus(email) {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/check-verification`, { email });
+      return response.data;
+    } catch (error) {
       console.error(error);
     }
   }

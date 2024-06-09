@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import ServiceModel from '../models/serviceModel';
+import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
 class ServiceController {
@@ -12,12 +12,13 @@ class ServiceController {
     try {
       const {
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        servicePrice,
+        categoryId,
+        serviceLocation,
         workingHours,
         serviceDays,
+        serviceDescription,
       } = req.body;
 
       const business = (await BusinessModel.findOne({
@@ -27,14 +28,21 @@ class ServiceController {
         return res.status(404).json({ message: 'Business not found' });
       }
 
+      const category = serviceCategories.find((cat: { id: number; }) => cat.id === categoryId);
+      if (!category) {
+        return res.status(400).json({ message: 'Invalid category ID' });
+      }
+
       const service = new ServiceModel({
         serviceName,
-        duration,
-        cost,
-        category,
-        location,
+        serviceDuration,
+        servicePrice,
+        categoryName: category.name,
+        categoryId,
+        serviceLocation,
         workingHours,
         serviceDays,
+        serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
       });
 
@@ -81,6 +89,15 @@ class ServiceController {
       next(error);
     }
   }
+  static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { categoryId } = req.params;
+      const services = await ServiceModel.find({categoryId: Number(categoryId)});
+      res.status(200).json({ message: 'Services fetched successfully', services });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   static async getBusinessServices(req: Request, res: Response, next: NextFunction) {
     const userId = req.user ? req.user._id : undefined;
@@ -91,7 +108,7 @@ class ServiceController {
       const business = (await BusinessModel.findOne({
         owner: userId,
       })) as IBusiness;
-      
+
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }

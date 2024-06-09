@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
-const serviceCategoriesData = [
-  'Health',
-  'Fitness',
-  'Consultation',
-  'Salon And Barber',
-  'Massage And Spa',
-  'Counselling',
-  'Tuition',
-  'Other',
+export const serviceCategories = [
+  { id: 1, name: 'Health' },
+  { id: 2, name: 'Fitness' },
+  { id: 3, name: 'Consultation' },
+  { id: 4, name: 'Salon And Barber' },
+  { id: 5, name: 'Massage And Spa' },
+  { id: 6, name: 'Counselling' },
+  { id: 7, name: 'Tuition' },
+  { id: 8, name: 'Other' },
 ];
 
 const serviceDaysData = [
@@ -31,24 +31,25 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  durations: [
-    {
-      type: Number,
-      min: 15,
-      max: 480,
-      required: true,
-    },
-  ],
-  cost: {
+  serviceDuration: {
     type: Number,
     required: true,
   },
-  category: {
+  servicePrice: {
+    type: Number,
+    required: true,
+  },
+  categoryName: {
     type: String,
     required: true,
-    enum: serviceCategoriesData,
+    enum: serviceCategories.map(category => category.name),
   },
-  location: {
+  categoryId: {
+    type: Number,
+    required: true,
+    enum: serviceCategories.map(category => category.id),
+  },
+  serviceLocation: {
     type: String,
     required: true,
   },
@@ -65,6 +66,11 @@ const serviceSchema = new mongoose.Schema({
       max: 59,
       required: true,
     },
+    startPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
+      required: true,
+    },
     endHour: {
       type: Number,
       min: 0,
@@ -75,6 +81,11 @@ const serviceSchema = new mongoose.Schema({
       type: Number,
       min: 0,
       max: 59,
+      required: true,
+    },
+    endPeriod: {
+      type: String,
+      enum: ['AM', 'PM'],
       required: true,
     },
   },
@@ -95,20 +106,9 @@ const serviceSchema = new mongoose.Schema({
         return value.length >= 10 && value.length <= 500;
       },
       'The service description should be between 10 and 500 characters.',
-    ], 
+    ],
   }
 });
-
-serviceSchema.pre('save', async function (next) {
-  const service = this as mongoose.Document & {
-    business: mongoose.Types.ObjectId;
-  };
-  await mongoose
-    .model('Business')
-    .updateOne({ _id: service.business }, { $push: { services: service._id } });
-  next();
-});
-
 
 serviceSchema.pre('save', async function (next) {
   const service = this as mongoose.Document & {

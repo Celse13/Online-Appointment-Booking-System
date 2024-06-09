@@ -28,7 +28,7 @@ const appointmentSchema = new mongoose.Schema(
     },
     service: [
       {
-        id: {
+        _id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Service',
           required: true,
@@ -37,10 +37,14 @@ const appointmentSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        location: {
+          type: String, 
+          required: true
+        },
         cost: {
           type: Number,
-          required: true,
-        },
+          required: true
+        }
       },
     ],
   },
