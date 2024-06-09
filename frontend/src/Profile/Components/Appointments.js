@@ -49,7 +49,7 @@ const Appointments = () => {
   };
 
   if (isLoading) {
-    return <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>;
+    return <Spinner animation="border" role="status"><span className="sr-only"></span></Spinner>;
   }
 
   if (isError) {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormControl, FormGroup, FormLabel, } from 'react-bootstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormControl, FormGroup, FormLabel, Spinner} from 'react-bootstrap';
 import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
 import { getCurrentDate } from '../../../utils/utils';
 import { fetchServicesByCategory } from '../../../Api/Services/handleServicesApi';
+import { ClientAppointments } from '../../../Api/Services/handleAppointments';
 
 const initializeFormData = (service) => ({
   serviceName: service ? service.serviceName : '',
@@ -42,20 +43,23 @@ const checkTimeDateError = (name, value, formData) => {
 };
 const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected }) => {
   const [services, setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [formData, setFormData] = useState(initializeFormData());
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchServices = async () => {
+      setIsLoading(true);
       try {
         const token = localStorage.getItem('token');
         const fetchedServices = await fetchServicesByCategory(selectedCategoryId, token);
         setServices(fetchedServices);
       } catch (error) {
         console.error('Error fetching services:', error);
-        console.error('Error fetching services: IS IT HERE??');
       }
+      setIsLoading(false);
     };
 
     fetchServices()
@@ -82,15 +86,44 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
   };
 
   const handleBookClick = (service) => {
+    console.log(service);
+    setSelectedServiceId(service._id);
+    console.log("Selected service ID: ", service._id);
     setFormData(initializeFormData(service));
     setIsFormVisible(true);
     setErrorMessage('');
   };
 
-  const handleConfirmClick = () => {
-    setIsFormVisible(false);
-    setFormData(initializeFormData());
+  const handleConfirmClick = async(e) => {
+    e.preventDefault();
+  
+    const token = localStorage.getItem('token'); 
+    console.log("Token: ", token);
+  
+    console.log("Selected service ID before appointment: ", selectedServiceId);
+    const appointmentData = {
+      date: formData.date,
+      time: formData.time,
+      serviceId: selectedServiceId,
+    };
+  
+    try {
+    console.log("Token: ", token);
+  
+    console.log("Selected service ID before appointment: ", selectedServiceId);
+      const response = await ClientAppointments.createAppointment(appointmentData, token);
+      console.log(response);
+  
+      setIsFormVisible(false);
+      setFormData(initializeFormData());
+    } catch (error) {
+      console.error('Error booking service:', error);
+    }
   };
+
+  if (isLoading) {
+    return <Spinner animation="border" role="status"><span className="sr-only"></span></Spinner>;
+  }
 
   return (
     <Container >
