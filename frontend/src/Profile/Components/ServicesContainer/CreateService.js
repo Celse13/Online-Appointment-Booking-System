@@ -48,7 +48,7 @@ const CreateService = () => {
       const token = localStorage.getItem('token');
       const serviceData = {
         serviceName: formData.serviceName,
-        serviceDuration: [formData.serviceDuration],
+        serviceDuration: formData.serviceDuration,
         servicePrice: formData.servicePrice,
         serviceCategory: formData.serviceCategory,
         serviceLocation: formData.serviceLocation,
