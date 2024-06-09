@@ -50,7 +50,7 @@ const Sidebar = ({ children, onSelect, navigate }) => {
           </div>
         </div>
         <div className={css(sidebarStyles.logoutDiv)}>
-          <div className={css(sidebarStyles.logoutImg)}><LogOut /></div>
+          <div className={css(sidebarStyles.logoutImg)} onClick={logout}><LogOut /></div>
           <h6
             className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}
             onClick={() => handleBackHome(navigate)}

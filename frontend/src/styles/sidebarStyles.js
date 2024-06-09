@@ -177,6 +177,7 @@ export const sidebarStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    cursor: 'pointer',
     color: appColors.white,
     width: '40px',
     height: '40px',
