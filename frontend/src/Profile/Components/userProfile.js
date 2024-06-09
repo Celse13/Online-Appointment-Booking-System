@@ -4,16 +4,20 @@ import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { myProfileStyles } from '../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
+import { jwtDecode } from 'jwt-decode';
 
 const Profile = ({ userType }) => {
   const isClient = userType === 'client';
   const isAdmin = userType === 'admin';
   const [services, setServices] = useState([]);
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const email = decoded.email;
+  const name = decoded.username;
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const token = localStorage.getItem('token');
         const response = await BusinessServicesApi.getBusinessServices(token);
         const servicesData = response.services;
         if (Array.isArray(servicesData)) {
@@ -48,8 +52,8 @@ const Profile = ({ userType }) => {
           </CardHeader>
           <CardBody className={css(myProfileStyles.body)}>
             <div className={css(myProfileStyles.bodyDiv)}>
-              <h6>Name: Aisha Minne</h6>
-              <h6>Email: m_aisha@gmail.com</h6>
+              <h6>Name: {name}</h6>
+              <h6>Email: {email}</h6>
               <a href="#">Reset password</a>
             </div>
           </CardBody>

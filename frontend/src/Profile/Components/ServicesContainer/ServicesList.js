@@ -88,7 +88,6 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
   const handleBookClick = (service) => {
     console.log(service);
     setSelectedServiceId(service._id);
-    console.log("Selected service ID: ", service._id);
     setFormData(initializeFormData(service));
     setIsFormVisible(true);
     setErrorMessage('');
@@ -96,29 +95,22 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
 
   const handleConfirmClick = async(e) => {
     e.preventDefault();
-  
-    const token = localStorage.getItem('token'); 
-    console.log("Token: ", token);
-  
-    console.log("Selected service ID before appointment: ", selectedServiceId);
+    const token = localStorage.getItem('token');
     const appointmentData = {
       date: formData.date,
       time: formData.time,
       serviceId: selectedServiceId,
     };
-  
+
     try {
-    console.log("Token: ", token);
-  
-    console.log("Selected service ID before appointment: ", selectedServiceId);
-      const response = await ClientAppointments.createAppointment(appointmentData, token);
-      console.log(response);
-  
+      await ClientAppointments.createAppointment(appointmentData, token);
       setIsFormVisible(false);
       setFormData(initializeFormData());
     } catch (error) {
-      console.error('Error booking service:', error);
+      alert('Error booking service');
     }
+    alert("Booked!");
+    window.location.reload();
   };
 
   if (isLoading) {
