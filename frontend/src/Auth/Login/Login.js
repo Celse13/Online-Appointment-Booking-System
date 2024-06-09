@@ -35,14 +35,6 @@ const Login = (props) => {
     const password = document.getElementById('password').value;
     const user = { email, password }
 
-    const emailExists = await AuthApi.checkEmail(email);
-    const correctPassword = await AuthApi.checkPassword(email, password);
-    if (emailExists && !correctPassword) {
-      setErrorMessages({ ...errorMessages, password: 'Incorrect Password!' });
-    } else if (!emailExists){
-      setErrorMessages({ ...errorMessages, email: 'Account associated with this email does not exist!' });
-    }
-
     try {
       const response = await AuthApi.login(user);
       const token = response.token;
@@ -54,6 +46,7 @@ const Login = (props) => {
 
     } catch (error) {
       console.error(error)
+      setErrorMessages({ ...errorMessages, form: 'Invalid email or password!' });
     }
   }
 

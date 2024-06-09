@@ -1,5 +1,5 @@
-import authRouter from './auth/auth';
 import { Router } from 'express';
+import authRouter from './auth/auth';
 import userRouter from './users/users';
 import adminRouter from './admin/admin';
 import { businessRouter as businessAppointmentRouter, clientRouter as clientAppointmentRouter } from './appointments/appointments';

@@ -3,16 +3,13 @@ import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { serviceCategoriesFilter } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
-
-
-// Adding the BusinessServicesApi and ClientServicesApi import
 import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
 
 
 const CreateService = () => {
   const [formData, setFormData] = useState({
     serviceName: '',
-    serviceCategory: '',
+    categoryId: '',
     serviceDescription: '',
     openingTime: '',
     closingTime: '',
@@ -37,9 +34,10 @@ const CreateService = () => {
     } else {
       setFormData({
         ...formData,
-        [name]: value
+        [name]: name === 'categoryId' ? parseInt(value) : value,
       });
     }
+    console.log(value);
   };
 
   const handleSubmit = async(e) => {
@@ -48,9 +46,9 @@ const CreateService = () => {
       const token = localStorage.getItem('token');
       const serviceData = {
         serviceName: formData.serviceName,
-        serviceDuration: [formData.serviceDuration],
+        serviceDuration: formData.serviceDuration,
         servicePrice: formData.servicePrice,
-        serviceCategory: formData.serviceCategory,
+        categoryId: formData.categoryId,
         serviceLocation: formData.serviceLocation,
         serviceDescription: formData.serviceDescription,
         workingHours: {
@@ -62,11 +60,11 @@ const CreateService = () => {
           endPeriod: formatPeriod(formData.closingTime),
         },
         serviceDays: formData.serviceDays,
-
       };
       console.log(serviceData);
-      const response = await BusinessServicesApi.createServices(serviceData, token);
-      console.log(response.data);
+      await BusinessServicesApi.createServices(serviceData, token);
+      alert('Service successfully created');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -107,15 +105,15 @@ const CreateService = () => {
           <Form.Control
             className={css(createServiceStyles.input)}
             as="select"
-            name="serviceCategory"
-            value={formData.serviceCategory}
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
             required>
             <option value="" disabled>Select service category</option>
             {serviceCategoriesFilter.map(category => (
               <option
                 key={category.id}
-                value={category.category}>
+                value={category.id}>
                 {category.category}
               </option>
             ))}
@@ -148,7 +146,7 @@ const CreateService = () => {
               className={css(createServiceStyles.inputDuration)}
               type="number" name="serviceDuration"
               placeholder="duration"
-              min={5} max={480}
+              min={1}
               value={formData.serviceDuration}
               onChange={handleChange}
               required />

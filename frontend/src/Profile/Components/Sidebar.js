@@ -5,6 +5,7 @@ import logo from '../../Assets/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { handleBackHome } from '../../utils/utils';
+import { jwtDecode } from 'jwt-decode';
 
 const SidebarContext = createContext(undefined);
 
@@ -15,6 +16,10 @@ const Sidebar = ({ children, onSelect, navigate }) => {
     setActiveItem(item);
     onSelect(item);
   }
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const email = decoded.email;
+  const name = decoded.username;
 
   return (
     <aside className={css(sidebarStyles.container)}>
@@ -34,8 +39,8 @@ const Sidebar = ({ children, onSelect, navigate }) => {
           <img src="https://ui-avatars.com/api/?background=ffffff&color=986D8E&bold=true" alt="" className={css(sidebarStyles.avatar)} width="40px" height="40px" />
           <div className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
             <div className={css(sidebarStyles.userDetails)}>
-              <h4 className={css(sidebarStyles.userName)}>Aisha Minne</h4>
-              <span className={css(sidebarStyles.userEmail)}>m_aisha@gmail.com</span>
+              <h4 className={css(sidebarStyles.userName)}>{name}</h4>
+              <span className={css(sidebarStyles.userEmail)}>{email}</span>
             </div>
           </div>
         </div>
