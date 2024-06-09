@@ -21,6 +21,11 @@ const Sidebar = ({ children, onSelect, navigate }) => {
   const email = decoded.email;
   const name = decoded.username;
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
     <aside className={css(sidebarStyles.container)}>
       <nav className={css(sidebarStyles.nav)}>
@@ -50,7 +55,7 @@ const Sidebar = ({ children, onSelect, navigate }) => {
             className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}
             onClick={() => handleBackHome(navigate)}
           >
-            <span className={css(sidebarStyles.userLogout)}>LOGOUT</span>
+            <span className={css(sidebarStyles.userLogout)} onClick={logout}>LOGOUT</span>
           </h6>
         </div>
       </nav>
