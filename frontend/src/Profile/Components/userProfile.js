@@ -37,8 +37,8 @@ const Profile = ({ userType }) => {
   const renderMyServices = () => {
     return services.map((service) => (
       <div key={service._id} className={css(myProfileStyles.myServicesItem)}>
-        <h6>{service.serviceName}</h6>
-        <Button variant='danger'>Delete</Button>
+        <h4>{service.serviceName}</h4>
+        {/*<Button variant="danger">Delete</Button>*/}
       </div>
     ));
   };
@@ -54,7 +54,7 @@ const Profile = ({ userType }) => {
             <div className={css(myProfileStyles.bodyDiv)}>
               <h6>Name: {name}</h6>
               <h6>Email: {email}</h6>
-              <a href="#">Reset password</a>
+              <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
             </div>
           </CardBody>
           <CardFooter className={css(myProfileStyles.footer)}>
