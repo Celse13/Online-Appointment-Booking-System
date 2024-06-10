@@ -237,6 +237,21 @@ class AppointmentController {
     }
   }
 
+  static async updateAppointmentStatus(req: Request, res: Response, next: NextFunction, ) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const appointment = await AppointmentModel.findByIdAndUpdate(id, { status }, { new: true });
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+
+      res.status(200).json({ message: 'Appointment status updated successfully', appointment });
+    } catch (error) {
+      next(error);
+    }
+  }
   static async deleteAppointment(
     req: Request,
     res: Response,
@@ -254,6 +269,8 @@ class AppointmentController {
       next(error);
     }
   }
+
+
 
 }
 
