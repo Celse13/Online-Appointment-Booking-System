@@ -1,140 +1,140 @@
 import { Request, Response, NextFunction } from 'express';
-import ClientModel from '../models/clientModel';
-import AppointmentModel from '../models/appointmentModel';
-import ServiceModel from '../models/serviceModel';
+import mongoose from 'mongoose';
+import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
-import { UserModel } from '../models/userModel';
 
-class AppointmentController {
-  static convertTo24Hour(time: string) {
-    const [hour, minute] = time.split(':');
-    let hours = parseInt(hour);
-    const isPM = time.match('PM');
-    if (hours === 12) {
-      return `${isPM ? hours : hours - 12}:${minute}`;
-    } else {
-      return `${isPM ? hours + 12 : hours}:${minute}`;
-    }
+function convertTo24Hour(time: string): { hour: number, minute: number } {
+  const [hour, minutePeriod] = time.split(':');
+  let [minute, period] = minutePeriod.split(' ');
+  period = period.toUpperCase();
+
+  let newHour = parseInt(hour);
+  if (period === 'PM' && hour !== '12') {
+    newHour = newHour + 12;
+  } else if (period === 'AM' && hour === '12') {
+    newHour = 0;
   }
 
-  static async createAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  return { hour: newHour, minute: parseInt(minute) };
+}
+
+class ServiceController {
+  static async createService(req: Request, res: Response, next: NextFunction) {
+    const userId = req.user ? req.user._id : undefined;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
     try {
-      let client = await ClientModel.findOne({ client: req.user?._id });
-      if (!client) {
-        client = new ClientModel({ client: req.user?._id });
-        await client.save();
-      }
+      const {
+        serviceName,
+        serviceDuration,
+        servicePrice,
+        categoryId,
+        serviceLocation,
+        workingHours,
+        timeFormat,
+        serviceDays,
+        serviceDescription,
+      } = req.body;
 
-      // Get the service details
-      const service = await ServiceModel.findById(req.body.serviceId);
-      if (!service) {
-        return res.status(404).json({ message: 'Service not found' });
-      }
-
-      const user = await UserModel.findById(req.user?._id);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      // Get the date and time from the request body
-      const { date, time } = req.body;
-      const time24 = AppointmentController.convertTo24Hour(time);
-      const dateTime = new Date(`${date} ${time}`);
-      // Check for existing appointments at the requested time
-      const existingAppointment = await AppointmentModel.findOne({
-        dateTime,
-        'service.id': req.body.serviceId,
-      });
-      if (existingAppointment) {
-        return res.status(400).json({
-          message:
-            'This time slot is already booked. Please choose a different time.',
-        });
-      }
-
-      const appointment = new AppointmentModel({
-        ...req.body,
-        serviceName: service.serviceName,
-        client: client._id,
-        clientName: user.name,
-        dateTime,
-        service: [
-          {
-            _id: service._id,
-            name: service.serviceName,
-            location: service.serviceLocation,
-            cost: service.servicePrice
-          },
-        ],
-      });
-      const savedAppointment = await appointment.save();
-
-      client.appointments.push(savedAppointment._id);
-      await client.save();
-
-      const business = await BusinessModel.findById(service.business);
+      const business = (await BusinessModel.findOne({
+        owner: userId,
+      })) as IBusiness;
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
-      business.appointments.push(savedAppointment._id);
-      await business.save();
-      res.status(201).json({
-        message: 'Appointment created successfully',
-        appointment: savedAppointment,
+
+      const category = serviceCategories.find((cat: { id: number; }) => cat.id === categoryId);
+      if (!category) {
+        return res.status(400).json({ message: 'Invalid category ID' });
+      }
+
+      let workingHours24;
+      if (timeFormat === '12') {
+        const startHour24 = convertTo24Hour(workingHours.startHour + ':' + workingHours.startMinute + ' ' + workingHours.startPeriod);
+        const endHour24 = convertTo24Hour(workingHours.endHour + ':' + workingHours.endMinute + ' ' + workingHours.endPeriod);
+        workingHours24 = {
+          startHour: startHour24.hour,
+          startMinute: startHour24.minute,
+          endHour: endHour24.hour,
+          endMinute: endHour24.minute,
+        };
+      } else {
+        workingHours24 = {
+          startHour: parseInt(workingHours.startHour),
+          startMinute: parseInt(workingHours.startMinute),
+          endHour: parseInt(workingHours.endHour),
+          endMinute: parseInt(workingHours.endMinute),
+        };
+      }
+      const service = new ServiceModel({
+        serviceName,
+        serviceDuration,
+        servicePrice,
+        categoryName: category.name,
+        categoryId,
+        serviceLocation,
+        workingHours: workingHours24,
+        timeFormat,
+        serviceDays,
+        serviceDescription,
+        business: business._id as mongoose.Types.ObjectId,
       });
+
+      await service.save();
+      res
+        .status(201)
+        .json({ message: 'Service created successfully', service });
     } catch (error) {
       next(error);
     }
   }
 
-  static async approveAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async updateService(req: Request, res: Response, next: NextFunction) {
     try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
+      const service = await ServiceModel.findByIdAndUpdate(
         req.params.id,
-        { status: 'approved' },
+        req.body,
         { new: true },
       );
       res
         .status(200)
-        .json({ message: 'Appointment approved successfully', appointment });
+        .json({ message: 'Service updated successfully', service });
     } catch (error) {
       next(error);
     }
   }
 
-  static async rejectAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async deleteService(req: Request, res: Response, next: NextFunction) {
     try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { status: 'rejected' },
-        { new: true },
-      );
+      await ServiceModel.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: 'Service deleted successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getServices(req: Request, res: Response, next: NextFunction) {
+    try {
+      const services = await ServiceModel.find({});
       res
         .status(200)
-        .json({ message: 'Appointment rejected successfully', appointment });
+        .json({ message: 'Services fetched successfully', services });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { categoryId } = req.params;
+      const services = await ServiceModel.find({ categoryId: Number(categoryId) });
+      res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getBusinessAppointments(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-
+  static async getBusinessServices(req: Request, res: Response, next: NextFunction) {
     const userId = req.user ? req.user._id : undefined;
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized' });
@@ -142,119 +142,33 @@ class AppointmentController {
     try {
       const business = (await BusinessModel.findOne({
         owner: userId,
-      }).populate({
-        path: 'appointments',
-        populate: {
-          path: 'client',
-          model: 'Client',
-          populate: {
-            path: 'client',
-            model: 'User',
-            select: 'name',
-          },
-        },
-      })) as IBusiness
+      })) as IBusiness;
 
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
-
-      res
-        .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments: business.appointments });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getClientAppointments(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    const userId = req.user ? req.user._id : undefined;
-    if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    try {
-      const client = (await ClientModel.findOne({
-        client: userId,
-
-      }).populate({
-        path: 'appointments',
-        populate: {
-          path: 'service._id',
-          model: 'Service',
-          select: 'serviceName',
-        },
-      })) as any;
-
-      if (!client) {
-        return res.status(200).json({ message: 'No appointments found', appointments: [] });
+      if (!mongoose.Types.ObjectId.isValid(business._id)) {
+        return res.status(400).json({ message: 'Invalid business ID' });
       }
-
+      const services = await ServiceModel.find({ business: business._id as mongoose.Types.ObjectId });
       res
         .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments: client.appointments  });
+        .json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getAppointment(req: Request, res: Response, next: NextFunction) {
+  static async getService(req: Request, res: Response, next: NextFunction) {
     try {
-      const appointment = await AppointmentModel.findById(req.params.id);
+      const service = await ServiceModel.findById(req.params.id);
       res
         .status(200)
-        .json({ message: 'Appointment fetched successfully', appointment });
+        .json({ message: 'Service fetched successfully', service });
     } catch (error) {
       next(error);
     }
   }
-
-
-  static async updateAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const { date, time } = req.body;
-      const dateTime = new Date(`${date}T${time}`);
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { ...req.body, dateTime },
-        { new: true },
-      );
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-      res
-        .status(200)
-        .json({ message: 'Appointment updated successfully', appointment });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async deleteAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointment = await AppointmentModel.findByIdAndDelete(req.params.id);
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-      res
-        .status(200)
-        .json({ message: 'Appointment deleted successfully' });
-    } catch (error) {
-      next(error);
-    }
-  }
-
 }
 
-export default AppointmentController;
+export default ServiceController;
