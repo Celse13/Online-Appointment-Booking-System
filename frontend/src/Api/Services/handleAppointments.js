@@ -18,23 +18,44 @@ class BusinessAppointments {
         }
     }
 
-    static async approveAppointments() {
+    static async approveAppointment(id, token) {
         try {
-            const response = await axios.put(`${BASE_URL}/business/appointments/approve/:id`);
+            const response = await axios.put(`${BASE_URL}/business/appointments/approve/${id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
 
-    static async rejectAppointments(appointments) {
+    static async rejectAppointment(id, token) {
         try {
-            const response = await axios.put(`${BASE_URL}/business/appointments/reject/:id`, appointments);
+            const response = await axios.put(`${BASE_URL}/business/appointments/reject/${id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
             console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     }
+
+  static async updateAppointmentStatus(id, status, token) {
+    try {
+      const response = await axios.patch(
+        `${BASE_URL}/business/appointments/updateStatus/${id}`,
+        { status },
+        { headers: { 'Authorization': `Bearer ${token}` }
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
     static async deleteAppointments() {
         try {

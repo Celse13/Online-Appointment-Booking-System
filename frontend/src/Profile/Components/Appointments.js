@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Alert } from 'react-bootstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Alert, Dropdown, } from 'react-bootstrap';
 import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
@@ -25,20 +25,20 @@ const Appointments = () => {
   const [showDetails, setShowDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const role = decoded.role;
 
   useEffect(() => {
     const fetchAppointments = async () => {
       setIsLoading(true);
       setIsError(false);
       try {
-        const token = localStorage.getItem('token');
-        const decoded = jwtDecode(token);
-        const role = decoded.role;
         const getAppointments = role === 'business' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
         const response = await getAppointments(token);
-        const appointments = response.appointments.map((appointment, index) => ({
-          id: index + 1,
-          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.service[0].name}` ,
+        const appointments = response.appointments.map((appointment) => ({
+          id: appointment._id,
+          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.serviceName}` ,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: formatTime(new Date(appointment.dateTime).toLocaleTimeString()),
           location: appointment.service[0].location,
@@ -61,6 +61,23 @@ const Appointments = () => {
     setShowDetails((prevDetails) =>
       prevDetails.map((detail, i) => (i === index ? !detail : detail))
     );
+  };
+
+  const handleStatusChange = async (appointmentId, newStatus) => {
+    try {
+      const token = localStorage.getItem('token');
+      await BusinessAppointments.updateAppointmentStatus(appointmentId, newStatus, token);
+      setAppointmentsData((prevData) =>
+        prevData.map((app) => (app._id === appointmentId ? { ...app, status: newStatus } : app))
+      );
+      alert(`Status updated to ${newStatus}`)
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating appointment status:', error);
+      setIsError(true);
+      alert('Error updating appointment status')
+      window.location.reload();
+    }
   };
 
   if (isLoading) {
@@ -90,7 +107,25 @@ const Appointments = () => {
                   <h6>Date: {appointment.date}</h6>
                   <h6>Time: {appointment.time}</h6>
                   <h6>Location: {appointment.location}</h6>
-                  <h6>Status: {appointment.status}</h6>
+                  <div>
+                    {role === 'business' && (
+                      <h6>Status:
+                        <Dropdown onSelect={(newStatus) => handleStatusChange(appointment.id, newStatus)}>
+                          <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {appointment.status}
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
+                            <Dropdown.Item eventKey="approved">Approved</Dropdown.Item>
+                            <Dropdown.Item eventKey="rejected">Rejected</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </h6>
+                    )}
+                    {role === 'client' && (
+                      <h6>Status: {appointment.status}</h6>
+                    )}
+                  </div>
                   <div className={css(appointmentStyles.buttons)}>
                     <Button className={css(appointmentStyles.editButton)}><Pencil /></Button>
                     <Button className={css(appointmentStyles.deleteButton)}><Trash2 /></Button>
