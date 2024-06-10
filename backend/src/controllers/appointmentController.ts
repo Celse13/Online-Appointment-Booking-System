@@ -34,6 +34,11 @@ class AppointmentController {
         return res.status(404).json({ message: 'Service not found' });
       }
 
+      const user = await UserModel.findById(req.user?._id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
       // Get the date and time from the request body
       const { date, time } = req.body;
       const time24 = AppointmentController.convertTo24Hour(time);
@@ -52,7 +57,9 @@ class AppointmentController {
 
       const appointment = new AppointmentModel({
         ...req.body,
+        serviceName: service.serviceName,
         client: client._id,
+        clientName: user.name,
         dateTime,
         service: [
           {
@@ -134,12 +141,22 @@ class AppointmentController {
     try {
       const business = (await BusinessModel.findOne({
         owner: userId,
-      }).populate('appointments')) as IBusiness;
+      }).populate({
+        path: 'appointments',
+        populate: {
+          path: 'client',
+          model: 'Client',
+          populate: {
+            path: 'client',
+            model: 'User',
+            select: 'name',
+          },
+        },
+      })) as IBusiness
 
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
-
 
       res
         .status(200)
@@ -162,7 +179,14 @@ class AppointmentController {
       const client = (await ClientModel.findOne({
         client: userId,
 
-      }).populate('appointments')) as any;
+      }).populate({
+        path: 'appointments',
+        populate: {
+          path: 'service._id',
+          model: 'Service',
+          select: 'serviceName',
+        },
+      })) as any;
 
       if (!client) {
         return res.status(200).json({ message: 'No appointments found', appointments: [] });
@@ -207,6 +231,22 @@ class AppointmentController {
       res
         .status(200)
         .json({ message: 'Appointment updated successfully', appointment });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateAppointmentStatus(req: Request, res: Response, next: NextFunction, ) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const appointment = await AppointmentModel.findByIdAndUpdate(id, { status }, { new: true });
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+
+      res.status(200).json({ message: 'Appointment status updated successfully', appointment });
     } catch (error) {
       next(error);
     }
