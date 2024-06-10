@@ -2,8 +2,17 @@ import mongoose from 'mongoose';
 
 const appointmentSchema = new mongoose.Schema(
   {
+    serviceName: {
+      type: String,
+      required: true,
+    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'Client',
+      required: true,
+    },
+    clientName: {
+      type: String,
       ref: 'Client',
       required: true,
     },
@@ -38,7 +47,7 @@ const appointmentSchema = new mongoose.Schema(
           required: true,
         },
         location: {
-          type: String, 
+          type: String,
           required: true
         },
         cost: {
