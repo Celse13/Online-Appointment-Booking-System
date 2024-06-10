@@ -282,6 +282,25 @@ class AuthController {
       next(error);
     }
   }
+
+  static async getUserData(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.userId;
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const userData = JWT.generateJwt(
+        String(user._id),
+        user.email,
+        user.name,
+        user.role,
+      );
+      res.status(200).json(userData);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default AuthController;

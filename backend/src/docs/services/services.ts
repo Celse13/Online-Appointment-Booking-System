@@ -16,14 +16,13 @@ const servicePath: OpenAPIV3.PathsObject = {
               type: 'object',
               properties: {
                 serviceName: { type: 'string' },
-                durations: {
-                  type: 'array',
-                  items: { type: 'number' },
+                serviceDuration: {
+                  type: 'number',
                   minItems: 1,
                 },
-                cost: { type: 'number' },
-                category: { type: 'string' },
-                location: { type: 'string' },
+                servicePrice: { type: 'number' },
+                categoryId: { type: 'number' },
+                serviceLocation: { type: 'string' },
                 workingHours: {
                   type: 'object',
                   properties: {

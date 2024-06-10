@@ -3,6 +3,21 @@ import mongoose from 'mongoose';
 import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 
+function convertTo24Hour(time: string): { hour: number, minute: number } {
+  const [hour, minutePeriod] = time.split(':');
+  let [minute, period] = minutePeriod.split(' ');
+  period = period.toUpperCase();
+
+  let newHour = parseInt(hour);
+  if (period === 'PM' && hour !== '12') {
+    newHour = newHour + 12;
+  } else if (period === 'AM' && hour === '12') {
+    newHour = 0;
+  }
+
+  return { hour: newHour, minute: parseInt(minute) };
+}
+
 class ServiceController {
   static async createService(req: Request, res: Response, next: NextFunction) {
     const userId = req.user ? req.user._id : undefined;
@@ -17,6 +32,7 @@ class ServiceController {
         categoryId,
         serviceLocation,
         workingHours,
+        timeFormat,
         serviceDays,
         serviceDescription,
       } = req.body;
@@ -33,6 +49,24 @@ class ServiceController {
         return res.status(400).json({ message: 'Invalid category ID' });
       }
 
+      let workingHours24;
+      if (timeFormat === '12') {
+        const startHour24 = convertTo24Hour(workingHours.startHour + ':' + workingHours.startMinute + ' ' + workingHours.startPeriod);
+        const endHour24 = convertTo24Hour(workingHours.endHour + ':' + workingHours.endMinute + ' ' + workingHours.endPeriod);
+        workingHours24 = {
+          startHour: startHour24.hour,
+          startMinute: startHour24.minute,
+          endHour: endHour24.hour,
+          endMinute: endHour24.minute,
+        };
+      } else {
+        workingHours24 = {
+          startHour: parseInt(workingHours.startHour),
+          startMinute: parseInt(workingHours.startMinute),
+          endHour: parseInt(workingHours.endHour),
+          endMinute: parseInt(workingHours.endMinute),
+        };
+      }
       const service = new ServiceModel({
         serviceName,
         serviceDuration,
@@ -40,7 +74,8 @@ class ServiceController {
         categoryName: category.name,
         categoryId,
         serviceLocation,
-        workingHours,
+        workingHours: workingHours24,
+        timeFormat,
         serviceDays,
         serviceDescription,
         business: business._id as mongoose.Types.ObjectId,
@@ -92,7 +127,7 @@ class ServiceController {
   static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
     try {
       const { categoryId } = req.params;
-      const services = await ServiceModel.find({categoryId: Number(categoryId)});
+      const services = await ServiceModel.find({ categoryId: Number(categoryId) });
       res.status(200).json({ message: 'Services fetched successfully', services });
     } catch (error) {
       next(error);

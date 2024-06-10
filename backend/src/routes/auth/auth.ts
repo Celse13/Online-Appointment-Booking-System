@@ -11,5 +11,6 @@ router.get('/verify/:token', AuthController.verify);
 router.post('/check-email', AuthController.checkEmail);
 router.post('/check-password', AuthController.checkPassword);
 router.post('/check-verification', AuthController.checkVerification);
+router.get('/userData/:userId', AuthController.getUserData);
 
 export default router;
