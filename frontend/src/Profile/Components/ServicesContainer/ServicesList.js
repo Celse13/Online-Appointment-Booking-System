@@ -14,10 +14,25 @@ const initializeFormData = (service) => ({
   time: '',
   date: '',
   serviceLocation: service ? service.serviceLocation : '',
-  openingTime: service ? `${service.workingHours.startHour}:${service.workingHours.startMinute} ${service.workingHours.startPeriod}` : '',
-  closingTime: service ? `${service.workingHours.endHour}:${service.workingHours.endMinute} ${service.workingHours.endPeriod}` : '',
+  openingTime: service ? service.workingHours.startHour + ':' + service.workingHours.startMinute + ' ' + service.workingHours.startPeriod : '',
+  closingTime: service ? service.workingHours.endHour + ':' + service.workingHours.endMinute + ' ' + service.workingHours.endPeriod : '',
   serviceDays: service ? service.serviceDays : [],
 });
+
+// Fetch it from local storage
+const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
+// Helper function to format time
+const formatTime = (time) => {
+  if (userPrefers24HourFormat) {
+    return time;
+  } else {
+    const [hour, minute] = time.split(':');
+    const hourIn12 = hour % 12 || 12;
+    const period = hour < 12 ? 'AM' : 'PM';
+    return `${hourIn12}:${minute} ${period}`;
+  }
+};
+
 
 const checkTimeDateError = (name, value, formData) => {
   if (name === 'time') {
@@ -134,7 +149,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
                 <div className={css(servicesListStyles.bodyDiv)}>
                   <h6>Duration: {service.serviceDuration} min</h6>
                   <h6>Cost: ${service.servicePrice}</h6>
-                  <h6>Time: {service.workingHours.startHour}:{service.workingHours.startMinute} - {service.workingHours.endHour}:{service.workingHours.endMinute}</h6>
+                  <h6>Time: {formatTime(service.workingHours.startHour + ':' + service.workingHours.startMinute)} - {formatTime(service.workingHours.endHour + ':' + service.workingHours.endMinute)}</h6>
                   <h6>Location: {service.serviceLocation}</h6>
                   <h6>Days: {service.serviceDays.join(',\n')}</h6>
                 </div>

@@ -21,10 +21,13 @@ const CreateService = () => {
     serviceDays: [],
   });
 
+  const [userPrefers24HourFormat, setUserPrefers24HourFormat] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
+  
     if (type === 'checkbox') {
+      localStorage.setItem('userPrefers24HourFormat', checked);
       setFormData((prevFormData) => ({
         ...prevFormData,
         serviceDays: checked
@@ -32,15 +35,36 @@ const CreateService = () => {
           : prevFormData.serviceDays.filter(day => day !== value)
       }));
     } else {
+      let formattedValue;
+      if (name === 'openingTime' || name === 'closingTime') {
+        formattedValue = formatTime24(value);
+      } else {
+        formattedValue = name === 'categoryId' ? parseInt(value) : value;
+      }
+  
       setFormData({
         ...formData,
-        [name]: name === 'categoryId' ? parseInt(value) : value,
+        [name]: formattedValue,
       });
     }
     console.log(value);
   };
 
-  const handleSubmit = async(e) => {
+  const formatTime24 = (time) => {
+    const hour = parseInt(time.split(':')[0]);
+    const minute = parseInt(time.split(':')[1]);
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  };
+  
+  const formatTime12 = (time) => {
+    let hour = parseInt(time.split(':')[0]);
+    const minute = parseInt(time.split(':')[1]);
+    const period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour > 12 ? hour - 12 : hour;
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
@@ -54,12 +78,13 @@ const CreateService = () => {
         workingHours: {
           startHour: formatHour(formData.openingTime),
           startMinute: formatMinute(formData.openingTime),
-          startPeriod: formatPeriod(formData.openingTime),
+          startPeriod: userPrefers24HourFormat ? undefined : formatPeriod(formData.openingTime),
           endHour: formatHour(formData.closingTime),
           endMinute: formatMinute(formData.closingTime),
-          endPeriod: formatPeriod(formData.closingTime),
+          endPeriod: userPrefers24HourFormat ? undefined : formatPeriod(formData.closingTime),
         },
         serviceDays: formData.serviceDays,
+        timeFormat: userPrefers24HourFormat ? '24' : '12',
       };
       console.log(serviceData);
       await BusinessServicesApi.createServices(serviceData, token);
