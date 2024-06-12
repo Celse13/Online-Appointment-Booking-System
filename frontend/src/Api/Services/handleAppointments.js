@@ -83,7 +83,7 @@ class ClientAppointments {
 
     static async createAppointment(appointments, token) {
         try {
-            const response = await axios.post(`${BASE_URL}/client/appointments`, appointments, {
+            const response = await axios.post(`${BASE_URL}/client/appointments/create`, appointments, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
