@@ -10,8 +10,8 @@ const clientRouter = Router();
 businessRouter.put('/approve/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.approveAppointment,);
 businessRouter.put('/reject/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.rejectAppointment,);
 businessRouter.get('/', authenticate, checkRole(['business', 'staff']), AppointmentController.getBusinessAppointments,);
-businessRouter.delete('/update/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.deleteAppointment,);
-businessRouter.put('/delete/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.updateAppointment,);
+businessRouter.delete('/delete/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.deleteAppointment,);
+businessRouter.put('/update/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.updateAppointment,);
 businessRouter.patch('/updateStatus/:id', authenticate, checkRole(['business', 'staff']), AppointmentController.updateAppointmentStatus,);
 
 // Clients routes
