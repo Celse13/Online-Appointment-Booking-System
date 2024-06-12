@@ -65,7 +65,6 @@ const Appointments = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      const token = localStorage.getItem('token');
       await BusinessAppointments.updateAppointmentStatus(appointmentId, newStatus, token);
       setAppointmentsData((prevData) =>
         prevData.map((app) => (app._id === appointmentId ? { ...app, status: newStatus } : app))
@@ -77,6 +76,23 @@ const Appointments = () => {
       setIsError(true);
       alert('Error updating appointment status')
       window.location.reload();
+    }
+  };
+
+  const handleDelete = async (appointmentId) => {
+    try {
+      if (role === 'business') {
+        await BusinessAppointments.deleteAppointment(token, appointmentId);
+      } else {
+        await ClientAppointments.deleteAppointment(token, appointmentId);
+      }
+      setAppointmentsData((prevData) => prevData.filter((app) => app._id !== appointmentId));
+      alert('Appointment deleted successfully');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+      setIsError(true);
+      alert('Error deleting appointment');
     }
   };
 
@@ -115,9 +131,9 @@ const Appointments = () => {
                             {appointment.status}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
-                            <Dropdown.Item eventKey="approved">Approved</Dropdown.Item>
-                            <Dropdown.Item eventKey="rejected">Rejected</Dropdown.Item>
+                            <Dropdown.Item eventKey="Pending">Pending</Dropdown.Item>
+                            <Dropdown.Item eventKey="Approved">Approved</Dropdown.Item>
+                            <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </h6>
@@ -128,7 +144,7 @@ const Appointments = () => {
                   </div>
                   <div className={css(appointmentStyles.buttons)}>
                     <Button className={css(appointmentStyles.editButton)}><Pencil /></Button>
-                    <Button className={css(appointmentStyles.deleteButton)}><Trash2 /></Button>
+                    <Button className={css(appointmentStyles.deleteButton)} onClick={() => handleDelete(appointment.id)}><Trash2 /></Button>
                   </div>
                 </div>
               </CardBody>
