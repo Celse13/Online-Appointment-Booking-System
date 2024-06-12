@@ -69,7 +69,7 @@ const serviceSchema = new mongoose.Schema({
     startPeriod: {
       type: String,
       enum: ['AM', 'PM'],
-      required: true,
+      required: false,
     },
     endHour: {
       type: Number,
@@ -86,9 +86,15 @@ const serviceSchema = new mongoose.Schema({
     endPeriod: {
       type: String,
       enum: ['AM', 'PM'],
-      required: true,
+      required: false,
     },
   },
+  timeFormat: {
+    type: String,
+    enum: ['12', '24'],
+    required: true,
+  },
+
   serviceDays: {
     type: [String],
     required: true,

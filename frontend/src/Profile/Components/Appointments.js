@@ -6,6 +6,20 @@ import { appointmentStyles } from '../../styles/profCompStyles';
 import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
 import { jwtDecode } from 'jwt-decode';
 
+// Fetch it from local storage
+const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
+// Helper function to format time
+const formatTime = (time) => {
+  if (userPrefers24HourFormat) {
+    return time;
+  } else {
+    const [hour, minute] = time.split(':');
+    const hourIn12 = hour % 12 || 12;
+    const period = hour < 12 ? 'AM' : 'PM';
+    return `${hourIn12}:${minute} ${period}`;
+  }
+};
+
 const Appointments = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
   const [showDetails, setShowDetails] = useState([]);
@@ -26,7 +40,7 @@ const Appointments = () => {
           id: appointment._id,
           name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.serviceName}` ,
           date: new Date(appointment.dateTime).toLocaleDateString(),
-          time: new Date(appointment.dateTime).toLocaleTimeString(),
+          time: formatTime(new Date(appointment.dateTime).toLocaleTimeString()),
           location: appointment.service[0].location,
           status: appointment.status,
         }));

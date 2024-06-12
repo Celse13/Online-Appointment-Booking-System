@@ -252,6 +252,7 @@ class AppointmentController {
       next(error);
     }
   }
+
   static async deleteAppointment(
     req: Request,
     res: Response,
