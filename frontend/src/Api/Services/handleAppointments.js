@@ -57,9 +57,15 @@ class BusinessAppointments {
     }
   }
 
-    static async deleteAppointments() {
+    static async deleteAppointment(token, id) {
         try {
-
+            const response = await axios.delete(`${BASE_URL}/business/appointments/delete/${id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+          console.log(response.data);
+          return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -94,8 +100,19 @@ class ClientAppointments {
         }
     }
 
-
-
+  static async deleteAppointment(token, id) {
+    try {
+      const response = await axios.delete(`${BASE_URL}/client/appointments/delete/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 
