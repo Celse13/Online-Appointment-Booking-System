@@ -213,11 +213,7 @@ class AppointmentController {
   }
 
 
-  static async updateAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async updateAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
       const { date, time } = req.body;
       const dateTime = new Date(`${date}T${time}`);
@@ -253,13 +249,10 @@ class AppointmentController {
     }
   }
 
-  static async deleteAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async deleteAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
-      const appointment = await AppointmentModel.findByIdAndDelete(req.params.id);
+      const { id } = req.params;
+      const appointment = await AppointmentModel.findByIdAndDelete(id);
       if (!appointment) {
         return res.status(404).json({ message: 'Appointment not found' });
       }

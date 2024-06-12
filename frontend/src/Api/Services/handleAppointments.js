@@ -11,7 +11,6 @@ class BusinessAppointments {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -25,7 +24,7 @@ class BusinessAppointments {
                 'Authorization': `Bearer ${token}`
               }
             });
-            console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -38,7 +37,7 @@ class BusinessAppointments {
                 'Authorization': `Bearer ${token}`
               }
             });
-            console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -51,7 +50,7 @@ class BusinessAppointments {
         { status },
         { headers: { 'Authorization': `Bearer ${token}` }
       });
-      console.log(response.data);
+      return response.data;
     } catch (error) {
       console.error(error);
     }
@@ -60,12 +59,11 @@ class BusinessAppointments {
     static async deleteAppointment(token, id) {
         try {
             const response = await axios.delete(`${BASE_URL}/business/appointments/delete/${id}`, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
             });
-          console.log(response.data);
-          return response.data;
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -80,7 +78,6 @@ class ClientAppointments {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -94,29 +91,24 @@ class ClientAppointments {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
+            return response.data;
         } catch (error){
             console.error(error);
         }
     }
 
-  static async deleteAppointment(token, id) {
-    try {
-      const response = await axios.delete(`${BASE_URL}/client/appointments/delete/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+    static async deleteAppointment(token, id) {
+        try {
+            const response = await axios.delete(`${BASE_URL}/client/appointments/delete/${id}`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+            });
+            return response.data;
+          } catch (error) {
+              console.error(error);
         }
-      });
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
     }
-  }
 }
-
-
-
-
 
 export { BusinessAppointments, ClientAppointments }
