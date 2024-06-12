@@ -269,9 +269,6 @@ class AppointmentController {
       next(error);
     }
   }
-
-
-
 }
 
 export default AppointmentController;

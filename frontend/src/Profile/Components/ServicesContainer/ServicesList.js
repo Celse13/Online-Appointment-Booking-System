@@ -106,11 +106,11 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
       await ClientAppointments.createAppointment(appointmentData, token);
       setIsFormVisible(false);
       setFormData(initializeFormData());
+      alert("Booked!");
+      window.location.reload();
     } catch (error) {
       alert('Error booking service');
     }
-    alert("Booked!");
-    window.location.reload();
   };
 
   if (isLoading) {
