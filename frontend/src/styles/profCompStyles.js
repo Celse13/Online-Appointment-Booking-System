@@ -72,9 +72,6 @@ const sharedInputStyles = {
 
 
 export const myProfileStyles = StyleSheet.create({
-  colOne: {
-    backgroundColor: appColors.primaryLight,
-  },
   clientContainer: {
     marginLeft: '2rem',
     display: 'flex',

@@ -5,20 +5,7 @@ import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
 import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
 import { jwtDecode } from 'jwt-decode';
-
-// Fetch it from local storage
-const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
-// Helper function to format time
-const formatTime = (time) => {
-  if (userPrefers24HourFormat) {
-    return time;
-  } else {
-    const [hour, minute] = time.split(':');
-    const hourIn12 = hour % 12 || 12;
-    const period = hour < 12 ? 'AM' : 'PM';
-    return `${hourIn12}:${minute} ${period}`;
-  }
-};
+import { formatTime } from '../../utils/utils';
 
 const Appointments = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);

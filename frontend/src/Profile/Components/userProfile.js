@@ -44,6 +44,17 @@ const Profile = ({ userType }) => {
     );
   };
 
+  const handleDelete = async (serviceId) => {
+    try {
+      await BusinessServicesApi.deleteService(serviceId, token);
+      setServices((prevData) => prevData.filter((serv) => serv._id !== serviceId));
+      alert('Service deleted');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting service:', error);
+    }
+  }
+
   const renderMyServices = () => {
     return services.map((service, index) => (
       <div className={css(myProfileStyles.myServicesItem)}>
@@ -61,7 +72,7 @@ const Profile = ({ userType }) => {
             <p>Working Hours: {formatTime(service.workingHours.startHour + ':' + service.workingHours.startMinute)} - {formatTime(service.workingHours.endHour + ':' + service.workingHours.endMinute)}</p>
             <div className={css(appointmentStyles.buttons)}>
               <Button className={css(appointmentStyles.editButton)}><Pencil /></Button>
-              <Button className={css(appointmentStyles.deleteButton)}><Trash2 /></Button>
+              <Button className={css(appointmentStyles.deleteButton)} onClick={() => handleDelete(service._id)}><Trash2 /></Button>
             </div>
           </div>
         )}
@@ -73,7 +84,7 @@ const Profile = ({ userType }) => {
     <Container>
       <Row
         className={css(isClient && myProfileStyles.clientContainer, isAdmin && myProfileStyles.adminContainer)}>
-        <Col md={6} className={css(myProfileStyles.colOne)}>
+        <Col md={6}>
           <Card className={css(isClient && myProfileStyles.clientCard, isAdmin && myProfileStyles.adminCard)}>
             <CardHeader className={css(myProfileStyles.header)}>
               <img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} />
