@@ -72,9 +72,13 @@ const sharedInputStyles = {
 
 
 export const myProfileStyles = StyleSheet.create({
+  colOne: {
+    backgroundColor: appColors.primaryLight,
+  },
   clientContainer: {
+    marginLeft: '2rem',
     display: 'flex',
-    width: '100vw',
+    width: '90vw',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -114,15 +118,12 @@ export const myProfileStyles = StyleSheet.create({
     ...sharedButtonStyles,
   },
   adminContainer: {
+    marginLeft: '2rem',
     maxHeight: '90vh',
     display: 'flex',
-    width: '100vw',
+    width: '90vw',
     flexDirection: 'row',
     alignItems: 'start',
-    '@media (max-width: 750px)': {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
   },
   adminCard: {
     width: '25rem',
@@ -137,7 +138,8 @@ export const myProfileStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'start',
+    height: '100vh',
     '@media (max-width: 750px)': {
       maxHeight: '50vh',
     },
@@ -147,12 +149,35 @@ export const myProfileStyles = StyleSheet.create({
   },
   myServicesDiv: {
     overflowY: 'auto',
-    padding: '1rem',
+    width: '60%',
+    height: '100%',
   },
   myServicesItem: {
+
+  },
+  myServicesItemName: {
     display: 'flex',
-    marginBottom: '1rem',
+    flexDirection: 'row',
+    marginBottom: '.1rem',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  moreInfo: {
+    color: appColors.accentOpaque,
+    cursor: 'pointer',
+    ':hover': {
+      color: appColors.dusty,
+      textDecoration: 'underline',
+    },
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '.1rem',
+    justifyContent: 'start',
+    alignItems: 'start',
+    width: '100%',
   },
   resetPass: {
     color: appColors.accentOpaque,
