@@ -256,10 +256,22 @@ class AppointmentController {
       if (!appointment) {
         return res.status(404).json({ message: 'Appointment not found' });
       }
-      res
-        .status(200)
-        .json({ message: 'Appointment deleted successfully' });
+      res.status(200).json({ message: 'Appointment deleted successfully' });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteAppointmentsWithServiceId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { serviceId } = req.params;
+      const appointments = await AppointmentModel.deleteMany({ 'service._id': serviceId });
+      if (appointments.deletedCount === 0) {
+        return res.status(404).json({ message: 'Appointments not found' });
+      }
+      res.status(200).json({ message: 'Appointments deleted successfully' });
+    } catch (error) {
+      console.error(error);
       next(error);
     }
   }

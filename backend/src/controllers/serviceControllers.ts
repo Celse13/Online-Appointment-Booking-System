@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import ServiceModel, { serviceCategories } from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
+import AppointmentController from './appointmentController';
 
 class ServiceController {
   static async createService(req: Request, res: Response, next: NextFunction) {
@@ -72,8 +73,13 @@ class ServiceController {
 
   static async deleteService(req: Request, res: Response, next: NextFunction) {
     try {
-      await ServiceModel.findByIdAndDelete(req.params.id);
-      res.status(200).json({ message: 'Service deleted successfully' });
+      const { serviceId } = req.params;
+      const service = await ServiceModel.findByIdAndDelete(serviceId);
+      if (!service) {
+        return res.status(404).json({ message: 'Service not found' });
+      }
+      await AppointmentController.deleteAppointmentsWithServiceId(req, res, next);
+      res.status(200).json({ message: 'Service and associated appointments deleted successfully' });
     } catch (error) {
       next(error);
     }
