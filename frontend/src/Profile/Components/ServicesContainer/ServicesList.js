@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
 import { formatTime, getCurrentDate } from '../../../utils/utils';
-import { fetchServicesByCategory } from '../../../Api/Services/handleServicesApi';
+import { ClientServiceApi } from '../../../Api/Services/handleServicesApi';
 import { ClientAppointments } from '../../../Api/Services/handleAppointments';
 
 const initializeFormData = (service) => ({
@@ -55,7 +55,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
       setIsLoading(true);
       try {
         const token = localStorage.getItem('token');
-        const fetchedServices = await fetchServicesByCategory(selectedCategoryId, token);
+        const fetchedServices = await ClientServiceApi.getServicesByCategory(selectedCategoryId, token);
         setServices(fetchedServices);
       } catch (error) {
         console.error('Error fetching services:', error);

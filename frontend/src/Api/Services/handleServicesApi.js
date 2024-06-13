@@ -11,7 +11,7 @@ class BusinessServicesApi {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
+          return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -24,34 +24,33 @@ class BusinessServicesApi {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
         }
     }
 
-  /*static async updateServices(services, token) {
+  static async updateService(services, token) {
       try {
           const response = await axios.put(`${BASE_URL}/business/services`, services, {
               headers: {
                   'Authorization': `Bearer ${token}`
               }
           });
-          console.log(response.data);
+        return response.data;
       } catch (error) {
           console.error(error);
       }
   }
 
-  static async deleteServices(services, token) {
+  static async deleteService(serviceId, token) {
       try {
-          const response = await axios.delete(`${BASE_URL}/business/services`, services, {
+          const response = await axios.delete(`${BASE_URL}/business/services/delete/${serviceId}`, {
               headers: {
                   'Authorization': `Bearer ${token}`
               }
           });
-          console.log(response.data);
+          return response.data;
       } catch (error) {
           console.error(error);
       }
@@ -60,38 +59,19 @@ class BusinessServicesApi {
 
 
 class ClientServiceApi {
-  static async getServicesByCategory(token, categoryId) {
+  static async getServicesByCategory(categoryId, token) {
       try {
-          const response = await axios.get(`${BASE_URL}/client/services`, categoryId, {
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
-          });
-          console.log(response.data);
-          return response.data;
-
+        const response = await axios.get(`${BASE_URL}/client/services/category/${categoryId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        return response.data.services;
       } catch (error) {
-          console.log(error);
+        console.log(error);
       }
   }
-}*/
 }
 
-export const fetchServicesByCategory = async (categoryId, token) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/client/services/category/${categoryId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    console.log(token);
-    return response.data.services;
-  } catch (error) {
-    console.error('Error fetching services:', error);
-    console.log('Error fetching services: IS or HERE!!!!');
-    throw error;
-  }
-};
 
-
-export { BusinessServicesApi/*, ClientServiceApi */};
+export { BusinessServicesApi, ClientServiceApi };
