@@ -25,7 +25,7 @@ const CreateService = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
+
     if (type === 'checkbox') {
       localStorage.setItem('userPrefers24HourFormat', checked);
       setFormData((prevFormData) => ({
@@ -41,7 +41,7 @@ const CreateService = () => {
       } else {
         formattedValue = name === 'categoryId' ? parseInt(value) : value;
       }
-  
+
       setFormData({
         ...formData,
         [name]: formattedValue,
@@ -55,7 +55,7 @@ const CreateService = () => {
     const minute = parseInt(time.split(':')[1]);
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
   };
-  
+
   const formatTime12 = (time) => {
     let hour = parseInt(time.split(':')[0]);
     const minute = parseInt(time.split(':')[1]);
