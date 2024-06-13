@@ -181,5 +181,10 @@ export const sidebarStyles = StyleSheet.create({
     color: appColors.white,
     width: '40px',
     height: '40px',
+    ':hover': {
+      color: appColors.accentOpaque,
+      backgroundColor: appColors.white,
+      borderRadius: '0.375rem',
+    }
   },
 });
