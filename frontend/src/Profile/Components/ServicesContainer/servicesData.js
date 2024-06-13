@@ -17,5 +17,3 @@ export const serviceCategoriesFilter = [
   { id: 7, category: 'Tuition', image: Tuition },
   { id: 8, category: 'Other', image: Other },
 ];
-
-export const servicesListData = [];
