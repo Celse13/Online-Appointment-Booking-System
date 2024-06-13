@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export const serviceCategories = [
   { id: 1, name: 'Health' },
@@ -21,99 +21,119 @@ const serviceDaysData = [
   'Sunday',
 ];
 
-const serviceSchema = new mongoose.Schema({
+interface ServiceDocument extends Document {
+  business: mongoose.Types.ObjectId;
+  serviceName: string;
+  serviceDuration: number;
+  servicePrice: number;
+  categoryName: string;
+  categoryId: number;
+  serviceLocation: string;
+  workingHours: {
+    startHour: number;
+    startMinute: number;
+    startPeriod?: string;
+    endHour: number;
+    endMinute: number;
+    endPeriod?: string;
+  };
+  timeFormat: string;
+  serviceDays: string[];
+  date: Date;
+  serviceDescription?: string;
+}
+
+const serviceSchema = new Schema<ServiceDocument>({
   business: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Business',
-    required: true,
+    required: true
   },
   serviceName: {
     type: String,
-    required: true,
+    required: true
   },
   serviceDuration: {
     type: Number,
-    required: true,
+    required: true
   },
   servicePrice: {
     type: Number,
-    required: true,
+    required: true
   },
   categoryName: {
     type: String,
     required: true,
-    enum: serviceCategories.map(category => category.name),
+    enum: serviceCategories.map(category => category.name)
   },
   categoryId: {
     type: Number,
     required: true,
-    enum: serviceCategories.map(category => category.id),
+    enum: serviceCategories.map(category => category.id)
   },
   serviceLocation: {
     type: String,
-    required: true,
+    required: true
   },
   workingHours: {
     startHour: {
       type: Number,
       min: 0,
       max: 23,
-      required: true,
+      required: true
     },
     startMinute: {
       type: Number,
       min: 0,
       max: 59,
-      required: true,
+      required: true
     },
     startPeriod: {
       type: String,
       enum: ['AM', 'PM'],
-      required: false,
+      required: false
     },
     endHour: {
       type: Number,
       min: 0,
       max: 23,
-      required: true,
+      required: true
     },
     endMinute: {
       type: Number,
       min: 0,
       max: 59,
-      required: true,
+      required: true
     },
     endPeriod: {
       type: String,
       enum: ['AM', 'PM'],
-      required: false,
+      required: false
     },
   },
   timeFormat: {
     type: String,
     enum: ['12', '24'],
-    required: true,
+    required: true
   },
-
   serviceDays: {
     type: [String],
     required: true,
-    enum: serviceDaysData,
+    enum: serviceDaysData
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   serviceDescription: {
     type: String,
-    required: false,
     validate: [
-      function (value: string) {
-        return value.length >= 10 && value.length <= 500;
+      {
+        validator: (value: string) => value.length >= 10 && value.length <= 500,
+        message: 'The service description should be between 10 and 500 characters.',
       },
-      'The service description should be between 10 and 500 characters.',
     ],
-  }
+  },
 });
 
 serviceSchema.pre('save', async function (next) {
@@ -129,12 +149,21 @@ serviceSchema.pre('save', async function (next) {
 
 serviceSchema.pre(/^remove/, async function (next) {
   const service = this as mongoose.Document;
-  await mongoose
-    .model('Business')
-    .updateMany(
+  await mongoose.model('Business').updateMany(
       { services: service._id },
       { $pull: { services: service._id } },
     );
+  next();
+});
+
+serviceSchema.pre('findOneAndDelete', async function (next) {
+  const service = await this.model.findOne(this.getFilter());
+  if (service) {
+    await mongoose.model('Business').updateMany(
+      { services: service._id },
+      { $pull: { services: service._id } }
+    );
+  }
   next();
 });
 

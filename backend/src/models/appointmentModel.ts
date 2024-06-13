@@ -1,7 +1,25 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-const appointmentSchema = new mongoose.Schema(
-  {
+interface AppointmentDocument extends Document {
+  serviceName: string;
+  client: mongoose.Types.ObjectId;
+  clientName: string;
+  business?: mongoose.Types.ObjectId;
+  staff?: mongoose.Types.ObjectId;
+  dateTime: Date;
+  status: 'Pending' | 'Approved' | 'Rejected';
+  service: [
+    {
+      _id: mongoose.Types.ObjectId;
+      name: string;
+      location: string;
+      cost: number;
+    }
+  ];
+}
+
+
+const appointmentSchema = new Schema<AppointmentDocument>({
     serviceName: {
       type: String,
       required: true,
@@ -32,8 +50,8 @@ const appointmentSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'approved', 'rejected'],
-      default: 'pending',
+      enum: ['Pending', 'Approved', 'Rejected'],
+      default: 'Pending',
     },
     service: [
       {
@@ -60,5 +78,5 @@ const appointmentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const AppointmentModel = mongoose.model('Appointment', appointmentSchema);
+const AppointmentModel = mongoose.model<AppointmentDocument>('Appointment', appointmentSchema);
 export default AppointmentModel;
