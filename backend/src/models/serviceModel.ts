@@ -114,7 +114,7 @@ const serviceSchema = new Schema<ServiceDocument>({
   timeFormat: {
     type: String,
     enum: ['12', '24'],
-    required: true
+    required: false
   },
   serviceDays: {
     type: [String],
