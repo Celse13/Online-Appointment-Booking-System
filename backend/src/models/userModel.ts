@@ -1,7 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import crypto from 'crypto';
-import ClientModel from './clientModel';
-import { BusinessModel } from './businessModel';
 
 export interface IUser extends Document {
   name: string;

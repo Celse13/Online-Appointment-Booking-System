@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import { userSchema } from './userModel';
-import AdminValidators from '../validators/adminValidators';
 
 // Admin schema => this is the structure of the admin document in the collection
 

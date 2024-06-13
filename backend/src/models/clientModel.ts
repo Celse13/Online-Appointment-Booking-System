@@ -1,6 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { userSchema } from './userModel';
-import { ref } from 'joi';
+import mongoose from 'mongoose';
 
 interface IClient extends mongoose.Document {
   client: mongoose.Types.ObjectId;

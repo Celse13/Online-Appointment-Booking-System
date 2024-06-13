@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import StaffValidators from '../validators/staffValidators';
-
 import { userSchema } from './userModel';
+
 const staffSchema = new mongoose.Schema(
   {
     position: {
@@ -37,6 +37,4 @@ const staffSchema = new mongoose.Schema(
 );
 
 staffSchema.add(userSchema);
-
-const StaffModel = mongoose.model('Staff', staffSchema);
-export default StaffModel;
+mongoose.model('Staff', staffSchema);
