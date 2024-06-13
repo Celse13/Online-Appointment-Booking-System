@@ -11,6 +11,20 @@ export const handleBackHome = (navigate) => {
   navigate('/');
 }
 
+// Fetch it from local storage
+const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
+// Helper function to format time
+export const formatTime = (time) => {
+  if (userPrefers24HourFormat) {
+    return time;
+  } else {
+    const [hour, minute] = time.split(':');
+    const hourIn12 = hour % 12 || 12;
+    const period = hour < 12 ? 'AM' : 'PM';
+    return `${hourIn12}:${minute} ${period}`;
+  }
+};
+
 export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   const { name, value } = e.target;
   let errorMessage = '';

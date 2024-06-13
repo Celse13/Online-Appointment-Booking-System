@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Container, Form, FormCo
 import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
-import { getCurrentDate } from '../../../utils/utils';
+import { formatTime, getCurrentDate } from '../../../utils/utils';
 import { fetchServicesByCategory } from '../../../Api/Services/handleServicesApi';
 import { ClientAppointments } from '../../../Api/Services/handleAppointments';
 
@@ -18,21 +18,6 @@ const initializeFormData = (service) => ({
   closingTime: service ? service.workingHours.endHour + ':' + service.workingHours.endMinute + ' ' + service.workingHours.endPeriod : '',
   serviceDays: service ? service.serviceDays : [],
 });
-
-// Fetch it from local storage
-const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
-// Helper function to format time
-const formatTime = (time) => {
-  if (userPrefers24HourFormat) {
-    return time;
-  } else {
-    const [hour, minute] = time.split(':');
-    const hourIn12 = hour % 12 || 12;
-    const period = hour < 12 ? 'AM' : 'PM';
-    return `${hourIn12}:${minute} ${period}`;
-  }
-};
-
 
 const checkTimeDateError = (name, value, formData) => {
   if (name === 'time') {
@@ -56,6 +41,7 @@ const checkTimeDateError = (name, value, formData) => {
   }
   return '';
 };
+
 const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected }) => {
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
