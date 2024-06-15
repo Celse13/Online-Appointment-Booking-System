@@ -2,6 +2,7 @@ import { Router } from 'express';
 import BusinessController from '../../controllers/businessControllers';
 import authenticate from '../../utils/authenticate';
 import { checkRole } from '../../utils/isBusiness';
+import clientControllers from '../../controllers/clientControllers';
 
 const router = Router();
 
@@ -29,5 +30,6 @@ router.delete(
   checkRole(['business', 'staff']),
   BusinessController.deleteBusiness,
 );
+
 
 export default router;

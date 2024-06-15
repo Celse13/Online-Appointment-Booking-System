@@ -3,6 +3,7 @@ import ClientModel from '../models/clientModel';
 import AppointmentModel from '../models/appointmentModel';
 import ServiceModel from '../models/serviceModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
+import { UserModel } from '../models/userModel';
 
 class AppointmentController {
   static convertTo24Hour(time: string) {
@@ -69,6 +70,7 @@ class AppointmentController {
             cost: service.servicePrice
           },
         ],
+        business: service.business,
       });
       const savedAppointment = await appointment.save();
 

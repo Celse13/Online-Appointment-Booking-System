@@ -19,7 +19,7 @@ const appointmentSchema = new mongoose.Schema(
     business: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Business',
-      required: false,
+      required: true,
     },
     staff: {
       type: mongoose.Schema.Types.ObjectId,
