@@ -5,7 +5,7 @@ import { withNavigate } from '../../HOC/withNavigate';
 import AuthApi from '../../Api/Services/handleAuthApi';
 import { Lock, Mail } from 'lucide-react';
 import { servicesListStyles } from '../../styles/profCompStyles';
-import { jwtDecode } from 'jwt-decode';
+import { role } from '../../utils/constants';
 
 
 const Login = (props) => {
@@ -38,8 +38,6 @@ const Login = (props) => {
     try {
       const response = await AuthApi.login(user);
       const token = response.token;
-      const decoded = jwtDecode(token);
-      const role = decoded.role;
       localStorage.setItem('token', token);
 
       role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');

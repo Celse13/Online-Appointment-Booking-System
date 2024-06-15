@@ -6,6 +6,7 @@ import { servicesListStyles } from '../../../styles/profCompStyles';
 import { formatTime, getCurrentDate } from '../../../utils/utils';
 import { ClientServiceApi } from '../../../Api/Services/handleServicesApi';
 import { ClientAppointments } from '../../../Api/Services/handleAppointments';
+import { token } from '../../../utils/constants';
 
 const initializeFormData = (service) => ({
   serviceName: service ? service.serviceName : '',
@@ -54,7 +55,6 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
     const fetchServices = async () => {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem('token');
         const fetchedServices = await ClientServiceApi.getServicesByCategory(selectedCategoryId, token);
         setServices(fetchedServices);
       } catch (error) {
@@ -96,7 +96,6 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
 
   const handleConfirmClick = async(e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     const appointmentData = {
       date: formData.date,
       time: formData.time,

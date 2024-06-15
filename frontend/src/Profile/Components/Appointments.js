@@ -4,17 +4,14 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
 import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
-import { jwtDecode } from 'jwt-decode';
 import { formatTime } from '../../utils/utils';
+import { role, token } from '../../utils/constants';
 
 const Appointments = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
   const [showDetails, setShowDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token);
-  const role = decoded.role;
 
   useEffect(() => {
     const fetchAppointments = async () => {
