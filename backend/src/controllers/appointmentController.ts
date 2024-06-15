@@ -148,14 +148,15 @@ class AppointmentController {
     }
   }
 
-
   static async updateAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
-      const { date, time } = req.body;
-      const dateTime = new Date(`${date}T${time}`);
+      const { dateTime } = req.body;
+      if (!dateTime || isNaN(new Date(dateTime).getTime())) {
+        return res.status(400).json({ message: 'Invalid dateTime format' });
+      }
       const appointment = await AppointmentModel.findByIdAndUpdate(
         req.params.id,
-        { ...req.body, dateTime },
+        { ...req.body, dateTime: new Date(dateTime) },
         { new: true },
         );
 
