@@ -58,14 +58,15 @@ class ServiceController {
 
   static async updateService(req: Request, res: Response, next: NextFunction) {
     try {
+      const { serviceId } = req.params;
       const service = await ServiceModel.findByIdAndUpdate(
-        req.params.id,
-        req.body,
+        serviceId,
+        { $set: req.body },
         { new: true },
       );
-      res
-        .status(200)
-        .json({ message: 'Service updated successfully', service });
+
+      !service && res.status(404).json({ message: 'Service not found' })
+      res.status(200).json({ message: 'Service updated successfully', service });
     } catch (error) {
       next(error);
     }
@@ -95,6 +96,7 @@ class ServiceController {
       next(error);
     }
   }
+
   static async getServicesByCategory(req: Request, res: Response, next: NextFunction) {
     try {
       const { categoryId } = req.params;
