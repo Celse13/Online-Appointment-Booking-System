@@ -17,11 +17,7 @@ class AppointmentController {
     }
   }
 
-  static async createAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async createAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
       let client = await ClientModel.findOne({ client: req.user?._id });
       if (!client) {
@@ -77,6 +73,7 @@ class AppointmentController {
       await client.save();
 
       const business = await BusinessModel.findById(service.business);
+
       if (!business) {
         return res.status(404).json({ message: 'Business not found' });
       }
@@ -91,54 +88,10 @@ class AppointmentController {
     }
   }
 
-  static async approveAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { status: 'approved' },
-        { new: true },
-      );
-      res
-        .status(200)
-        .json({ message: 'Appointment approved successfully', appointment });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async rejectAppointment(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const appointment = await AppointmentModel.findByIdAndUpdate(
-        req.params.id,
-        { status: 'rejected' },
-        { new: true },
-      );
-      res
-        .status(200)
-        .json({ message: 'Appointment rejected successfully', appointment });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getBusinessAppointments(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-
+  static async getBusinessAppointments(req: Request, res: Response, next: NextFunction,) {
     const userId = req.user ? req.user._id : undefined;
-    if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
+    !userId && res.status(401).json({ message: 'Unauthorized' });
+
     try {
       const business = (await BusinessModel.findOne({
         owner: userId,
@@ -155,31 +108,19 @@ class AppointmentController {
         },
       })) as IBusiness
 
-      if (!business) {
-        return res.status(404).json({ message: 'Business not found' });
-      }
-
-      res
-        .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments: business.appointments });
+      !business && res.status(404).json({ message: 'Business not found' });
+      res.status(200).json({ message: 'Appointments fetched successfully', appointments: business.appointments });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getClientAppointments(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  static async getClientAppointments(req: Request, res: Response, next: NextFunction,) {
     const userId = req.user ? req.user._id : undefined;
-    if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
+    !userId && res.status(401).json({ message: 'Unauthorized' });
     try {
       const client = (await ClientModel.findOne({
         client: userId,
-
       }).populate({
         path: 'appointments',
         populate: {
@@ -189,13 +130,8 @@ class AppointmentController {
         },
       })) as any;
 
-      if (!client) {
-        return res.status(200).json({ message: 'No appointments found', appointments: [] });
-      }
-
-      res
-        .status(200)
-        .json({ message: 'Appointments fetched successfully', appointments: client.appointments  });
+      !client && res.status(200).json({ message: 'No appointments found', appointments: [] });
+      res.status(200).json({ message: 'Appointments fetched successfully', appointments: client.appointments  });
     } catch (error) {
       next(error);
     }
@@ -204,9 +140,9 @@ class AppointmentController {
   static async getAppointment(req: Request, res: Response, next: NextFunction) {
     try {
       const appointment = await AppointmentModel.findById(req.params.id);
-      res
-        .status(200)
-        .json({ message: 'Appointment fetched successfully', appointment });
+
+      !appointment && res.status(404).json({ message: 'Appointment not found' });
+      res.status(200).json({ message: 'Appointment fetched successfully', appointment });
     } catch (error) {
       next(error);
     }
@@ -221,13 +157,10 @@ class AppointmentController {
         req.params.id,
         { ...req.body, dateTime },
         { new: true },
-      );
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-      res
-        .status(200)
-        .json({ message: 'Appointment updated successfully', appointment });
+        );
+
+      !appointment && res.status(404).json({ message: 'Appointment not found' });
+      res.status(200).json({ message: 'Appointment updated successfully', appointment });
     } catch (error) {
       next(error);
     }
@@ -237,12 +170,9 @@ class AppointmentController {
     try {
       const { id } = req.params;
       const { status } = req.body;
-
       const appointment = await AppointmentModel.findByIdAndUpdate(id, { status }, { new: true });
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
 
+      !appointment && res.status(404).json({ message: 'Appointment not found' });
       res.status(200).json({ message: 'Appointment status updated successfully', appointment });
     } catch (error) {
       next(error);
@@ -253,9 +183,8 @@ class AppointmentController {
     try {
       const { id } = req.params;
       const appointment = await AppointmentModel.findByIdAndDelete(id);
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
+
+      !appointment && res.status(404).json({ message: 'Appointment not found' });
       res.status(200).json({ message: 'Appointment deleted successfully' });
     } catch (error) {
       next(error);
@@ -266,9 +195,8 @@ class AppointmentController {
     try {
       const { serviceId } = req.params;
       const appointments = await AppointmentModel.deleteMany({ 'service._id': serviceId });
-      if (appointments.deletedCount === 0) {
-        return res.status(404).json({ message: 'Appointments not found' });
-      }
+
+      appointments.deletedCount === 0 && res.status(404).json({ message: 'Appointments not found' });
       res.status(200).json({ message: 'Appointments deleted successfully' });
     } catch (error) {
       console.error(error);
