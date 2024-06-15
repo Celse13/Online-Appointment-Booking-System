@@ -54,7 +54,6 @@ class AppointmentController {
 
       const appointment = new AppointmentModel({
         ...req.body,
-        serviceName: service.serviceName,
         client: client._id,
         clientName: user.name,
         dateTime,
@@ -121,14 +120,7 @@ class AppointmentController {
     try {
       const client = (await ClientModel.findOne({
         client: userId,
-      }).populate({
-        path: 'appointments',
-        populate: {
-          path: 'service._id',
-          model: 'Service',
-          select: 'serviceName',
-        },
-      })) as any;
+      }).populate('appointments')) as any;
 
       !client && res.status(200).json({ message: 'No appointments found', appointments: [] });
       res.status(200).json({ message: 'Appointments fetched successfully', appointments: client.appointments  });

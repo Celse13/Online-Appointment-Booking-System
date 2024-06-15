@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
 interface AppointmentDocument extends Document {
-  serviceName: string;
   client: mongoose.Types.ObjectId;
   clientName: string;
   business?: mongoose.Types.ObjectId;
@@ -20,10 +19,6 @@ interface AppointmentDocument extends Document {
 
 
 const appointmentSchema = new Schema<AppointmentDocument>({
-    serviceName: {
-      type: String,
-      required: true,
-    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Client',
