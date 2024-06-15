@@ -64,8 +64,8 @@ class ServiceController {
         { $set: req.body },
         { new: true },
       );
-
       !service && res.status(404).json({ message: 'Service not found' })
+      await AppointmentController.updateAppointmentServiceDetails(req, res, next);
       res.status(200).json({ message: 'Service updated successfully', service });
     } catch (error) {
       next(error);

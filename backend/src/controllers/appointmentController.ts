@@ -159,6 +159,33 @@ class AppointmentController {
     }
   }
 
+  static async updateAppointmentServiceDetails(req: Request, res: Response, next: NextFunction,) {
+    try {
+      const { serviceId } = req.params;
+      const updateFields = req.body;
+      const service = await ServiceModel.findById(serviceId);
+
+      !service && res.status(404).json({ message: 'Service not found' });
+
+      const { serviceName, serviceLocation, servicePrice } = updateFields;
+      const updateAppointmentFields: any = {};
+
+      if (serviceName) updateAppointmentFields['service.$.name'] = serviceName;
+      if (serviceLocation) updateAppointmentFields['service.$.location'] = serviceLocation;
+      if (servicePrice) updateAppointmentFields['service.$.cost'] = servicePrice;
+
+      const appointments = await AppointmentModel.updateMany(
+        { 'service._id': serviceId },
+        { $set: updateAppointmentFields }
+      );
+
+      !appointments && res.status(404).json({ message: 'Appointments not found' });
+      res.status(200).json({ message: 'Appointment service details updated successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async updateAppointmentStatus(req: Request, res: Response, next: NextFunction, ) {
     try {
       const { id } = req.params;
