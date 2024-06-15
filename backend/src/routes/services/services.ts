@@ -8,7 +8,7 @@ const clientRouter = Router();
 
 // Business routes
 businessRouter.post('/', authenticate, checkRole(['business', 'staff']), ServiceController.createService,);
-businessRouter.put('/update/:serviceId', authenticate, checkRole(['business', 'staff']), ServiceController.updateService,);
+businessRouter.patch('/update/:serviceId', authenticate, checkRole(['business', 'staff']), ServiceController.updateService,);
 businessRouter.delete('/delete/:serviceId', authenticate, checkRole(['business', 'staff']), ServiceController.deleteService,);
 businessRouter.get('/myServices', authenticate, checkRole(['business', 'staff']), ServiceController.getBusinessServices,);
 
