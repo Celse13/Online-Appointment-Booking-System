@@ -6,7 +6,6 @@ import { servicesListStyles } from '../../../styles/profCompStyles';
 import { formatTime, getCurrentDate } from '../../../utils/utils';
 import { ClientServiceApi } from '../../../Api/Services/handleServicesApi';
 import { ClientAppointments } from '../../../Api/Services/handleAppointments';
-import { token } from '../../../utils/constants';
 
 const initializeFormData = (service) => ({
   serviceName: service ? service.serviceName : '',
@@ -50,6 +49,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
   const [formData, setFormData] = useState(initializeFormData());
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+	const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchServices = async () => {

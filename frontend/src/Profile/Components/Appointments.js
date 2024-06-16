@@ -5,7 +5,7 @@ import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
 import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
 import { formatTime } from '../../utils/utils';
-import { role, token } from '../../utils/constants';
+import { jwtDecode } from 'jwt-decode';
 
 const Appointments = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);

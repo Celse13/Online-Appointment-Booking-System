@@ -4,10 +4,10 @@ import { serviceCategoriesFilter } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
-import { token } from '../../../utils/constants';
 
 
 const CreateService = () => {
+	const token = localStorage.getItem('token');
   const [formData, setFormData] = useState({
     serviceName: '',
     categoryId: '',

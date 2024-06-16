@@ -6,13 +6,15 @@ import { appointmentStyles, myProfileStyles } from '../../styles/profCompStyles'
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
 import { Pencil, Trash2 } from 'lucide-react';
 import { formatTime } from '../../utils/utils';
-import { decoded, token } from '../../utils/constants';
+import { jwtDecode } from 'jwt-decode';
 
 const Profile = ({ userType }) => {
   const isClient = userType === 'client';
   const isAdmin = userType === 'admin';
   const [services, setServices] = useState([]);
   const [showDetails, setShowDetails] = useState([]);
+	const token = localStorage.getItem('token');
+	const decoded = jwtDecode(token);
   const email = decoded.email;
   const name = decoded.username;
 

@@ -5,7 +5,7 @@ import logo from '../../Assets/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { handleBackHome } from '../../utils/utils';
-import { decoded, token } from '../../utils/constants';
+import { jwtDecode } from 'jwt-decode';
 
 const SidebarContext = createContext(undefined);
 
@@ -16,6 +16,9 @@ const Sidebar = ({ children, onSelect, navigate }) => {
     setActiveItem(item);
     onSelect(item);
   }
+
+	const token = localStorage.getItem('token');
+	const decoded = jwtDecode(token);
   const email = decoded.email;
   const name = decoded.username;
 
