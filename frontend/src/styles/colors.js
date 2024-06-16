@@ -8,7 +8,7 @@ export const appColors = {
   secondaryDark: '#C18F98',
   accent: '#986D8ED9',
   accentOpaque: '#986D8E',
-  lightBlue: '#DAEAF1',
+  lightBlue: '#39BFD7FF',
   lightGreen: '#B7CECE',
   lightRed: '#e8c5cf',
   darkGreen: '#3d8070',

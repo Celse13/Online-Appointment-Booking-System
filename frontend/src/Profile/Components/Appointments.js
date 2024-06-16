@@ -187,15 +187,13 @@ const Appointments = () => {
           </Card>
         ))}
 				{currentAppointment && (
-					<Modal show={showModal} onHide={handleCloseModal}>
-						<Modal.Header closeButton>
-							<Modal.Title>Edit Appointment</Modal.Title>
-						</Modal.Header>
+					<Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>
+						<Modal.Header closeButton className={css(appointmentStyles.header)}>Update Date and Time</Modal.Header>
 						<Modal.Body>
 							<Form>
-								<Form.Group controlId="formDateTime">
-									<Form.Label>New Date and Time</Form.Label>
+								<Form.Group controlId="formDateTime" >
 									<Form.Control
+										className={css(appointmentStyles.modalBody)}
 										type="datetime-local"
 										value={newDateTime}
 										onChange={(e) => setNewDateTime(e.target.value)}
@@ -203,13 +201,9 @@ const Appointments = () => {
 								</Form.Group>
 							</Form>
 						</Modal.Body>
-						<Modal.Footer>
-							<Button variant="secondary" onClick={handleCloseModal}>
-								Close
-							</Button>
-							<Button variant="primary" onClick={handleEdit}>
-								Save Changes
-							</Button>
+						<Modal.Footer className={css(appointmentStyles.footer)}>
+							<Button variant="secondary" onClick={handleCloseModal} className={css(appointmentStyles.button)}>Close</Button>
+							<Button variant="primary" onClick={handleEdit} className={css(appointmentStyles.button)}>Save Changes</Button>
 						</Modal.Footer>
 					</Modal>
 				)}

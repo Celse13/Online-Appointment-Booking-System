@@ -227,11 +227,11 @@ export const appointmentStyles = StyleSheet.create({
 
   editButton: {
     margin: '0.5rem',
-    backgroundColor: '#39BFD7FF',
+    backgroundColor: appColors.lightBlue,
     border: 'none',
   },
   deleteButton: {
-    backgroundColor: '#D73939',
+    backgroundColor: appColors.red,
     border: 'none',
   },
   footer: {
@@ -240,6 +240,12 @@ export const appointmentStyles = StyleSheet.create({
   button: {
     ...sharedButtonStyles,
   },
+	modal: {
+		color: appColors.primaryText,
+	},
+	modalBody: {
+		color: appColors.primaryText,
+	}
 });
 
 export const notificationsStyles = StyleSheet.create({
