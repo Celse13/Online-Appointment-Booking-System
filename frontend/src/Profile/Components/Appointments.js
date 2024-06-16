@@ -80,7 +80,6 @@ const Appointments = () => {
       alert('Appointment deleted successfully');
       window.location.reload();
     } catch (error) {
-      console.error('Error deleting appointment:', error);
       setIsError(true);
       alert('Error deleting appointment');
     }
@@ -98,7 +97,6 @@ const Appointments = () => {
 			alert('Appointment updated successfully');
 			window.location.reload();
 		} catch (error) {
-			console.error('Error updating appointment:', error);
 			setIsError(true);
 			alert('Error updating appointment');
 		}
@@ -108,8 +106,6 @@ const Appointments = () => {
 		setCurrentAppointment(appointment.id);
 		setNewDateTime(formatDateTimeLocal(appointment.dateTime));
 		setShowModal(true);
-		console.log('appointmentId:', appointment.id);
-		console.log('dateTime:', formatDateTimeLocal(appointment.dateTime));
 	};
 
 	const handleCloseModal = () => {
