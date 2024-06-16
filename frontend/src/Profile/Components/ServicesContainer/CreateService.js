@@ -189,7 +189,7 @@ const CreateService = () => {
               value={formData.servicePrice}
               onChange={handleChange}
               required />
-            <InputGroup.Text className={css(createServiceStyles.inputDurationText)}>KSH</InputGroup.Text>
+            <InputGroup.Text className={css(createServiceStyles.inputDurationText)}>$</InputGroup.Text>
           </InputGroup>
         </Form.Group>
         <Form.Group>

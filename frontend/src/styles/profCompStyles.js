@@ -445,6 +445,9 @@ export const createServiceStyles = StyleSheet.create({
     ...sharedButtonStyles,
   },
   checkboxGroup: {
-
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'start',
+		alignItems: 'start',
   },
 });
