@@ -16,8 +16,9 @@ const Sidebar = ({ children, onSelect, navigate }) => {
     setActiveItem(item);
     onSelect(item);
   }
-  const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token);
+
+	const token = localStorage.getItem('token');
+	const decoded = jwtDecode(token);
   const email = decoded.email;
   const name = decoded.username;
 

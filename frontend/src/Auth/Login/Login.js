@@ -38,10 +38,9 @@ const Login = (props) => {
     try {
       const response = await AuthApi.login(user);
       const token = response.token;
-      const decoded = jwtDecode(token);
-      const role = decoded.role;
       localStorage.setItem('token', token);
-
+			const decoded = jwtDecode(token);
+			const role = decoded.role;
       role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
 
     } catch (error) {

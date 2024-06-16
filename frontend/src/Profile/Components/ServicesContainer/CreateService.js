@@ -7,6 +7,7 @@ import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
 
 
 const CreateService = () => {
+	const token = localStorage.getItem('token');
   const [formData, setFormData] = useState({
     serviceName: '',
     categoryId: '',
@@ -67,7 +68,6 @@ const CreateService = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
       const serviceData = {
         serviceName: formData.serviceName,
         serviceDuration: formData.serviceDuration,
@@ -189,7 +189,7 @@ const CreateService = () => {
               value={formData.servicePrice}
               onChange={handleChange}
               required />
-            <InputGroup.Text className={css(createServiceStyles.inputDurationText)}>KSH</InputGroup.Text>
+            <InputGroup.Text className={css(createServiceStyles.inputDurationText)}>$</InputGroup.Text>
           </InputGroup>
         </Form.Group>
         <Form.Group>

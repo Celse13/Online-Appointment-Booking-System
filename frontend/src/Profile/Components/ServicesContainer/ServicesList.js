@@ -49,12 +49,12 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
   const [formData, setFormData] = useState(initializeFormData());
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+	const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchServices = async () => {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem('token');
         const fetchedServices = await ClientServiceApi.getServicesByCategory(selectedCategoryId, token);
         setServices(fetchedServices);
       } catch (error) {
@@ -96,7 +96,6 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
 
   const handleConfirmClick = async(e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     const appointmentData = {
       date: formData.date,
       time: formData.time,

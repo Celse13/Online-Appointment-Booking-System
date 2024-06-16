@@ -64,10 +64,6 @@ const Signup = (props) => {
 
     try {
       await AuthApi.signup(user);
-      //const response = await AuthApi.signup(user);
-      //const token = response.token;
-      //localStorage.setItem('token', token);
-
       setShowVerification(true);
     } catch (error) {
       alert('Error creating user. Try again later!');

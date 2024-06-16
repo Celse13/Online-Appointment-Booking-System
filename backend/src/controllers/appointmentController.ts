@@ -54,7 +54,6 @@ class AppointmentController {
 
       const appointment = new AppointmentModel({
         ...req.body,
-        serviceName: service.serviceName,
         client: client._id,
         clientName: user.name,
         dateTime,
@@ -121,14 +120,7 @@ class AppointmentController {
     try {
       const client = (await ClientModel.findOne({
         client: userId,
-      }).populate({
-        path: 'appointments',
-        populate: {
-          path: 'service._id',
-          model: 'Service',
-          select: 'serviceName',
-        },
-      })) as any;
+      }).populate('appointments')) as any;
 
       !client && res.status(200).json({ message: 'No appointments found', appointments: [] });
       res.status(200).json({ message: 'Appointments fetched successfully', appointments: client.appointments  });
@@ -162,6 +154,33 @@ class AppointmentController {
 
       !appointment && res.status(404).json({ message: 'Appointment not found' });
       res.status(200).json({ message: 'Appointment updated successfully', appointment });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateAppointmentServiceDetails(req: Request, res: Response, next: NextFunction,) {
+    try {
+      const { serviceId } = req.params;
+      const updateFields = req.body;
+      const service = await ServiceModel.findById(serviceId);
+
+      !service && res.status(404).json({ message: 'Service not found' });
+
+      const { serviceName, serviceLocation, servicePrice } = updateFields;
+      const updateAppointmentFields: any = {};
+
+      if (serviceName) updateAppointmentFields['service.$.name'] = serviceName;
+      if (serviceLocation) updateAppointmentFields['service.$.location'] = serviceLocation;
+      if (servicePrice) updateAppointmentFields['service.$.cost'] = servicePrice;
+
+      const appointments = await AppointmentModel.updateMany(
+        { 'service._id': serviceId },
+        { $set: updateAppointmentFields }
+      );
+
+      !appointments && res.status(404).json({ message: 'Appointments not found' });
+      res.status(200).json({ message: 'Appointment service details updated successfully' });
     } catch (error) {
       next(error);
     }

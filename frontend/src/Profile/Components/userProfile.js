@@ -4,17 +4,17 @@ import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { appointmentStyles, myProfileStyles } from '../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
-import { jwtDecode } from 'jwt-decode';
 import { Pencil, Trash2 } from 'lucide-react';
 import { formatTime } from '../../utils/utils';
+import { jwtDecode } from 'jwt-decode';
 
 const Profile = ({ userType }) => {
   const isClient = userType === 'client';
   const isAdmin = userType === 'admin';
   const [services, setServices] = useState([]);
   const [showDetails, setShowDetails] = useState([]);
-  const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token);
+	const token = localStorage.getItem('token');
+	const decoded = jwtDecode(token);
   const email = decoded.email;
   const name = decoded.username;
 
