@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Alert, Dropdown, } from 'react-bootstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Alert, Dropdown, Modal, Form, } from 'react-bootstrap';
 import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
@@ -12,6 +12,12 @@ const Appointments = () => {
   const [showDetails, setShowDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+	const [currentAppointment, setCurrentAppointment] = useState(null);
+	const [newDateTime, setNewDateTime] = useState('');
+	const token = localStorage.getItem('token');
+	const decoded = jwtDecode(token);
+	const role = decoded.role;
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -22,11 +28,12 @@ const Appointments = () => {
         const response = await getAppointments(token);
         const appointments = response.appointments.map((appointment) => ({
           id: appointment._id,
-          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.serviceName}` ,
+          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.service[0].name}` ,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: formatTime(new Date(appointment.dateTime).toLocaleTimeString()),
           location: appointment.service[0].location,
           status: appointment.status,
+					dateTime: appointment.dateTime,
         }));
         setAppointmentsData(appointments);
         setShowDetails(appointments.map(() => false));
@@ -36,7 +43,6 @@ const Appointments = () => {
       }
       setIsLoading(false);
     };
-
     fetchAppointments()
       .then();
   }, []);
@@ -79,6 +85,48 @@ const Appointments = () => {
       alert('Error deleting appointment');
     }
   };
+
+	const handleEdit = async () => {
+		try {
+			await BusinessAppointments.updateAppointment(currentAppointment, newDateTime, token);
+			setAppointmentsData((prevData) =>
+				prevData.map((app) =>
+					app.id === currentAppointment ? { ...app, date: new Date(newDateTime).toLocaleDateString(), time: formatTime(new Date(newDateTime).toLocaleTimeString()) } : app
+				)
+			);
+			setShowModal(false);
+			alert('Appointment updated successfully');
+			window.location.reload();
+		} catch (error) {
+			console.error('Error updating appointment:', error);
+			setIsError(true);
+			alert('Error updating appointment');
+		}
+	};
+
+	const handleShowModal = (appointment) => {
+		setCurrentAppointment(appointment.id);
+		setNewDateTime(formatDateTimeLocal(appointment.dateTime));
+		setShowModal(true);
+		console.log('appointmentId:', appointment.id);
+		console.log('dateTime:', formatDateTimeLocal(appointment.dateTime));
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+		setCurrentAppointment(null);
+		setNewDateTime('');
+	};
+
+	const formatDateTimeLocal = (dateTime) => {
+		const date = new Date(dateTime);
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		return `${year}-${month}-${day}T${hours}:${minutes}`;
+	};
 
   if (isLoading) {
     return <Spinner animation="border" role="status"><span className="sr-only"></span></Spinner>;
@@ -127,7 +175,7 @@ const Appointments = () => {
                     )}
                   </div>
                   <div className={css(appointmentStyles.buttons)}>
-                    <Button className={css(appointmentStyles.editButton)}><Pencil /></Button>
+                    <Button className={css(appointmentStyles.editButton)} onClick={() => handleShowModal(appointment)}><Pencil /></Button>
                     <Button className={css(appointmentStyles.deleteButton)} onClick={() => handleDelete(appointment.id)}><Trash2 /></Button>
                   </div>
                 </div>
@@ -142,6 +190,33 @@ const Appointments = () => {
             </CardFooter>
           </Card>
         ))}
+				{currentAppointment && (
+					<Modal show={showModal} onHide={handleCloseModal}>
+						<Modal.Header closeButton>
+							<Modal.Title>Edit Appointment</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							<Form>
+								<Form.Group controlId="formDateTime">
+									<Form.Label>New Date and Time</Form.Label>
+									<Form.Control
+										type="datetime-local"
+										value={newDateTime}
+										onChange={(e) => setNewDateTime(e.target.value)}
+									/>
+								</Form.Group>
+							</Form>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button variant="secondary" onClick={handleCloseModal}>
+								Close
+							</Button>
+							<Button variant="primary" onClick={handleEdit}>
+								Save Changes
+							</Button>
+						</Modal.Footer>
+					</Modal>
+				)}
       </Container>
     </Container>
   );
