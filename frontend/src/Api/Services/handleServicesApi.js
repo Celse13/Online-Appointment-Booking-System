@@ -30,12 +30,12 @@ class BusinessServicesApi {
         }
     }
 
-  static async updateService(services, token) {
+  static async updateService(serviceId, updateFields, token) {
       try {
-          const response = await axios.put(`${BASE_URL}/business/services`, services, {
-              headers: {
-                  'Authorization': `Bearer ${token}`
-              }
+          const response = await axios.patch(
+						`${BASE_URL}/business/services/update/${serviceId}`,
+						{ ...updateFields },
+						{ headers: { 'Authorization': `Bearer ${token}` }
           });
         return response.data;
       } catch (error) {
