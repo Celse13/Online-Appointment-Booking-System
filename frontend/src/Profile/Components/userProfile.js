@@ -6,6 +6,7 @@ import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
 import { Pencil, Trash2 } from 'lucide-react';
 import { daysOfWeek, formatTime } from '../../utils/utils';
+import UserApi from '../../Api/Services/handleUserApi';
 import { jwtDecode } from 'jwt-decode';
 
 const Profile = ({ userType }) => {
@@ -16,10 +17,10 @@ const Profile = ({ userType }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [currentService, setCurrentService] = useState(null);
 	const [updateFields, setUpdateFields] = useState({});
+	const [profileData, setProfileData] = useState({ name: '', email: '', profilePicture: '' });
 	const token = localStorage.getItem('token');
 	const decoded = jwtDecode(token);
-  const email = decoded.email;
-  const name = decoded.username;
+	const userId = decoded._id;
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -44,11 +45,22 @@ const Profile = ({ userType }) => {
         console.error('Error fetching services:', error);
       }
     };
+
+		const fetchProfile = async () => {
+			try {
+				const response = await UserApi.getUserById(userId, token);
+				setProfileData(response.data);
+			} catch (error) {
+				console.error('Error fetching profile:', error);
+			}
+		};
     if (isAdmin) {
       fetchServices()
         .then();
     }
-  }, [isAdmin, token]);
+		fetchProfile()
+			.then();
+  }, [isAdmin, token, userId]);
 
   const handleMoreInfo = (index) => {
     setShowDetails((prevDetails) =>
@@ -157,12 +169,15 @@ const Profile = ({ userType }) => {
         <Col md={6}>
           <Card className={css(isClient && myProfileStyles.clientCard, isAdmin && myProfileStyles.adminCard)}>
             <CardHeader className={css(myProfileStyles.header)}>
-              <img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} />
-            </CardHeader>
-            <CardBody className={css(myProfileStyles.body)}>
-              <div className={css(myProfileStyles.bodyDiv)}>
-                <h6>Name: {name}</h6>
-                <h6>Email: {email}</h6>
+							{profileData.profilePicture === '' ?
+								<img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} /> :
+								<img src={profileData.profilePicture} alt="profile picture" className={css(myProfileStyles.ppic)} />
+							}
+						</CardHeader>
+						<CardBody className={css(myProfileStyles.body)}>
+						<div className={css(myProfileStyles.bodyDiv)}>
+                <h6>Name: {profileData.name}</h6>
+                <h6>Email: {profileData.email}</h6>
                 <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
               </div>
             </CardBody>
