@@ -30,14 +30,9 @@ interface ServiceDocument extends Document {
   categoryId: number;
   serviceLocation: string;
   workingHours: {
-    startHour: number;
-    startMinute: number;
-    startPeriod?: string;
-    endHour: number;
-    endMinute: number;
-    endPeriod?: string;
+    startTime: String;
+    endTime: String;
   };
-  timeFormat: string;
   serviceDays: string[];
   date: Date;
   serviceDescription?: string;
@@ -76,45 +71,22 @@ const serviceSchema = new Schema<ServiceDocument>({
     required: true
   },
   workingHours: {
-    startHour: {
-      type: Number,
-      min: 0,
-      max: 23,
-      required: true
-    },
-    startMinute: {
-      type: Number,
-      min: 0,
-      max: 59,
-      required: true
-    },
-    startPeriod: {
+    startTime: {
       type: String,
-      enum: ['AM', 'PM'],
-      required: false
+      required: true,
+      validate: {
+        validator: (value: string) => /^([0-1]\d|2[0-3]):([0-5]\d)$/.test(value),
+        message: 'Invalid time format. Expected HH:MM (24-hour format).'
+      }
     },
-    endHour: {
-      type: Number,
-      min: 0,
-      max: 23,
-      required: true
-    },
-    endMinute: {
-      type: Number,
-      min: 0,
-      max: 59,
-      required: true
-    },
-    endPeriod: {
+    endTime: {
       type: String,
-      enum: ['AM', 'PM'],
-      required: false
+      required: true,
+      validate: {
+        validator: (value: string) => /^([0-1]\d|2[0-3]):([0-5]\d)$/.test(value),
+        message: 'Invalid time format. Expected HH:MM (24-hour format).'
+      }
     },
-  },
-  timeFormat: {
-    type: String,
-    enum: ['12', '24'],
-    required: false
   },
   serviceDays: {
     type: [String],

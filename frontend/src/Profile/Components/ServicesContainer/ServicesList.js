@@ -14,8 +14,8 @@ const initializeFormData = (service) => ({
   time: '',
   date: '',
   serviceLocation: service ? service.serviceLocation : '',
-  openingTime: service ? service.workingHours.startHour + ':' + service.workingHours.startMinute + ' ' + service.workingHours.startPeriod : '',
-  closingTime: service ? service.workingHours.endHour + ':' + service.workingHours.endMinute + ' ' + service.workingHours.endPeriod : '',
+  openingTime: service ? service.workingHours.startTime : '',
+  closingTime: service ? service.workingHours.endTime : '',
   serviceDays: service ? service.serviceDays : [],
 });
 
@@ -134,7 +134,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
                 <div className={css(servicesListStyles.bodyDiv)}>
                   <h6>Duration: {service.serviceDuration} min</h6>
                   <h6>Cost: ${service.servicePrice}</h6>
-                  <h6>Time: {formatTime(service.workingHours.startHour + ':' + service.workingHours.startMinute)} - {formatTime(service.workingHours.endHour + ':' + service.workingHours.endMinute)}</h6>
+                  <h6>Time: {formatTime(service.workingHours.startTime)} - {formatTime(service.workingHours.endTime)}</h6>
                   <h6>Location: {service.serviceLocation}</h6>
                   <h6>Days: {service.serviceDays.join(',\n')}</h6>
                 </div>

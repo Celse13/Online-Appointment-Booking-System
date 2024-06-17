@@ -77,13 +77,9 @@ const CreateService = () => {
         serviceLocation: formData.serviceLocation,
         serviceDescription: formData.serviceDescription,
         workingHours: {
-          startHour: formatHour(formData.openingTime),
-          startMinute: formatMinute(formData.openingTime),
-          startPeriod: userPrefers24HourFormat ? undefined : formatPeriod(formData.openingTime),
-          endHour: formatHour(formData.closingTime),
-          endMinute: formatMinute(formData.closingTime),
-          endPeriod: userPrefers24HourFormat ? undefined : formatPeriod(formData.closingTime),
-        },
+          startTime: formatHour(formData.openingTime),
+					endTime: formatHour(formData.closingTime),
+				},
         serviceDays: formData.serviceDays,
         timeFormat: userPrefers24HourFormat ? '24' : '12',
       };
