@@ -19,13 +19,15 @@ class AppointmentController {
 
   static async createAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
+      const { date, time } = req.body;
+      const time24 = AppointmentController.convertTo24Hour(time);
+      const dateTime = new Date(`${date} ${time}`);
       let client = await ClientModel.findOne({ client: req.user?._id });
       if (!client) {
         client = new ClientModel({ client: req.user?._id });
         await client.save();
       }
 
-      // Get the service details
       const service = await ServiceModel.findById(req.body.serviceId);
       if (!service) {
         return res.status(404).json({ message: 'Service not found' });
@@ -36,15 +38,11 @@ class AppointmentController {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      // Get the date and time from the request body
-      const { date, time } = req.body;
-      const time24 = AppointmentController.convertTo24Hour(time);
-      const dateTime = new Date(`${date} ${time}`);
-      // Check for existing appointments at the requested time
       const existingAppointment = await AppointmentModel.findOne({
         dateTime,
         'service.id': req.body.serviceId,
       });
+
       if (existingAppointment) {
         return res.status(400).json({
           message:
@@ -65,6 +63,7 @@ class AppointmentController {
             cost: service.servicePrice
           },
         ],
+        business: service.business,
       });
       const savedAppointment = await appointment.save();
 

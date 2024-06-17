@@ -1,12 +1,8 @@
 import { Request, Response, NextFunction, text } from 'express';
 import { UserModel } from '../models/userModel';
-import JWT from '../utils/jwt';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
-import { SentMessageInfo } from 'nodemailer';
-import crypto from 'crypto';
-import { BusinessModel } from '../models/businessModel';
+
 
 const BCRYPT_SALT_ROUNDS: number = 12;
 const baseURL = process.env.BASE_URL || 'http://localhost:3000';

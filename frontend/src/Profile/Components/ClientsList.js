@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, Container, Spinner } from 'react-bootstrap';
+import { Table, Container, Spinner } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { clientsListStyles } from '../../styles/profCompStyles';
 import ClientApiHandler from "../../Api/Clients/handleClientsApi";
@@ -17,7 +17,8 @@ const ClientsList = () => {
       setIsLoading(false);
     };
 
-    fetchClients();
+    fetchClients()
+			.then();
   }, []);
 
   if (isLoading) {
