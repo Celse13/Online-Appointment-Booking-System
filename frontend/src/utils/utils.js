@@ -11,9 +11,8 @@ export const handleBackHome = (navigate) => {
   navigate('/');
 }
 
-// Fetch it from local storage
+
 const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
-// Helper function to format time
 export const formatTime = (time) => {
   if (userPrefers24HourFormat) {
     return time;
@@ -24,6 +23,8 @@ export const formatTime = (time) => {
     return `${hourIn12}:${minute} ${period}`;
   }
 };
+
+export const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   const { name, value } = e.target;

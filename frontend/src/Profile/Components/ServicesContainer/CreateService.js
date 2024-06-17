@@ -4,6 +4,7 @@ import { serviceCategoriesFilter } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
+import { daysOfWeek } from '../../../utils/utils';
 
 
 const CreateService = () => {
@@ -14,8 +15,8 @@ const CreateService = () => {
     serviceDescription: '',
     openingTime: '',
     closingTime: '',
-    openingPeriod: 'AM',
-    closingPeriod: 'AM',
+    openingPeriod: '',
+    closingPeriod: '',
     serviceDuration: '',
     servicePrice: '',
     serviceLocation: '',
@@ -107,8 +108,6 @@ const CreateService = () => {
     const hour = parseInt(time.split(':')[0]);
     return hour >= 12 ? 'PM' : 'AM';
   };
-
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   return (
     <Container className={css(createServiceStyles.container)}>
