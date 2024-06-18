@@ -15,15 +15,11 @@ const CreateService = () => {
     serviceDescription: '',
     openingTime: '',
     closingTime: '',
-    openingPeriod: '',
-    closingPeriod: '',
     serviceDuration: '',
     servicePrice: '',
     serviceLocation: '',
     serviceDays: [],
   });
-
-  const [userPrefers24HourFormat, setUserPrefers24HourFormat] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,34 +32,13 @@ const CreateService = () => {
           ? [...prevFormData.serviceDays, value]
           : prevFormData.serviceDays.filter(day => day !== value)
       }));
-    } else {
-      let formattedValue;
-      if (name === 'openingTime' || name === 'closingTime') {
-        formattedValue = formatTime24(value);
-      } else {
-        formattedValue = name === 'categoryId' ? parseInt(value) : value;
-      }
-
-      setFormData({
-        ...formData,
-        [name]: formattedValue,
-      });
-    }
+		} else {
+			setFormData({
+				...formData,
+				[name]: name === 'categoryId' ? parseInt(value) : value,
+			});
+		}
     console.log(value);
-  };
-
-  const formatTime24 = (time) => {
-    const hour = parseInt(time.split(':')[0]);
-    const minute = parseInt(time.split(':')[1]);
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-  };
-
-  const formatTime12 = (time) => {
-    let hour = parseInt(time.split(':')[0]);
-    const minute = parseInt(time.split(':')[1]);
-    const period = hour >= 12 ? 'PM' : 'AM';
-    hour = hour > 12 ? hour - 12 : hour;
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${period}`;
   };
 
   const handleSubmit = async (e) => {
@@ -77,11 +52,10 @@ const CreateService = () => {
         serviceLocation: formData.serviceLocation,
         serviceDescription: formData.serviceDescription,
         workingHours: {
-          startTime: formatHour(formData.openingTime),
-					endTime: formatHour(formData.closingTime),
+          startTime: formData.openingTime,
+					endTime: formData.closingTime,
 				},
         serviceDays: formData.serviceDays,
-        timeFormat: userPrefers24HourFormat ? '24' : '12',
       };
       console.log(serviceData);
       await BusinessServicesApi.createServices(serviceData, token);
@@ -91,19 +65,6 @@ const CreateService = () => {
       console.error(error);
     }
   }
-  const formatHour = (time) => {
-    const hour = parseInt(time.split(':')[0]);
-    return hour > 12 ? hour - 12 : hour;
-  };
-
-  const formatMinute = (time) => {
-    return parseInt(time.split(':')[1]);
-  };
-
-  const formatPeriod = (time) => {
-    const hour = parseInt(time.split(':')[0]);
-    return hour >= 12 ? 'PM' : 'AM';
-  };
 
   return (
     <Container className={css(createServiceStyles.container)}>

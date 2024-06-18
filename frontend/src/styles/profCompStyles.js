@@ -157,7 +157,7 @@ export const myProfileStyles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: '.1rem',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'start',
     width: '100%',
   },
   moreInfo: {
