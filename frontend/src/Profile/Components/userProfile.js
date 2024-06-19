@@ -35,8 +35,8 @@ const Profile = ({ userType }) => {
 					serviceLocation: service.serviceLocation,
 					serviceDays: service.serviceDays,
 					workingHours: {
-						startTime: formatTime(service.workingHours.startTime),
-						endTime: formatTime(service.workingHours.endTime),
+						startTime: service.workingHours.startTime,
+						endTime: service.workingHours.endTime,
 					},
 				}));
 				setServicesData(services);
@@ -105,8 +105,8 @@ const Profile = ({ userType }) => {
 			servicePrice: service.servicePrice,
 			serviceLocation: service.serviceLocation,
 			serviceDays: service.serviceDays,
-			startTime: service.workingHours.startTime,
-			endTime: service.workingHours.endTime
+			startTime: formatTime(service.workingHours.startTime),
+			endTime: formatTime(service.workingHours.endTime)
 		});
 		setShowModal(true);
 	}
@@ -150,7 +150,23 @@ const Profile = ({ userType }) => {
 							<p>Price: {service.servicePrice}</p>
 							<p>Location: {service.serviceLocation}</p>
 							<p>Days: {service.serviceDays.join(', ')}</p>
-							<p>Working Hours: {service.workingHours.startTime} - {service.workingHours.endTime}</p>
+							<p>Working Hours:
+								<span className={css(appointmentStyles.timeInputSpan)}>
+									<input
+										type="time"
+										name="workingHours"
+										value={formatTime(service.workingHours.startTime)}
+										className={css(appointmentStyles.timeInput)}
+										readOnly />
+									-
+									<input
+										type="time"
+										name="workingHours"
+										value={formatTime(service.workingHours.endTime)}
+										className={css(appointmentStyles.timeInput2)}
+										readOnly />
+								</span>
+							</p>
 							<div className={css(appointmentStyles.buttons)}>
 								<Button className={css(appointmentStyles.editButton)} onClick={() => handleShowModal(service)}><Pencil /></Button>
 								<Button className={css(appointmentStyles.deleteButton)} onClick={() => handleDelete(service.id)}><Trash2 /></Button>

@@ -245,7 +245,19 @@ export const appointmentStyles = StyleSheet.create({
 	},
 	modalBody: {
 		color: appColors.primaryText,
-	}
+	},
+	timeInputSpan: {
+		padding: '0 0 0 .1rem',
+	},
+	timeInput: {
+		color: appColors.primaryText,
+		border: 'none',
+	},
+	timeInput2: {
+		color: appColors.primaryText,
+		border: 'none',
+		marginLeft: '1.5rem',
+	},
 });
 
 export const notificationsStyles = StyleSheet.create({

@@ -11,16 +11,22 @@ export const handleBackHome = (navigate) => {
   navigate('/');
 }
 
+const prefers24Hour = () => {
+	const format = new Intl.DateTimeFormat('default', {
+		hour: 'numeric'
+	}).formatToParts(new Date());
+	return !format.some(part => part.type === 'dayPeriod');
+};
 
-const userPrefers24HourFormat = localStorage.getItem('userPrefers24HourFormat') === 'true';
+const userPrefers24HourFormat = prefers24Hour();
 export const formatTime = (time) => {
   if (userPrefers24HourFormat) {
     return time;
   } else {
-    const [hour, minute] = time.split(':');
-    const hourIn12 = hour % 12 || 12;
-    const period = hour < 12 ? 'AM' : 'PM';
-    return `${hourIn12}:${minute} ${period}`;
+		const [hour, minute] = time.split(':').map(Number);
+		const hourIn12 = hour % 12 || 12;
+		const period = hour < 12 ? 'AM' : 'PM';
+		return `${hourIn12}:${minute.toString().padStart(2, '0')} ${period}`;
   }
 };
 

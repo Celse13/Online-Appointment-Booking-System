@@ -148,13 +148,20 @@ const Appointments = () => {
             {showDetails[index] && (
               <CardBody className={css(appointmentStyles.body)}>
                 <div className={css(appointmentStyles.bodyDiv)}>
-                  <h6>Date: {appointment.date}</h6>
-                  <h6>Time: {appointment.time}</h6>
-                  <h6>Location: {appointment.location}</h6>
-                  <div>
-                    {role === 'business' && (
-                      <h6>Status:
-                        <Dropdown onSelect={(newStatus) => handleStatusChange(appointment.id, newStatus)}>
+                  <h6>Date: {formatTime(appointment.date)}</h6>
+									<h6>Time:
+										<input
+											type="time"
+											name="workingHours"
+											value={formatTime(appointment.time)}
+											className={css(appointmentStyles.timeInput)}
+											readOnly />
+									</h6>
+									<h6>Location: {appointment.location}</h6>
+									<div>
+										{role === 'business' && (
+											<h6>Status:
+												<Dropdown onSelect={(newStatus) => handleStatusChange(appointment.id, newStatus)}>
                           <Dropdown.Toggle variant="success" id="dropdown-basic">
                             {appointment.status}
                           </Dropdown.Toggle>
