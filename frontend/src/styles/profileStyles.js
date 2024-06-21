@@ -7,9 +7,10 @@ export const profileStyles = StyleSheet.create({
     zIndex:1,
   },
   container: {
-    padding: '1rem',
+		marginLeft: '4.5rem',
     height: '100vh',
     overflowY: 'auto',
+		width: 'calc(100vw - 4.5rem)',
     textAlign: 'center',
     color: appColors.primaryText,
     zIndex: 0,

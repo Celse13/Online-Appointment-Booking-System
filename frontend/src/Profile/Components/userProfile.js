@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Col, Container, Form, InputGroup, Modal, Row, } from 'react-bootstrap';
+import { Button, Card, CardBody, CardFooter, CardHeader, Form, InputGroup, Modal } from 'react-bootstrap';
 import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../styles/profCompStyles';
@@ -137,7 +137,7 @@ const Profile = ({ userType }) => {
 
 	const renderMyServices = () => {
 		return servicesData.map((service, index) => (
-			<div className={css(myProfileStyles.myServicesItem)} key={index}>
+			<div key={index}>
 				<div key={service.id}>
 					<div  className={css(myProfileStyles.myServicesItemName)}>
 						<h4>{service.serviceName}</h4>
@@ -179,38 +179,53 @@ const Profile = ({ userType }) => {
 	};
 
   return (
-    <Container>
-      <Row
-        className={css(isClient && myProfileStyles.clientContainer, isAdmin && myProfileStyles.adminContainer)}>
-        <Col md={6}>
-          <Card className={css(isClient && myProfileStyles.clientCard, isAdmin && myProfileStyles.adminCard)}>
-            <CardHeader className={css(myProfileStyles.header)}>
-							{profileData.profilePicture === '' ?
-								<img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} /> :
-								<img src={profileData.profilePicture} alt="profile picture" className={css(myProfileStyles.ppic)} />
-							}
-						</CardHeader>
-						<CardBody className={css(myProfileStyles.body)}>
+    <div className={css(myProfileStyles.container)}>
+			{isClient && (
+				<Card className={css(myProfileStyles.clientCard)}>
+					<CardHeader className={css(myProfileStyles.header)}>
+						{profileData.profilePicture === '' ?
+							<img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} /> :
+							<img src={profileData.profilePicture} alt="profile picture" className={css(myProfileStyles.ppic)} />
+						}
+					</CardHeader>
+					<CardBody className={css(myProfileStyles.body)}>
 						<div className={css(myProfileStyles.bodyDiv)}>
-                <h6>Name: {profileData.name}</h6>
-                <h6>Email: {profileData.email}</h6>
-                <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-              </div>
-            </CardBody>
-            <CardFooter className={css(myProfileStyles.footer)}>
-              <Button className={css(myProfileStyles.button)}>Edit Profile</Button>
-            </CardFooter>
-          </Card>
-        </Col>
-        {isAdmin && (
-          <Col md={6} className={css(myProfileStyles.myServices)}>
-            <h2>My Services</h2>
-            <div className={css(myProfileStyles.myServicesDiv)}>
-              {servicesData.length > 0 ? renderMyServices() : <h6>No services available</h6>}
-            </div>
-          </Col>
-        )}
-      </Row>
+							<h6>Name: {profileData.name}</h6>
+							<h6>Email: {profileData.email}</h6>
+							<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
+						</div>
+					</CardBody>
+					<CardFooter className={css(myProfileStyles.footer)}>
+						<Button className={css(myProfileStyles.button)}>Edit Profile</Button>
+					</CardFooter>
+				</Card>
+			)}
+			{isAdmin && (
+				<div>
+					<div className={css(myProfileStyles.adminPpicDiv)}>
+						{profileData.profilePicture === '' ?
+							<img src={ppic} alt="profile picture" className={css(myProfileStyles.adminPpic)} /> :
+							<img src={profileData.profilePicture} alt="profile picture"
+									 className={css(myProfileStyles.adminPpic)} />
+						}
+					</div>
+					<div className={css(myProfileStyles.adminBodyDiv)}>
+						<div className={css(myProfileStyles.adminBodyDivItem)}>
+							<h6>Name: {profileData.name}</h6>
+							<h6>Email: {profileData.email}</h6>
+							<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
+							<Button className={css(myProfileStyles.button)}>Edit Profile</Button>
+						</div>
+					</div>
+
+					<div className={css(myProfileStyles.myServices)}>
+						<h2>My Services</h2>
+						<div className={css(myProfileStyles.myServicesDiv)}>
+							{servicesData.length > 0 ? renderMyServices() : <h6>No services available</h6>}
+						</div>
+					</div>
+				</div>
+			)}
 			{currentService && (
 				<Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>
 					<Modal.Header closeButton className={css(appointmentStyles.header)}>Update Appointment</Modal.Header>
@@ -309,7 +324,7 @@ const Profile = ({ userType }) => {
 					</Modal.Footer>
 				</Modal>
 			)}
-    </Container>
+    </div>
   );
 }
 

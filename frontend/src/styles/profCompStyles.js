@@ -72,14 +72,11 @@ const sharedInputStyles = {
 
 
 export const myProfileStyles = StyleSheet.create({
-  clientContainer: {
-    marginLeft: '2rem',
-    display: 'flex',
-    width: '90vw',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+	container: {
+		maxHeight: '100vh',
+		margin: 0,
+		padding: '2rem',
+	},
   clientCard: {
     width: '25rem',
     margin: '3rem',
@@ -97,14 +94,6 @@ export const myProfileStyles = StyleSheet.create({
     borderRadius: '50%',
     border: `2px solid ${appColors.primary}`,
   },
-  body: {
-    marginTop: '1rem',
-    backgroundColor: 'none',
-    color: appColors.primaryText,
-    borderBottom: `none`,
-    display: 'flex',
-    justifyContent: 'center',
-  },
   bodyDiv: {
     textAlign: 'start',
   },
@@ -114,28 +103,33 @@ export const myProfileStyles = StyleSheet.create({
   button: {
     ...sharedButtonStyles,
   },
-  adminContainer: {
-    marginLeft: '2rem',
-    maxHeight: '90vh',
-    display: 'flex',
-    width: '90vw',
-    flexDirection: 'row',
-    alignItems: 'start',
-  },
-  adminCard: {
-    width: '25rem',
-    margin: '3rem',
-    borderRadius: '25px',
-    border: `3px solid ${appColors.accentOpaque}`,
-    '@media (max-width: 750px)': {
-      width: '20rem',
-    },
-  },
+	adminPpicDiv: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+	},
+	adminPpic: {
+		width: '5rem',
+		padding: '1rem',
+		borderRadius: '50%',
+		border: `2px solid ${appColors.primary}`,
+	},
+	adminBodyDiv: {
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'flex-end',
+		margin: '1rem',
+	},
+	adminBodyDivItem: {
+		width: 'fit-content',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start',
+	},
   myServices: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'start',
+    alignItems: 'center',
     height: '100vh',
     '@media (max-width: 750px)': {
       maxHeight: '50vh',
@@ -148,9 +142,6 @@ export const myProfileStyles = StyleSheet.create({
     overflowY: 'auto',
     width: '60%',
     height: '100%',
-  },
-  myServicesItem: {
-
   },
   myServicesItemName: {
     display: 'flex',
@@ -262,7 +253,7 @@ export const appointmentStyles = StyleSheet.create({
 
 export const notificationsStyles = StyleSheet.create({
   container: {
-    ...sharedContainerStyles
+    ...sharedContainerStyles,
   },
   card: {
     ...sharedCardStyles
