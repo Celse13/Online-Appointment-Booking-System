@@ -75,7 +75,7 @@ export const myProfileStyles = StyleSheet.create({
 	container: {
 		maxHeight: '100vh',
 		margin: 0,
-		padding: '2rem',
+		padding: '0 2rem',
 	},
   clientCard: {
     width: '25rem',
@@ -89,7 +89,7 @@ export const myProfileStyles = StyleSheet.create({
     borderBottom: `1px solid ${appColors.accentOpaque}`,
   },
   ppic: {
-    width: '5rem',
+    width: '6rem',
     padding: '1rem',
     borderRadius: '50%',
     border: `2px solid ${appColors.primary}`,
@@ -104,20 +104,32 @@ export const myProfileStyles = StyleSheet.create({
     ...sharedButtonStyles,
   },
 	adminPpicDiv: {
+		width: '100%',
 		display: 'flex',
 		justifyContent: 'flex-end',
 	},
 	adminPpic: {
-		width: '5rem',
+		width: '6rem',
 		padding: '1rem',
 		borderRadius: '50%',
 		border: `2px solid ${appColors.primary}`,
+	},
+	adminPpicSpan: {
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'space-between',
+	},
+	settings: {
+		':hover': {
+			cursor: 'pointer',
+			color: appColors.accentOpaque,
+		},
 	},
 	adminBodyDiv: {
 		width: '100%',
 		display: 'flex',
 		justifyContent: 'flex-end',
-		margin: '1rem',
+		marginBottom: '1rem',
 	},
 	adminBodyDivItem: {
 		width: 'fit-content',
@@ -130,18 +142,10 @@ export const myProfileStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
-    '@media (max-width: 750px)': {
-      maxHeight: '50vh',
-    },
-    '@media (min-width: 600px)': {
-      maxHeight: '70vh',
-    },
   },
   myServicesDiv: {
     overflowY: 'auto',
-    width: '60%',
-    height: '100%',
+		width: '80%',
   },
   myServicesItemName: {
     display: 'flex',

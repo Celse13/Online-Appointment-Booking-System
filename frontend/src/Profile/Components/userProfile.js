@@ -4,7 +4,7 @@ import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
-import { Pencil, Trash2 } from 'lucide-react';
+import { ChevronsDown, ChevronsUp, Pencil, Trash2 } from 'lucide-react';
 import { daysOfWeek, formatTime } from '../../utils/utils';
 import UserApi from '../../Api/Services/handleUserApi';
 import { jwtDecode } from 'jwt-decode';
@@ -18,6 +18,7 @@ const Profile = ({ userType }) => {
 	const [currentService, setCurrentService] = useState(null);
 	const [updateFields, setUpdateFields] = useState({});
 	const [profileData, setProfileData] = useState({ name: '', email: '', profilePicture: '' });
+	const [showProfileDetails, setShowProfileDetails] = useState(false);
 	const token = localStorage.getItem('token');
 	const decoded = jwtDecode(token);
 	const userId = decoded._id;
@@ -135,13 +136,17 @@ const Profile = ({ userType }) => {
 		}));
 	};
 
+	const toggleProfileDetails = () => {
+		setShowProfileDetails((prevState) => !prevState);
+	};
+
 	const renderMyServices = () => {
 		return servicesData.map((service, index) => (
 			<div key={index}>
 				<div key={service.id}>
 					<div  className={css(myProfileStyles.myServicesItemName)}>
 						<h4>{service.serviceName}</h4>
-						<p className={css(myProfileStyles.moreInfo)} onClick={() => handleMoreInfo(index)}>{showDetails[index] ? 'hide ' : '...more '}details</p>
+						<p className={css(myProfileStyles.moreInfo)} onClick={() => handleMoreInfo(index)}>{showDetails[index] ? <ChevronsUp /> : <ChevronsDown />}</p>
 					</div>
 					{showDetails[index] && (
 						<div className={css(myProfileStyles.details)}>
@@ -201,30 +206,49 @@ const Profile = ({ userType }) => {
 				</Card>
 			)}
 			{isAdmin && (
-				<div>
-					<div className={css(myProfileStyles.adminPpicDiv)}>
-						{profileData.profilePicture === '' ?
-							<img src={ppic} alt="profile picture" className={css(myProfileStyles.adminPpic)} /> :
-							<img src={profileData.profilePicture} alt="profile picture"
-									 className={css(myProfileStyles.adminPpic)} />
-						}
-					</div>
+				<>
 					<div className={css(myProfileStyles.adminBodyDiv)}>
 						<div className={css(myProfileStyles.adminBodyDivItem)}>
-							<h6>Name: {profileData.name}</h6>
+							<div className={css(myProfileStyles.adminPpicDiv)}>
+									<span className={css(myProfileStyles.adminPpicSpan)}>
+										{profileData.profilePicture === '' ?
+											<img src={ppic} alt="profile picture"
+													 className={css(myProfileStyles.adminPpic)} /> :
+											<img src={profileData.profilePicture} alt="profile picture"
+													 className={css(myProfileStyles.adminPpic)} />
+										}
+										<Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)}/>
+									</span>
+							</div>
+							<h6>Name:
+								{!showProfileDetails ?
+									<>{profileData.name}</>
+									:
+									<input
+										type="text"
+										name="name"
+										value={profileData.name}
+										onChange={handleChange}
+										className={css(createServiceStyles.input)}
+									/>
+								}
+							</h6>
 							<h6>Email: {profileData.email}</h6>
-							<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-							<Button className={css(myProfileStyles.button)}>Edit Profile</Button>
+							{showProfileDetails && (
+								<>
+									<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
+									<p className=''>Save Changes</p>
+								</>
+							)}
 						</div>
 					</div>
-
 					<div className={css(myProfileStyles.myServices)}>
 						<h2>My Services</h2>
 						<div className={css(myProfileStyles.myServicesDiv)}>
 							{servicesData.length > 0 ? renderMyServices() : <h6>No services available</h6>}
 						</div>
 					</div>
-				</div>
+				</>
 			)}
 			{currentService && (
 				<Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>

@@ -8,7 +8,7 @@ export const profileStyles = StyleSheet.create({
   },
   container: {
 		marginLeft: '4.5rem',
-    height: '100vh',
+    maxHeight: '100vh',
     overflowY: 'auto',
 		width: 'calc(100vw - 4.5rem)',
     textAlign: 'center',
