@@ -203,11 +203,13 @@ class AppointmentController {
       const { id } = req.params;
       const appointment = await AppointmentModel.findByIdAndDelete(id);
 
-      !appointment && res.status(404).json({ message: 'Appointment not found' });
-      appointment && await ClientModel.findByIdAndUpdate(appointment.client,
-        { $pull: { appointments: id }}
-      );
-      res.status(200).json({ message: 'Appointment deleted successfully' });
+      if (appointment) {
+        await ClientModel.findByIdAndUpdate(appointment.client, { $pull: { appointments: id }});
+        await BusinessModel.findByIdAndUpdate(appointment.business, { $pull: { appointments: id }});
+        return res.status(200).json({ message: 'Appointment deleted successfully' });
+      } else {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
     } catch (error) {
       next(error);
     }
