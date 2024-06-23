@@ -1,14 +1,12 @@
-import { Request, Response, NextFunction, text } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../models/userModel';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
 
 const BCRYPT_SALT_ROUNDS: number = 12;
-const baseURL = process.env.BASE_URL || 'http://localhost:3000';
-
 class UserController {
-  static async getAllUsers(req: Request, res: Response, next: NextFunction) {
+  static async getAllUsers(_req: Request, res: Response, next: NextFunction) {
     try {
       const users = await UserModel.find({});
       res.status(200).json({ ok: true, data: users });
@@ -36,7 +34,7 @@ class UserController {
     }
   }
 
-  static async updateUser(req: Request, res: Response, next: NextFunction) {
+  static async updateUserPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.params;
       const updateData = req.body;
@@ -54,6 +52,21 @@ class UserController {
       }
 
       res.status(200).json({ ok: true, data: user });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.params;
+      const user = await UserModel.findByIdAndUpdate(
+        userId,
+        { $set: req.body },
+        { new: true },
+      );
+      !user && res.status(404).json({ message: 'User not found'})
+      res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
       next(error);
     }
@@ -94,8 +107,7 @@ class UserController {
         return res.status(400).json({ message: 'Invalid old password' });
       }
 
-      const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
-      user.password = hashedPassword;
+      user.password = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
       await user.save();
 
       res
