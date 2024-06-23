@@ -20,7 +20,7 @@ class AppointmentController {
   static async createAppointment(req: Request, res: Response, next: NextFunction,) {
     try {
       const { date, time } = req.body;
-      const time24 = AppointmentController.convertTo24Hour(time);
+      AppointmentController.convertTo24Hour(time);
       const dateTime = new Date(`${date} ${time}`);
       let client = await ClientModel.findOne({ client: req.user?._id });
       if (!client) {
@@ -204,6 +204,9 @@ class AppointmentController {
       const appointment = await AppointmentModel.findByIdAndDelete(id);
 
       !appointment && res.status(404).json({ message: 'Appointment not found' });
+      appointment && await ClientModel.findByIdAndUpdate(appointment.client,
+        { $pull: { appointments: id }}
+      );
       res.status(200).json({ message: 'Appointment deleted successfully' });
     } catch (error) {
       next(error);
