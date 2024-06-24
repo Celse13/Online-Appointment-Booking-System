@@ -4,3 +4,4 @@
 /backend/node_modules/
 /backend/.env
 /package-lock.json
+/backend/uploads/

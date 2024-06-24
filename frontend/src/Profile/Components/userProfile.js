@@ -4,7 +4,7 @@ import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
-import { ChevronsDown, ChevronsUp, Pencil, Trash2 } from 'lucide-react';
+import { ChevronsDown, ChevronsUp, Pencil, Trash2, SquarePlus } from 'lucide-react';
 import { daysOfWeek, formatTime } from '../../utils/utils';
 import UserApi from '../../Api/Services/handleUserApi';
 import { jwtDecode } from 'jwt-decode';
@@ -19,7 +19,8 @@ const Profile = ({ userType }) => {
 	const [updateFields, setUpdateFields] = useState({});
 	const [profileData, setProfileData] = useState({ name: '', email: '', profilePicture: '' });
 	const [showProfileDetails, setShowProfileDetails] = useState(false);
-	const token = localStorage.getItem('token');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const token = localStorage.getItem('token');
 	const decoded = jwtDecode(token);
 	const userId = decoded._id;
 
@@ -136,10 +137,6 @@ const Profile = ({ userType }) => {
 		}));
 	};
 
-	const toggleProfileDetails = () => {
-		setShowProfileDetails((prevState) => !prevState);
-	};
-
 	const renderMyServices = () => {
 		return servicesData.map((service, index) => (
 			<div key={index}>
@@ -183,42 +180,119 @@ const Profile = ({ userType }) => {
 		));
 	};
 
-  return (
+	const handleProfileEdit = async () => {
+		try {
+      const updateFields = new FormData();
+      updateFields.append('name', profileData.name);
+      updateFields.append('email', profileData.email);
+      selectedFile && updateFields.append('profilePicture', selectedFile);
+
+			await UserApi.updateUser(userId, updateFields, token);
+			setShowProfileDetails(false);
+			alert('Profile updated successfully');
+		} catch (error) {
+			console.error('Error updating profile:', error);
+			alert('Error updating profile');
+		}
+	};
+
+	const toggleProfileDetails = () => {
+		setShowProfileDetails((prevState) => !prevState);
+		setProfileData({
+			name: profileData.name,
+			email: profileData.email,
+      profilePicture: profileData.profilePicture
+		});
+	};
+
+	const handleProfileChange = (e) => {
+		const { name, value } = e.target;
+		setProfileData((prevState) => ({
+			...prevState,
+			[name]: value
+		}));
+		console.log(profileData);
+	};
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setProfileData((prevState) => ({
+        ...prevState,
+        profilePicture: fileReader.result
+      }));
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+  };
+
+	return (
     <div className={css(myProfileStyles.container)}>
 			{isClient && (
 				<Card className={css(myProfileStyles.clientCard)}>
-					<CardHeader className={css(myProfileStyles.header)}>
-						{profileData.profilePicture === '' ?
-							<img src={ppic} alt="profile picture" className={css(myProfileStyles.ppic)} /> :
-							<img src={profileData.profilePicture} alt="profile picture" className={css(myProfileStyles.ppic)} />
-						}
-					</CardHeader>
-					<CardBody className={css(myProfileStyles.body)}>
-						<div className={css(myProfileStyles.bodyDiv)}>
-							<h6>Name: {profileData.name}</h6>
-							<h6>Email: {profileData.email}</h6>
-							<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-						</div>
-					</CardBody>
-					<CardFooter className={css(myProfileStyles.footer)}>
-						<Button className={css(myProfileStyles.button)}>Edit Profile</Button>
-					</CardFooter>
-				</Card>
-			)}
-			{isAdmin && (
-				<>
-					<div className={css(myProfileStyles.adminBodyDiv)}>
-						<div className={css(myProfileStyles.adminBodyDivItem)}>
+          <CardHeader className={css(myProfileStyles.header)}>
+            {profileData.profilePicture === '' ?
+              <img src={ppic} alt="profile picture"
+                   className={css(myProfileStyles.ppic)} /> :
+              <img src={profileData.profilePicture} alt="profile picture"
+                   className={css(myProfileStyles.ppic)} />
+            }
+            {showProfileDetails && <SquarePlus onClick={() => document.getElementById('fileInput').click()} />}
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+          </CardHeader>
+          <CardBody className={css(myProfileStyles.body)}>
+            <div className={css(myProfileStyles.bodyDiv)}>
+              <h6>Name:
+                {!showProfileDetails ?
+                  <> {profileData.name}</>
+                  :
+                  <input
+                    type="text"
+                    name="name"
+                    value={profileData.name}
+                    onChange={handleProfileChange}
+                    className={css(createServiceStyles.input)}
+                  />
+                }
+              </h6>
+              <h6>Email: {profileData.email}</h6>
+              <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
+            </div>
+          </CardBody>
+          <CardFooter className={css(myProfileStyles.footer)}>
+            {!showProfileDetails ?
+              <Button onClick={toggleProfileDetails} className={css(myProfileStyles.button)}>Edit Profile</Button> :
+              <Button onClick={handleProfileEdit} className={css(myProfileStyles.button)}>Save Changes</Button>
+            }
+          </CardFooter>
+        </Card>
+      )}
+      {isAdmin && (
+        <>
+          <div className={css(myProfileStyles.adminBodyDiv)}>
+            <div className={css(myProfileStyles.adminBodyDivItem)}>
 							<div className={css(myProfileStyles.adminPpicDiv)}>
-									<span className={css(myProfileStyles.adminPpicSpan)}>
-										{profileData.profilePicture === '' ?
-											<img src={ppic} alt="profile picture"
-													 className={css(myProfileStyles.adminPpic)} /> :
-											<img src={profileData.profilePicture} alt="profile picture"
-													 className={css(myProfileStyles.adminPpic)} />
-										}
-										<Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)}/>
-									</span>
+								<span className={css(myProfileStyles.adminPpicSpan)}>
+									{profileData.profilePicture === '' ?
+										<img src={ppic} alt="profile picture"
+												 className={css(myProfileStyles.adminPpic)} /> :
+										<img src={profileData.profilePicture} alt="profile picture"
+												 className={css(myProfileStyles.adminPpic)} />
+									}
+                  {showProfileDetails && <SquarePlus onClick={() => document.getElementById('fileInput').click()} />}
+                  <input
+                    type="file"
+                    id="fileInput"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                  />
+								</span>
+								<Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)}/>
 							</div>
 							<h6>Name:
 								{!showProfileDetails ?
@@ -228,7 +302,7 @@ const Profile = ({ userType }) => {
 										type="text"
 										name="name"
 										value={profileData.name}
-										onChange={handleChange}
+										onChange={handleProfileChange}
 										className={css(createServiceStyles.input)}
 									/>
 								}
@@ -237,7 +311,7 @@ const Profile = ({ userType }) => {
 							{showProfileDetails && (
 								<>
 									<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-									<p className=''>Save Changes</p>
+									<p onClick={handleProfileEdit}>Save Changes</p>
 								</>
 							)}
 						</div>

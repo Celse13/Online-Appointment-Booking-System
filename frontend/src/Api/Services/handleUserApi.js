@@ -13,6 +13,19 @@ class UserApi {
 			console.error(error);
 		}
 	}
+
+	static async updateUser(userId, updateFields, token) {
+		try {
+			const response = await axios.patch(
+				`${BASE_URL}/update/${userId}`,
+        updateFields,
+				{ headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } }
+			)
+			return response.data;
+		} catch (error) {
+			console.error(error);
+		}
+	}
 }
 
 export default UserApi;

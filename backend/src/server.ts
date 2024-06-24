@@ -1,10 +1,11 @@
-import express, { Request, Response, Express } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './database/connection';
 import routes from './routes/index';
 import swaggerUi from 'swagger-ui-express';
 import specs from './docs';
+import path from 'path';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use('/api', routes);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 connectDB()
   .then(() => {
