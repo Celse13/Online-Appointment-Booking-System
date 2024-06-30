@@ -14,6 +14,7 @@ const Signup = (props) => {
   const [showVerification, setShowVerification] = useState(false);
   const initializeFormData = {
     name: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -42,6 +43,7 @@ const Signup = (props) => {
     }
 
     const name = document.getElementById('name').value;
+    const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const role = isToggled ? 'business' : 'client';
@@ -51,6 +53,7 @@ const Signup = (props) => {
 
     let user = {
       name: name,
+      lastName: lastName,
       email: email,
       password: password,
       role: role
@@ -98,6 +101,19 @@ const Signup = (props) => {
             {errorMessages.name && (
               <div className={css(servicesListStyles.error)}>
                 {errorMessages.name}
+              </div>
+            )}
+          </div>
+          <div>
+          <span><UserRound />
+            <input type="text" name="lastName" id="lastName" autoComplete="true"
+                   placeholder="Last name"
+                   className={css(signStyles.input)} required
+                   onChange={(e) => handleChange(e, formData, setFormData, setErrorMessages)} />
+          </span>
+            {errorMessages.lastName && (
+              <div className={css(servicesListStyles.error)}>
+                {errorMessages.lastName}
               </div>
             )}
           </div>
