@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LogOut, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { css } from 'aphrodite';
 import logo from '../../Assets/logo.png';
@@ -6,21 +6,42 @@ import { sidebarStyles } from '../../styles/sidebarStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { handleBackHome } from '../../utils/utils';
 import { jwtDecode } from 'jwt-decode';
+import UserApi from '../../Api/Services/handleUserApi';
 
 const SidebarContext = createContext(undefined);
 
 const Sidebar = ({ children, onSelect, navigate }) => {
   const [expanded, setExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState('Appointments');
+  const [profileData, setProfileData] = useState({ name: '', lastName: '', email: '' });
+
   const handleItemClick = (item) => {
     setActiveItem(item);
     onSelect(item);
   }
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const userId = decoded._id;
 
-	const token = localStorage.getItem('token');
-	const decoded = jwtDecode(token);
-  const email = decoded.email;
-  const name = decoded.username;
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await UserApi.getUserById(userId, token);
+        let profileData = response.data;
+        setProfileData({
+          name: profileData.name,
+          lastName: profileData.lastName,
+          email:profileData.email,
+        });
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+    fetchProfile()
+      .then();
+  }, [token, userId]);
+
+  const initials = profileData.name && profileData.lastName ? profileData.name[0] + profileData.lastName[0] : profileData.name[0];
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -42,11 +63,16 @@ const Sidebar = ({ children, onSelect, navigate }) => {
           <ul className={css(sidebarStyles.menu)}>{children}</ul>
         </SidebarContext.Provider>
         <div className={css(sidebarStyles.footer)}>
-          <img src="https://ui-avatars.com/api/?background=ffffff&color=986D8E&bold=true" alt="" className={css(sidebarStyles.avatar)} width="40px" height="40px" />
+          <img
+            src={`https://ui-avatars.com/api/?name=${initials}&background=ffffff&color=986D8E&bold=true`}
+            alt="initials"
+            className={css(sidebarStyles.avatar)}
+            width={40}
+            height={40} />
           <div className={css(expanded ? sidebarStyles.userInfoExpanded : sidebarStyles.userInfoCollapsed)}>
             <div className={css(sidebarStyles.userDetails)}>
-              <h4 className={css(sidebarStyles.userName)}>{name}</h4>
-              <span className={css(sidebarStyles.userEmail)}>{email}</span>
+              <h4 className={css(sidebarStyles.userName)}>{profileData.name}</h4>
+              <span className={css(sidebarStyles.userEmail)}>{profileData.email}</span>
             </div>
           </div>
         </div>
