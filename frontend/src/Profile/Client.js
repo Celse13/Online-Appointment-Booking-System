@@ -8,16 +8,16 @@ import ServicesContainer from './Components/ServicesContainer/ServicesContainer'
 
 const ComponentMap = {
   "Appointments": Appointments,
-  "Notifications": Notifications,
+  "Profile": userProfile,
   "Services": ServicesContainer,
-  "Profile": userProfile
+  "Notifications": Notifications
 };
 
 const SidebarItems = [
   { icon: <CalendarCheck />, text: "Appointments" },
-  { icon: <Bell />, text: "Notifications", alert: true },
+  { icon: <CircleUserRound />, text: "Profile" },
   { icon: <HandPlatter />, text: "Services" },
-  { icon: <CircleUserRound />, text: "Profile" }
+  { icon: <Bell />, text: "Notifications", alert: true },
 ];
 
 const Client = renderComponents(ComponentMap, SidebarItems, "", 'client');
