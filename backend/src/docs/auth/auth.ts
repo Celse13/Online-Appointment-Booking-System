@@ -10,9 +10,10 @@ const authPaths: OpenAPIV3.PathsObject = {
           'application/json': {
             schema: {
               type: 'object',
-              required: ['email', 'name', 'password', 'role'],
+              required: ['email', 'name', 'lastName', 'password', 'role'],
               properties: {
                 name: { type: 'string' },
+                lastName: { type: 'string' },
                 email: { type: 'string' },
                 password: { type: 'string' },
                 role: { type: 'string' },

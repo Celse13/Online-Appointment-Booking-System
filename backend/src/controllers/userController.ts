@@ -40,6 +40,7 @@ class UserController {
       const userData = {
         _id: user._id,
         name: user.name,
+        lastName: user.lastName,
         email: user.email,
         profilePicture: user.profilePicture ? req.protocol + '://' + req.get('host') + user.profilePicture : '',
         role: user.role,

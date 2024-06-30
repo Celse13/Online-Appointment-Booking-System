@@ -3,6 +3,7 @@ import crypto from 'crypto';
 
 export interface IUser extends Document {
   name: string;
+  lastName: string;
   email: string;
   password: string;
   role: string;
@@ -23,6 +24,10 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,

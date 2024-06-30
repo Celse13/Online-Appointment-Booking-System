@@ -17,6 +17,7 @@ class AuthController {
       const {
         email,
         name,
+        lastName,
         password,
         role,
         businessDescription,
@@ -39,6 +40,7 @@ class AuthController {
       const user = new UserModel({
         email,
         name,
+        lastName,
         role,
         password: hashedPassword,
         verificationToken,
