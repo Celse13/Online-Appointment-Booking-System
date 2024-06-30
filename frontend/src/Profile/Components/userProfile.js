@@ -17,7 +17,7 @@ const Profile = ({ userType }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [currentService, setCurrentService] = useState(null);
 	const [updateFields, setUpdateFields] = useState({});
-	const [profileData, setProfileData] = useState({ name: '', email: '', profilePicture: '' });
+	const [profileData, setProfileData] = useState({ name: '', lastName: '', email: '', profilePicture: '' });
 	const [showProfileDetails, setShowProfileDetails] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const token = localStorage.getItem('token');
@@ -184,6 +184,7 @@ const Profile = ({ userType }) => {
 		try {
       const updateFields = new FormData();
       updateFields.append('name', profileData.name);
+      updateFields.append('lastName', profileData.lastName);
       updateFields.append('email', profileData.email);
       selectedFile && updateFields.append('profilePicture', selectedFile);
 
@@ -200,6 +201,7 @@ const Profile = ({ userType }) => {
 		setShowProfileDetails((prevState) => !prevState);
 		setProfileData({
 			name: profileData.name,
+      lastName: profileData.lastName,
 			email: profileData.email,
       profilePicture: profileData.profilePicture
 		});
@@ -249,15 +251,26 @@ const Profile = ({ userType }) => {
             <div className={css(myProfileStyles.bodyDiv)}>
               <h6>Name:
                 {!showProfileDetails ?
-                  <> {profileData.name}</>
+                  <> {profileData.name} {profileData.lastName}</>
                   :
-                  <input
-                    type="text"
-                    name="name"
-                    value={profileData.name}
-                    onChange={handleProfileChange}
-                    className={css(createServiceStyles.input)}
-                  />
+                  <>
+                    <input
+                      type="text"
+                      name="name"
+                      value={profileData.name}
+                      onChange={handleProfileChange}
+                      className={css(createServiceStyles.input)}
+                    />
+                    <h6>Last Name:
+                      <input
+                        type="text"
+                        name="name"
+                        value={profileData.lastName}
+                        onChange={handleProfileChange}
+                        className={css(createServiceStyles.input)}
+                      />
+                    </h6>
+                  </>
                 }
               </h6>
               <h6>Email: {profileData.email}</h6>
@@ -266,7 +279,8 @@ const Profile = ({ userType }) => {
           </CardBody>
           <CardFooter className={css(myProfileStyles.footer)}>
             {!showProfileDetails ?
-              <Button onClick={toggleProfileDetails} className={css(myProfileStyles.button)}>Edit Profile</Button> :
+              <Button onClick={toggleProfileDetails} className={css(myProfileStyles.button)}>Edit
+                Profile</Button> :
               <Button onClick={handleProfileEdit} className={css(myProfileStyles.button)}>Save Changes</Button>
             }
           </CardFooter>

@@ -36,7 +36,7 @@ export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   const { name, value } = e.target;
   let errorMessage = '';
 
-  if (name === 'name') {
+  if (name === 'name' || name === 'lastName') {
     const nameRegex = /^[A-Za-z]+$/;
     if (value.length < 3) {
       errorMessage = 'Name should contain at least 3 characters';
