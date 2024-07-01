@@ -264,7 +264,7 @@ const Profile = ({ userType }) => {
                     <h6>Last Name:
                       <input
                         type="text"
-                        name="name"
+                        name="lastName"
                         value={profileData.lastName}
                         onChange={handleProfileChange}
                         className={css(createServiceStyles.input)}
@@ -290,15 +290,17 @@ const Profile = ({ userType }) => {
         <>
           <div className={css(myProfileStyles.adminBodyDiv)}>
             <div className={css(myProfileStyles.adminBodyDivItem)}>
-							<div className={css(myProfileStyles.adminPpicDiv)}>
+              <div className={css(myProfileStyles.adminPpicDiv)}>
 								<span className={css(myProfileStyles.adminPpicSpan)}>
 									{profileData.profilePicture === '' ?
-										<img src={ppic} alt="profile picture"
-												 className={css(myProfileStyles.adminPpic)} /> :
-										<img src={profileData.profilePicture} alt="profile picture"
-												 className={css(myProfileStyles.adminPpic)} />
-									}
-                  {showProfileDetails && <SquarePlus onClick={() => document.getElementById('fileInput').click()} />}
+                    <img src={ppic} alt="profile picture"
+                         className={css(myProfileStyles.adminPpic)} /> :
+                    <img src={profileData.profilePicture} alt="profile picture"
+                         className={css(myProfileStyles.adminPpic)} />
+                  }
+                  {showProfileDetails && <SquarePlus
+                    onClick={() => document.getElementById('fileInput')
+                      .click()} />}
                   <input
                     type="file"
                     id="fileInput"
@@ -306,52 +308,64 @@ const Profile = ({ userType }) => {
                     onChange={handleFileChange}
                   />
 								</span>
-								<Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)}/>
-							</div>
-							<h6>Name:
-								{!showProfileDetails ?
-									<>{profileData.name}</>
-									:
-									<input
-										type="text"
-										name="name"
-										value={profileData.name}
-										onChange={handleProfileChange}
-										className={css(createServiceStyles.input)}
-									/>
-								}
-							</h6>
-							<h6>Email: {profileData.email}</h6>
-							{showProfileDetails && (
-								<>
-									<a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-									<p onClick={handleProfileEdit}>Save Changes</p>
-								</>
-							)}
-						</div>
-					</div>
-					<div className={css(myProfileStyles.myServices)}>
-						<h2>My Services</h2>
-						<div className={css(myProfileStyles.myServicesDiv)}>
-							{servicesData.length > 0 ? renderMyServices() : <h6>No services available</h6>}
-						</div>
-					</div>
-				</>
-			)}
-			{currentService && (
-				<Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>
-					<Modal.Header closeButton className={css(appointmentStyles.header)}>Update Appointment</Modal.Header>
-					<Modal.Body>
-						<Form>
-							<Form.Group>
-								<Form.Label className={css(createServiceStyles.label)}>Name</Form.Label>
-								<Form.Control
-									className={css(createServiceStyles.input)}
-									type='text'
-									name='serviceName'
-									value={updateFields.serviceName}
-									onChange={handleChange} />
-							</Form.Group>
+                <Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)} />
+              </div>
+              <h6>Name:
+                {!showProfileDetails ?
+                  <> {profileData.name} {profileData.lastName}</>
+                  :
+                  <>
+                    <input
+                      type="text"
+                      name="name"
+                      value={profileData.name}
+                      onChange={handleProfileChange}
+                      className={css(createServiceStyles.input)}
+                    />
+                    <h6>Last Name:
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={profileData.lastName}
+                        onChange={handleProfileChange}
+                        className={css(createServiceStyles.input)}
+                      />
+                    </h6>
+                  </>
+                }
+              </h6>
+              <h6>Email: {profileData.email}</h6>
+              {showProfileDetails && (
+                <>
+                  <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
+                  <p onClick={handleProfileEdit}>Save Changes</p>
+                </>
+              )}
+            </div>
+          </div>
+          <div className={css(myProfileStyles.myServices)}>
+            <h2>My Services</h2>
+            <div className={css(myProfileStyles.myServicesDiv)}>
+              {servicesData.length > 0 ? renderMyServices() : <h6>No services available</h6>}
+            </div>
+          </div>
+        </>
+      )}
+      {currentService && (
+        <Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>
+          <Modal.Header closeButton className={css(appointmentStyles.header)}>Update
+            Appointment</Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group>
+                <Form.Label className={css(createServiceStyles.label)}>Name</Form.Label>
+                <Form.Control
+                  className={css(createServiceStyles.input)}
+                  type="text"
+                  name="serviceName"
+                  value={updateFields.serviceName}
+                  onChange={handleChange} />
+              </Form.Group>
 							<Form.Group controlId="description" >
 								<Form.Label className={css(createServiceStyles.label)}>Description</Form.Label>
 								<Form.Control
