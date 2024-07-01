@@ -40,7 +40,7 @@ const ClientsList = () => {
           {clients.map((client, index) => (
             <tr key={client._id}>
               <td>{index + 1}</td>
-              <td>{client.client}</td>
+              <td>{client.client.name} {client.client.lastName}</td>
               <td>{client.appointments.length}</td>
             </tr>
           ))}

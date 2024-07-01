@@ -28,8 +28,7 @@ class ClientController {
         clientIds = [...new Set(appointments.map((appointment: any) => appointment.client.toString()))];
       }
 
-      const clients = await clientModel.find({ _id: { $in: clientIds } });
-
+      const clients = await clientModel.find({ _id: { $in: clientIds } }).populate('client', 'name lastName');
       res.status(200).json({ message: 'Clients fetched successfully', clients });
     } catch (error) {
       next(error);
