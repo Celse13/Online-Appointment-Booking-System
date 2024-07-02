@@ -289,8 +289,10 @@ export const staffListStyles = StyleSheet.create({
   container: {
     ...sharedContainerStyles,
   },
-  card: {
-    ...sharedCardStyles,
+  addDiv: {
+    display: 'flex',
+    justifyContent: 'end',
+    width: '100%',
   },
   text: {
     ...sharedTextStyles
