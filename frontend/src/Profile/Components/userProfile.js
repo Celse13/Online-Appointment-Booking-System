@@ -249,11 +249,11 @@ const Profile = ({ userType }) => {
           </CardHeader>
           <CardBody className={css(myProfileStyles.body)}>
             <div className={css(myProfileStyles.bodyDiv)}>
-              <h6>Name:
-                {!showProfileDetails ?
-                  <> {profileData.name} {profileData.lastName}</>
-                  :
-                  <>
+              {!showProfileDetails ?
+                <h6>Name: {profileData.name} {profileData.lastName}</h6>
+                :
+                <>
+                  <h6>First Name:
                     <input
                       type="text"
                       name="name"
@@ -261,26 +261,25 @@ const Profile = ({ userType }) => {
                       onChange={handleProfileChange}
                       className={css(createServiceStyles.input)}
                     />
-                    <h6>Last Name:
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={profileData.lastName}
-                        onChange={handleProfileChange}
-                        className={css(createServiceStyles.input)}
-                      />
-                    </h6>
-                  </>
-                }
-              </h6>
+                  </h6>
+                  <h6>Last Name:
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={profileData.lastName}
+                      onChange={handleProfileChange}
+                      className={css(createServiceStyles.input)}
+                    />
+                  </h6>
+                </>
+              }
               <h6>Email: {profileData.email}</h6>
               <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
             </div>
           </CardBody>
           <CardFooter className={css(myProfileStyles.footer)}>
             {!showProfileDetails ?
-              <Button onClick={toggleProfileDetails} className={css(myProfileStyles.button)}>Edit
-                Profile</Button> :
+              <Button onClick={toggleProfileDetails} className={css(myProfileStyles.button)}>Edit Profile</Button> :
               <Button onClick={handleProfileEdit} className={css(myProfileStyles.button)}>Save Changes</Button>
             }
           </CardFooter>
@@ -298,7 +297,8 @@ const Profile = ({ userType }) => {
                     <img src={profileData.profilePicture} alt="profile picture"
                          className={css(myProfileStyles.adminPpic)} />
                   }
-                  {showProfileDetails && <SquarePlus
+                  {showProfileDetails &&
+                    <SquarePlus
                     onClick={() => document.getElementById('fileInput')
                       .click()} />}
                   <input
@@ -310,11 +310,11 @@ const Profile = ({ userType }) => {
 								</span>
                 <Pencil onClick={toggleProfileDetails} className={css(myProfileStyles.settings)} />
               </div>
-              <h6>Name:
-                {!showProfileDetails ?
-                  <> {profileData.name} {profileData.lastName}</>
-                  :
-                  <>
+              {!showProfileDetails ?
+                <h6>Name: {profileData.name} {profileData.lastName}</h6>
+                :
+                <>
+                  <h6>First Name:
                     <input
                       type="text"
                       name="name"
@@ -322,23 +322,23 @@ const Profile = ({ userType }) => {
                       onChange={handleProfileChange}
                       className={css(createServiceStyles.input)}
                     />
-                    <h6>Last Name:
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={profileData.lastName}
-                        onChange={handleProfileChange}
-                        className={css(createServiceStyles.input)}
-                      />
-                    </h6>
-                  </>
-                }
-              </h6>
+                  </h6>
+                  <h6>Last Name:
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={profileData.lastName}
+                      onChange={handleProfileChange}
+                      className={css(createServiceStyles.input)}
+                    />
+                  </h6>
+                </>
+              }
               <h6>Email: {profileData.email}</h6>
               {showProfileDetails && (
                 <>
                   <a href="#" className={css(myProfileStyles.resetPass)}>Reset password</a>
-                  <p onClick={handleProfileEdit}>Save Changes</p>
+                  <Button onClick={handleProfileEdit} className={css(appointmentStyles.button)}>Save Changes</Button>
                 </>
               )}
             </div>
@@ -445,8 +445,8 @@ const Profile = ({ userType }) => {
 						</Form>
 					</Modal.Body>
 					<Modal.Footer className={css(appointmentStyles.footer)}>
-						<Button variant="secondary" onClick={handleCloseModal} className={css(appointmentStyles.button)}>Close</Button>
-						<Button variant="primary" onClick={handleEdit} className={css(appointmentStyles.button)}>Save Changes</Button>
+						<Button onClick={handleCloseModal} className={css(appointmentStyles.button)}>Close</Button>
+						<Button onClick={handleEdit} className={css(appointmentStyles.button)}>Save Changes</Button>
 					</Modal.Footer>
 				</Modal>
 			)}
