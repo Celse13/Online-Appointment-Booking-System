@@ -1,40 +1,46 @@
 import mongoose from 'mongoose';
-import StaffValidators from '../validators/staffValidators';
-import { userSchema } from './userModel';
 
-const staffSchema = new mongoose.Schema(
-  {
-    position: {
+interface IStaff extends mongoose.Document {
+  user: mongoose.Types.ObjectId;
+  business: mongoose.Types.ObjectId;
+  position: string;
+  permissions: string[];
+  workingHours: {
+    startHour: string;
+    endHour: string;
+  };
+}
+
+const staffSchema = new mongoose.Schema<IStaff>({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  business: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Business',
+    required: true,
+  },
+  position: {
+    type: String,
+    required: true,
+  },
+  permissions: [{
+    type: String,
+    required: true,
+  }],
+  workingHours: {
+    startHour: {
       type: String,
       required: true,
     },
-    appointments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Appointment',
-      },
-    ],
-    workingHours: {
-      startHour: {
-        type: String,
-        validate: {
-          validator: StaffValidators.validateHour,
-          message: 'Invalid hour format',
-        },
-        required: true,
-      },
-      endHour: {
-        type: String,
-        validate: {
-          validator: StaffValidators.validateHour,
-          message: 'Invalid hour format',
-        },
-        required: true,
-      },
+    endHour: {
+      type: String,
+      required: true,
     },
   },
-  { timestamps: true },
-);
+}, { timestamps: true });
 
-staffSchema.add(userSchema);
-mongoose.model('Staff', staffSchema);
+const StaffModel = mongoose.model<IStaff>('Staff', staffSchema);
+export default StaffModel;
