@@ -31,13 +31,21 @@ const staffSchema = new mongoose.Schema<IStaff>({
     required: true,
   }],
   workingHours: {
-    startHour: {
+    startTime: {
       type: String,
       required: true,
+      validate: {
+        validator: (value: string) => /^([0-1]\d|2[0-3]):([0-5]\d)$/.test(value),
+        message: 'Invalid time format. Expected HH:MM (24-hour format).'
+      }
     },
-    endHour: {
+    endTime: {
       type: String,
       required: true,
+      validate: {
+        validator: (value: string) => /^([0-1]\d|2[0-3]):([0-5]\d)$/.test(value),
+        message: 'Invalid time format. Expected HH:MM (24-hour format).'
+      }
     },
   },
 }, { timestamps: true });

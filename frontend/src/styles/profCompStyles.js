@@ -267,11 +267,18 @@ export const notificationsStyles = StyleSheet.create({
 });
 
 export const clientsListStyles = StyleSheet.create({
-  container: {
-    ...sharedContainerStyles,
+  tableHead: {
+    borderLeft: `2px solid ${appColors.accentOpaque}`,
+    borderTop: `2px solid ${appColors.accentOpaque}`,
   },
-  card: {
-    ...sharedCardStyles,
+  tableBody: {
+    border: `2px solid ${appColors.accentOpaque}`,
+  },
+  headText: {
+    backgroundColor: appColors.accentOpaque,
+    color: appColors.white,
+    textAlign: 'start',
+    fontWeight: '400',
   },
   text: {
     ...sharedTextStyles
@@ -282,8 +289,10 @@ export const staffListStyles = StyleSheet.create({
   container: {
     ...sharedContainerStyles,
   },
-  card: {
-    ...sharedCardStyles,
+  addDiv: {
+    display: 'flex',
+    justifyContent: 'end',
+    width: '100%',
   },
   text: {
     ...sharedTextStyles

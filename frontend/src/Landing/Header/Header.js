@@ -6,10 +6,27 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AlignJustify, X } from 'lucide-react';
 import { HashLink } from 'react-router-hash-link';
+import { jwtDecode } from 'jwt-decode';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  let path = '/auth';
+  let name = 'LOGIN';
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    name = 'PROFILE'
+    const decoded = jwtDecode(token);
+    const role = decoded.role;
+    if (role === 'business') {
+      path = '/profile/admin';
+    } else if (role === 'staff') {
+      path = '/profile/staff';
+    } else {
+      path = '/profile/client';
+    }
+  }
 
   return (
     <Fragment>
@@ -22,7 +39,7 @@ const Header = () => {
         </Card>
         <ul className={css(headerStyles.navBarList, menuOpen && headerStyles.navBarListOpen)}>
           <li><HashLink to="/#home" className={css(headerStyles.listItem)}>HOME</HashLink></li>
-          <li><Link to="/auth" className={css(headerStyles.listItem)}>LOGIN</Link></li>
+          <li><Link to={path} className={css(headerStyles.listItem)}>{name}</Link></li>
           <li><HashLink to='/#services' className={css(headerStyles.listItem)}>SERVICES</HashLink> </li>
           <li><HashLink to="/#about" className={css(headerStyles.listItem)}>ABOUT</HashLink></li>
           <li><HashLink to="/#testimonials" className={css(headerStyles.listItem)}>TESTIMONIALS</HashLink></li>
