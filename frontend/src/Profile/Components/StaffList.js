@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
-import { Button, Card, Container, Form, Modal, Table } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, Container, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { css } from 'aphrodite';
-import { appointmentStyles, clientsListStyles, createServiceStyles, staffListStyles, } from '../../styles/profCompStyles';
+import {
+  appointmentStyles,
+  clientsListStyles,
+  createServiceStyles,
+  staffListStyles,
+} from '../../styles/profCompStyles';
 import { Plus, XCircle } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import { signStyles } from '../../styles/authStyles';
+import BusinessApi from '../../Api/Services/handleBusinessApi';
+import StaffApi from '../../Api/Services/handleStaffApi';
 
 const StaffList = () => {
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const [showVerification, setShowVerification] = useState(false);
+  const [staff, setStaff] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [profileData, setProfileData] = useState({ id: '' });
   const token = localStorage.getItem('token');
   const decoded = jwtDecode(token);
-  const userId = decoded._id; /* Todo --> get biz id instead of user id */
+  const userId = decoded._id;
+
+  useEffect(() => {
+    const fetchStaff = async () => {
+      setIsLoading(true);
+      try {
+        const staffData = await StaffApi.getBusinessStaff(token);
+        setStaff(staffData.staff)
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+      }
+    };
+    const fetchBiz = async () => {
+      try {
+        let profileData = await BusinessApi.getBusinessByUserId(userId, token);
+        setProfileData({
+          id: profileData._id,
+        });
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchStaff().then();
+    fetchBiz().then();
+  }, [token, userId]);
 
   const handleConfirm = () => {
     handleCloseModal();
@@ -22,11 +58,9 @@ const StaffList = () => {
 
   const handleClose = () => setShowVerification(false);
 
-  const staffData = [
-    { id: 1, name: 'Staff 1' },
-    { id: 2, name: 'Staff 2' },
-    { id: 3, name: 'Staff 3' },
-  ];
+  if (isLoading) {
+    return <Spinner animation="border" />;
+  }
 
   return (
     <Container className={css(staffListStyles.container)}>
@@ -44,10 +78,10 @@ const StaffList = () => {
         </tr>
         </thead>
         <tbody className={css(clientsListStyles.tableBody)}>
-        {staffData.map((staff, index) => (
-          <tr key={staff.id}>
+        {staff.map((staff, index) => (
+          <tr key={staff._id}>
             <td className={css(clientsListStyles.text)}>{index + 1}</td>
-            <td className={css(clientsListStyles.text)}>{staff.name}</td>
+            <td className={css(clientsListStyles.text)}>{staff.user.name} {staff.user.lastName}</td>
           </tr>
         ))}
         </tbody>
@@ -63,7 +97,7 @@ const StaffList = () => {
               <Form.Control
                 type='text'
                 name='businessId'
-                value={userId}
+                value={profileData.id}
                 className={css(createServiceStyles.input)}
                 readOnly/>
             </Form.Group>
