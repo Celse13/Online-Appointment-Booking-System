@@ -6,12 +6,14 @@ import { businessRouter as businessAppointmentRouter, clientRouter as clientAppo
 import { businessRouter as businessServiceRouter, clientRouter as clientServiceRouter } from './services/services';
 import clientRouter from './client/client';
 import staffRouter from './staff/staff';
+import businessRoute from './business/business';
 
 const router = Router();
 
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/admin', adminRouter);
+router.use('/businesses', businessRoute);
 router.use('/business/appointments', businessAppointmentRouter);
 router.use('/client/appointments', clientAppointmentRouter);
 router.use('/business/services', businessServiceRouter);

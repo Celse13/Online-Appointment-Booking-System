@@ -3,31 +3,12 @@ import BusinessController from '../../controllers/businessControllers';
 import authenticate from '../../utils/authenticate';
 import { checkRole } from '../../utils/isBusiness';
 
-const router = Router();
+const businessRoute = Router();
 
-router.post(
-  '/',
-  authenticate,
-  checkRole(['business', 'staff']),
-  BusinessController.createBusiness,
-);
-router.get(
-  '/:id',
-  authenticate,
-  checkRole(['business', 'staff']),
-  BusinessController.getBusiness,
-);
-router.patch(
-  '/:id',
-  authenticate,
-  checkRole(['business', 'staff']),
-  BusinessController.updateBusiness,
-);
-router.delete(
-  '/:id',
-  authenticate,
-  checkRole(['business', 'staff']),
-  BusinessController.deleteBusiness,
-);
+businessRoute.post('/', authenticate, checkRole(['business']), BusinessController.createBusiness,);
+businessRoute.get('/:id', authenticate, checkRole(['business', 'staff']), BusinessController.getBusiness,);
+businessRoute.get('/user/:userId', authenticate, checkRole(['business']), BusinessController.getBusinessByUserId,);
+businessRoute.patch('/update/:id', authenticate, checkRole(['business', 'staff']), BusinessController.updateBusiness,);
+businessRoute.delete('/delete/:id', authenticate, checkRole(['business']), BusinessController.deleteBusiness,);
 
-export default router;
+export default businessRoute;
