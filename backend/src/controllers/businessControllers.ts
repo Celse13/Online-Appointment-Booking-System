@@ -42,6 +42,21 @@ class BusinessController {
     }
   }
 
+  static async getBusinessByUserId(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId;
+      const business = await BusinessModel.findOne({ owner: userId }).select(
+        'businessType workingHours workingDays businessAddress',
+      );
+      if (!business) {
+        return res.status(404).send({ message: 'No business found for this user' });
+      }
+      res.send(business);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+
   static async updateBusiness(req: Request, res: Response) {
     const updates = Object.keys(req.body);
     const allowedUpdates = [
