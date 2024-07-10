@@ -41,7 +41,9 @@ const Login = (props) => {
       localStorage.setItem('token', token);
 			const decoded = jwtDecode(token);
 			const role = decoded.role;
-      role === "business" ? props.navigate('/profile/admin') : props.navigate('/profile/client');
+      role === "business" && props.navigate('/profile/admin');
+      role === "staff" && props.navigate('/profile/staff');
+      role === "client" && props.navigate('/profile/client');
 
     } catch (error) {
       console.error(error)

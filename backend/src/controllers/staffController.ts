@@ -3,28 +3,45 @@ import { UserModel } from '../models/userModel';
 import StaffModel from '../models/staffModel';
 import { BusinessModel, IBusiness } from '../models/businessModel';
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import nodemailer, { SentMessageInfo } from 'nodemailer';
+import JWT from '../utils/jwt';
 
-
+const BCRYPT_SALT_ROUNDS: number = 12;
 class StaffController {
-  static async createStaff(req: Request, res: Response){
+  static async createStaff(req: Request, res: Response, next: NextFunction){
     try {
-      const { position, permissions, workingHours, userDetails } = req.body;
+      const { name, lastName, email, password, position, permissions, workingHours } = req.body;
       const userId =  req.user ? req.user._id : undefined;
       const business = await BusinessModel.findOne({ owner: userId });
       if (!business) {
         return res.status(404).json({ message: 'No business found for this user' });
       }
       const businessId = business._id;
+      const existingEmail = await UserModel.findOne({ email });
+      if (existingEmail) {
+        return res.status(409).json({ message: 'Email already exists' });
+      }
+      const existingUsername = await UserModel.findOne({ name });
+      if (existingUsername) {
+        return res.status(409).json({ message: 'Username already exists' });
+      }
 
-      // Create a new User for the staff member
-      const newUser = new UserModel({
-        ...userDetails,
+      const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+      const verificationToken = crypto.randomBytes(20).toString('hex');
+      const user = new UserModel({
+        name,
+        lastName,
+        email,
         role: 'staff',
+        password: hashedPassword,
+        verificationToken,
       });
-      await newUser.save();
+      await user.save();
 
       const newStaff = new StaffModel({
-        user: newUser._id,
+        user: user._id,
         business: businessId,
         position,
         permissions,
@@ -33,9 +50,43 @@ class StaffController {
       await newStaff.save();
       business.staff.push(newStaff._id);
       await business.save();
-      res.status(201).json({ message: 'Staff created successfully', staff: newStaff });
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USERNAME,
+        to: user.email,
+        subject: 'Account Verification Token',
+        text: `Hello,\n\n
+                    Please verify your account by clicking the link: \n${process.env.BASE_URL}/api/auth/verify/${verificationToken}\n
+                    Login with password: ${password}\n\n`,
+      };
+      transporter.sendMail(
+        mailOptions,
+        (error: Error | null, info: SentMessageInfo) => {
+          if (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Failed to send email' });
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        },
+      );
+      const token = JWT.generateJwt(
+        String(user._id),
+        user.email,
+        user.name,
+        user.role,
+      );
+      res.status(201).json({ ok: true, message: 'Staff created successfully', staff: newStaff, token });
     } catch (error) {
-      res.status(500).json({ message: 'Error creating staff', error: (error as Error).message });
+      next(error);
     }
   };
 
