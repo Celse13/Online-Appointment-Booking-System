@@ -32,6 +32,8 @@ export const formatTime = (time) => {
 
 export const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+export const permissions = ['View staff', 'Manage staff', 'View Appointments', 'Manage Appointments']
+
 export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   const { name, value } = e.target;
   let errorMessage = '';

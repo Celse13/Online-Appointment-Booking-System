@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Container, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { css } from 'aphrodite';
-import {
-  appointmentStyles,
-  clientsListStyles,
-  createServiceStyles,
-  staffListStyles,
-} from '../../styles/profCompStyles';
+import { appointmentStyles, clientsListStyles, createServiceStyles, staffListStyles, } from '../../styles/profCompStyles';
 import { Plus, XCircle } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import { signStyles } from '../../styles/authStyles';
 import BusinessApi from '../../Api/Services/handleBusinessApi';
 import StaffApi from '../../Api/Services/handleStaffApi';
+import { permissions } from '../../utils/utils';
 
 const StaffList = () => {
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const [showVerification, setShowVerification] = useState(false);
-  const [staff, setStaff] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useState({ id: '' });
   const token = localStorage.getItem('token');
   const decoded = jwtDecode(token);
   const userId = decoded._id;
+  const [staff, setStaff] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+    role: 'staff',
+    position: '',
+    startTime: '',
+    endTime: '',
+    permissions: [],
+  });
 
   useEffect(() => {
     const fetchStaff = async () => {
@@ -34,6 +41,7 @@ const StaffList = () => {
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching staff:', error);
+        setIsLoading(false);
       }
     };
     const fetchBiz = async () => {
@@ -51,9 +59,51 @@ const StaffList = () => {
     fetchBiz().then();
   }, [token, userId]);
 
-  const handleConfirm = () => {
-    handleCloseModal();
-    setShowVerification(true);
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === 'checkbox') {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        permissions: checked
+          ? [...prevFormData.permissions, value]
+          : prevFormData.permissions.filter(permission => permission !== value)
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
+    console.log(value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userData = {
+        name: formData.name,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        role: 'staff',
+        position: formData.position,
+        workingHours: {
+          startTime: formData.startTime,
+          endTime: formData.endTime
+        },
+        permissions: formData.permissions,
+      };
+      const res = await StaffApi.createStaff(userData, token);
+      if (res && res.ok) {
+        setStaff(prevStaff => [...prevStaff, res.staff]);
+        handleCloseModal();
+        setShowVerification(true);
+      } else {
+        alert('Error creating staff.');
+      }
+    } catch (error) {
+      alert('An error occurred while creating staff. Please try again.');
+    }
   };
 
   const handleClose = () => setShowVerification(false);
@@ -88,60 +138,101 @@ const StaffList = () => {
       </Table>
       <Modal show={showModal} onHide={handleCloseModal} className={css(appointmentStyles.modal)}>
         <Modal.Header closeButton className={css(appointmentStyles.header)}>
-          New Staff Member
+          Business ID: {profileData.id}
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label className={css(createServiceStyles.label)}>Business ID</Form.Label>
-              <Form.Control
-                type='text'
-                name='businessId'
-                value={profileData.id}
-                className={css(createServiceStyles.input)}
-                readOnly/>
-            </Form.Group>
-            <Form.Group>
               <Form.Label className={css(createServiceStyles.label)}>First Name</Form.Label>
               <Form.Control
                 type='text'
-                name='firstName'
-                className={css(createServiceStyles.input)}/>
+                name='name'
+                value={formData.name}
+                onChange={handleChange}
+                className={css(createServiceStyles.input)}
+                required />
             </Form.Group>
             <Form.Group>
               <Form.Label className={css(createServiceStyles.label)}>Last Name</Form.Label>
               <Form.Control
                 type='text'
                 name='lastName'
-                className={css(createServiceStyles.input)}/>
+                value={formData.lastName}
+                onChange={handleChange}
+                className={css(createServiceStyles.input)}
+                required />
             </Form.Group>
             <Form.Group>
               <Form.Label className={css(createServiceStyles.label)}>Email</Form.Label>
               <Form.Control
                 type='email'
                 name='email'
-                className={css(createServiceStyles.input)}/>
+                value={formData.email}
+                onChange={handleChange}
+                className={css(createServiceStyles.input)}
+                required />
             </Form.Group>
             <Form.Group>
               <Form.Label className={css(createServiceStyles.label)}>Password</Form.Label>
               <Form.Control
                 type='password'
                 name='password'
-                className={css(createServiceStyles.input)}/>
+                value={formData.password}
+                onChange={handleChange}
+                className={css(createServiceStyles.input)}
+                required />
             </Form.Group>
             <Form.Group>
-              <Form.Label className={css(createServiceStyles.label)}>Role</Form.Label>
+              <Form.Label className={css(createServiceStyles.label)}>Position</Form.Label>
               <Form.Control
                 type='text'
-                name='role'
-                value='staff'
+                name='position'
+                value={formData.position}
+                onChange={handleChange}
                 className={css(createServiceStyles.input)}
-                readOnly/>
+                required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className={css(createServiceStyles.label)}>Working hours start time</Form.Label>
+              <Form.Control
+                className={css(createServiceStyles.input)}
+                type="time"
+                name="startTime"
+                value={formData.startTime}
+                onChange={handleChange}
+                required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className={css(createServiceStyles.label)}>Working hours end time</Form.Label>
+              <Form.Control
+                className={css(createServiceStyles.input)}
+                type="time"
+                name="endTime"
+                value={formData.endTime}
+                onChange={handleChange}
+                required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label className={css(createServiceStyles.label)}>Permissions</Form.Label>
+              <div className={css(createServiceStyles.checkboxGroup)}>
+                {permissions.map((userPermission) => (
+                  <Form.Check
+                    key={userPermission}
+                    type="checkbox"
+                    label={userPermission}
+                    name="serviceDays"
+                    value={userPermission}
+                    checked={formData.permissions.includes(userPermission)}
+                    onChange={handleChange}
+                    className={css(createServiceStyles.checkbox)}
+                  />
+                ))}
+              </div>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer className={css(appointmentStyles.footer)}>
-          <Button className={css(appointmentStyles.button)} onClick={handleConfirm}>Create</Button>
+          <Button onClick={handleSubmit} className={css(appointmentStyles.button)}>Create</Button>
         </Modal.Footer>
       </Modal>
       {showVerification && (
