@@ -218,7 +218,17 @@ export const appointmentStyles = StyleSheet.create({
   bodyDiv: {
     textAlign: 'start',
   },
-
+  statusDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  statusButton: {
+    backgroundColor: appColors.white,
+    color: appColors.primaryText,
+    padding: '0 0.5rem',
+    margin: 0,
+    border: 'none',
+  },
   editButton: {
     margin: '0.5rem',
     backgroundColor: appColors.lightBlue,

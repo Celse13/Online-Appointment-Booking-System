@@ -24,11 +24,11 @@ const Appointments = () => {
       setIsLoading(true);
       setIsError(false);
       try {
-        const getAppointments = role === 'business' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
+        const getAppointments = role === 'business' || role === 'staff' ? BusinessAppointments.getBusinessAppointments : ClientAppointments.getClientAppointments;
         const response = await getAppointments(token);
         const appointments = response.appointments.map((appointment) => ({
           id: appointment._id,
-          name: role === 'business' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.service[0].name}` ,
+          name: role === 'business' || role === 'staff' ? `Client: ${appointment.clientName}` : `Appointment with: ${appointment.service[0].name}` ,
           date: new Date(appointment.dateTime).toLocaleDateString(),
           time: formatTime(new Date(appointment.dateTime).toLocaleTimeString()),
           location: appointment.service[0].location,
@@ -160,9 +160,9 @@ const Appointments = () => {
 									<h6>Location: {appointment.location}</h6>
 									<div>
 										{role === 'business' && (
-											<h6>Status:
+											<h6 className={css(appointmentStyles.statusDiv)}>Status:
 												<Dropdown onSelect={(newStatus) => handleStatusChange(appointment.id, newStatus)}>
-                          <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          <Dropdown.Toggle className={css(appointmentStyles.statusButton)}>
                             {appointment.status}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
