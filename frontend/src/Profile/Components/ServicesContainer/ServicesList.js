@@ -126,7 +126,7 @@ const ServicesList = ({ selectedCategoryId, selectedCategoryName, onBackSelected
       <Container className={css(servicesListStyles.container)}>
         {services.length > 0 ? (
           services.map((service) => (
-            <Card key={service.id} className={css(servicesListStyles.card)}>
+            <Card key={service._id} className={css(servicesListStyles.card)}>
               <CardHeader className={css(servicesListStyles.header)}>
                 <h3>{service.serviceName}</h3>
               </CardHeader>

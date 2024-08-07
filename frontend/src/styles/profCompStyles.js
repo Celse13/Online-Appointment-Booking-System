@@ -82,6 +82,10 @@ export const myProfileStyles = StyleSheet.create({
     margin: '3rem',
     borderRadius: '25px',
     border: `3px solid ${appColors.accentOpaque}`,
+    '@media (max-width: 600px)': {
+      width: '100%',
+      margin: 0
+    },
   },
   header: {
     margin: '1rem',
@@ -324,9 +328,16 @@ export const servicesCategoriesStyles = StyleSheet.create({
     '@media (max-width: 900px)': {
       gridTemplateColumns: '1fr 1fr 1fr',
     },
+    '@media (max-width: 1200px)': {
+      gridTemplateColumns: '1fr 1fr 1fr ',
+    },
+    '@media (max-width: 600px)': {
+      gridTemplateColumns: '1fr 1fr',
+      margin: 0,
+    },
   },
   gridContainerCard: {
-    width: 'calc(15vw * .7)',
+    width: 'calc(12vw * .7)',
     height: 'auto',
     padding: '1rem',
     border: `2px solid ${appColors.primaryLight}`,
@@ -335,8 +346,14 @@ export const servicesCategoriesStyles = StyleSheet.create({
       transform: 'scale(1.3)',
       border: `2px solid ${appColors.primaryDark}`,
     },
-    '@media (max-width: 900px)': {
+    '@media (min-width: 901px) and (max-width: 1200px)': {
       width: '15vw',
+    },
+    '@media (min-width: 601px) and (max-width: 900px)': {
+      width: '15vw',
+    },
+    '@media (max-width: 600px)': {
+      width: '25vw',
     },
   },
   gridContainerItem: {
