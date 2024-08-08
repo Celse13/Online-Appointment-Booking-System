@@ -113,7 +113,6 @@ export const myProfileStyles = StyleSheet.create({
 	},
 	adminPpic: {
 		width: '6rem',
-		padding: '1rem',
 		borderRadius: '50%',
 		border: `2px solid ${appColors.primary}`,
 	},
