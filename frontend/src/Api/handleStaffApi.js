@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { ROUTE_URL } from '../../constants';
 
-const BASE_URL = 'http://localhost:5500/api/business/staff';
+const BASE_URL = `${ROUTE_URL}/business/staff`;
 
 class StaffApi {
   static async createStaff(userData, token) {

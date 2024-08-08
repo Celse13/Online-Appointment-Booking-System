@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Container, Spinner, Ale
 import { Pencil, Trash2 } from 'lucide-react';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
-import { BusinessAppointments, ClientAppointments } from '../../Api/Services/handleAppointments';
+import { BusinessAppointments, ClientAppointments } from '../../Api/handleAppointments';
 import { formatTime } from '../../utils/utils';
 import { jwtDecode } from 'jwt-decode';
 

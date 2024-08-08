@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { css } from 'aphrodite';
 import { signStyles } from '../../styles/authStyles';
 import { withNavigate } from '../../HOC/withNavigate';
-import AuthApi from '../../Api/Services/handleAuthApi';
+import AuthApi from '../../Api/handleAuthApi';
 import { Lock, Mail } from 'lucide-react';
 import { servicesListStyles } from '../../styles/profCompStyles';
 import { jwtDecode } from 'jwt-decode';

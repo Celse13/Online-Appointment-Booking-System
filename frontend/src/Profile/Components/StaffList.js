@@ -5,8 +5,8 @@ import { appointmentStyles, clientsListStyles, createServiceStyles, staffListSty
 import { Plus, XCircle } from 'lucide-react';
 import { jwtDecode } from 'jwt-decode';
 import { signStyles } from '../../styles/authStyles';
-import BusinessApi from '../../Api/Services/handleBusinessApi';
-import StaffApi from '../../Api/Services/handleStaffApi';
+import BusinessApi from '../../Api/handleBusinessApi';
+import StaffApi from '../../Api/handleStaffApi';
 import { permissions } from '../../utils/utils';
 
 const StaffList = () => {

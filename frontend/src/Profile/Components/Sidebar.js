@@ -6,7 +6,7 @@ import { sidebarStyles } from '../../styles/sidebarStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { handleBackHome } from '../../utils/utils';
 import { jwtDecode } from 'jwt-decode';
-import UserApi from '../../Api/Services/handleUserApi';
+import UserApi from '../../Api/handleUserApi';
 
 const SidebarContext = createContext(undefined);
 

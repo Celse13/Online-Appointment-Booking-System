@@ -4,8 +4,8 @@ import { ArrowLeft } from 'lucide-react';
 import { css } from 'aphrodite';
 import { servicesListStyles } from '../../../styles/profCompStyles';
 import { formatTime, getCurrentDate } from '../../../utils/utils';
-import { ClientServiceApi } from '../../../Api/Services/handleServicesApi';
-import { ClientAppointments } from '../../../Api/Services/handleAppointments';
+import { ClientServiceApi } from '../../../Api/handleServicesApi';
+import { ClientAppointments } from '../../../Api/handleAppointments';
 
 const initializeFormData = (service) => ({
   serviceName: service ? service.serviceName : '',

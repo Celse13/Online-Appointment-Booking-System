@@ -6,7 +6,7 @@ import { Switch } from '../Switch';
 import { Lock, Mail, Phone, Pin, UserRound, UserRoundCog, XCircle } from 'lucide-react';
 import { servicesListStyles } from '../../styles/profCompStyles';
 import { handleChange } from '../../utils/utils';
-import AuthApi from '../../Api/Services/handleAuthApi';
+import AuthApi from '../../Api/handleAuthApi';
 import { Button, Card } from 'react-bootstrap';
 
 const Signup = (props) => {

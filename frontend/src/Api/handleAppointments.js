@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { ROUTE_URL } from '../../constants';
 
-const BASE_URL = 'http://localhost:5500/api';
-
+const BASE_URL = `${ROUTE_URL}`;
 
 class BusinessAppointments {
 	static async getBusinessAppointments(token) {
@@ -59,6 +59,7 @@ class BusinessAppointments {
 
 class ClientAppointments {
 	static async getClientAppointments(token) {
+    console.log(ROUTE_URL);
 		try {
 			const response = await axios.get(`${BASE_URL}/client/appointments`, {
 				headers: {

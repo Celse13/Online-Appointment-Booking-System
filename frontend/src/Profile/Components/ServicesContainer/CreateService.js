@@ -3,7 +3,7 @@ import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { serviceCategoriesFilter } from './servicesData';
 import { css } from 'aphrodite';
 import { createServiceStyles } from '../../../styles/profCompStyles';
-import { BusinessServicesApi } from '../../../Api/Services/handleServicesApi';
+import { BusinessServicesApi } from '../../../Api/handleServicesApi';
 import { daysOfWeek } from '../../../utils/utils';
 
 

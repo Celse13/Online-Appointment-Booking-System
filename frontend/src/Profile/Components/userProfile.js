@@ -3,10 +3,10 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Form, InputGroup, Modal
 import ppic from '../../Assets/ppic.png';
 import { css } from 'aphrodite';
 import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../styles/profCompStyles';
-import { BusinessServicesApi } from '../../Api/Services/handleServicesApi';
+import { BusinessServicesApi } from '../../Api/handleServicesApi';
 import { ChevronsDown, ChevronsUp, Pencil, Trash2, SquarePlus } from 'lucide-react';
 import { daysOfWeek, formatTime } from '../../utils/utils';
-import UserApi from '../../Api/Services/handleUserApi';
+import UserApi from '../../Api/handleUserApi';
 import { jwtDecode } from 'jwt-decode';
 
 const Profile = ({ userType }) => {

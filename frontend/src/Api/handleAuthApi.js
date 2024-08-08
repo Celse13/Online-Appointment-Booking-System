@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { ROUTE_URL } from '../../constants';
 
-const BASE_URL = 'http://localhost:5500/api';
-
+const BASE_URL = `${ROUTE_URL}`;
 
 class AuthApi {
     static async signup(userData) {
@@ -14,7 +14,7 @@ class AuthApi {
     }
 
     static async login(userData) {
-        try {
+      try {
             const response = await axios.post(`${BASE_URL}/auth/login`, userData);
             return response.data;
         } catch (error) {

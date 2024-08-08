@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Container, Spinner } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { clientsListStyles } from '../../styles/profCompStyles';
-import ClientApiHandler from "../../Api/Clients/handleClientsApi";
+import ClientApiHandler from "../../Api/handleClientsApi";
 
 const ClientsList = () => {
   const [clients, setClients] = useState([]);
