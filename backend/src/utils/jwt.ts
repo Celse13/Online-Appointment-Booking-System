@@ -11,8 +11,9 @@ class JWT {
     email: string,
     username: string,
     role: string,
+    businessId?: string,
   ): string {
-    return jwt.sign({ _id, email, username, role }, SECRET_KEY, {
+    return jwt.sign({ _id, email, username, role, businessId }, SECRET_KEY, {
       expiresIn: '45d',
     });
   }

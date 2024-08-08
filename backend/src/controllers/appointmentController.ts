@@ -2,8 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import ClientModel from '../models/clientModel';
 import AppointmentModel from '../models/appointmentModel';
 import ServiceModel from '../models/serviceModel';
-import { BusinessModel, IBusiness } from '../models/businessModel';
+import { BusinessModel } from '../models/businessModel';
 import { UserModel } from '../models/userModel';
+import StaffModel from '../models/staffModel';
 
 class AppointmentController {
   static convertTo24Hour(time: string) {
@@ -88,12 +89,26 @@ class AppointmentController {
 
   static async getBusinessAppointments(req: Request, res: Response, next: NextFunction,) {
     const userId = req.user ? req.user._id : undefined;
+    const userRole = req.user ? req.user.role : undefined;
     !userId && res.status(401).json({ message: 'Unauthorized' });
 
     try {
-      const business = (await BusinessModel.findOne({
-        owner: userId,
-      }).populate({
+      let businessId: string | undefined;
+      if (userRole === 'business') {
+        const business = await BusinessModel.findOne({ owner: userId });
+        if (!business) {
+          return res.status(404).json({ message: 'Business not found' });
+        }
+        businessId = business._id.toString();
+      } else if (userRole === 'staff') {
+        const staff = await StaffModel.findOne({ user: userId }).populate('business');
+        if (!staff || !staff.business) {
+          return res.status(404).json({ message: 'Staff or associated business not found' });
+        }
+        businessId = staff.business._id.toString();
+      }
+      const business = await BusinessModel.findById(businessId).
+      populate({
         path: 'appointments',
         populate: {
           path: 'client',
@@ -104,9 +119,11 @@ class AppointmentController {
             select: 'name',
           },
         },
-      })) as IBusiness
+      });
 
-      !business && res.status(404).json({ message: 'Business not found' });
+      if (!business) {
+        return res.status(404).json({ message: 'Business not found' });
+      }
       res.status(200).json({ message: 'Appointments fetched successfully', appointments: business.appointments });
     } catch (error) {
       next(error);

@@ -17,5 +17,6 @@ const SidebarItems = [
   { icon: <Bell />, text: "Notifications", alert: true }
 ];
 
-const Staff = renderComponents(ComponentMap, SidebarItems, "");
+const Staff = renderComponents(ComponentMap, SidebarItems, "", 'staff');
+
 export default Staff;

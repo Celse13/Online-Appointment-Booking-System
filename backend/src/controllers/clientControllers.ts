@@ -1,25 +1,37 @@
 import { Request, Response, NextFunction } from 'express';
-import { BusinessModel, IBusiness } from '../models/businessModel';
+import { BusinessModel } from '../models/businessModel';
 import AppointmentModel from '../models/appointmentModel';
 import clientModel from '../models/clientModel';
-
+import StaffModel from '../models/staffModel';
 
 
 class ClientController {
   static async getClients(req: Request, res: Response, next: NextFunction) {
     const userId = req.user ? req.user._id : undefined;
+    const userRole = req.user ? req.user.role : undefined;
+
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
-      const business = (await BusinessModel.findOne({
-        owner: userId,
-      })) as IBusiness;
-
-      if (!business) {
-        return res.status(404).json({ message: 'No business found' });
+      let businessId: string | undefined;
+      if (userRole === 'business') {
+        const business = await BusinessModel.findOne({ owner: userId });
+        if (!business) {
+          return res.status(404).json({ message: 'Business not found' });
+        }
+        businessId = business._id.toString();
+      } else if (userRole === 'staff') {
+        const staff = await StaffModel.findOne({ user: userId }).populate('business');
+        if (!staff || !staff.business) {
+          return res.status(404).json({ message: 'Staff or associated business not found' });
+        }
+        businessId = staff.business._id.toString();
       }
-
+      const business = await BusinessModel.findById(businessId);
+      if (!business) {
+        return res.status(404).json({ message: 'Business not found' });
+      }
       const appointments = await AppointmentModel.find({business: business._id});
 
       let clientIds: any = [];

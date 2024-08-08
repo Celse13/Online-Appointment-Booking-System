@@ -83,6 +83,7 @@ class StaffController {
         user.email,
         user.name,
         user.role,
+        String(businessId),
       );
       res.status(201).json({ ok: true, message: 'Staff created successfully', staff: newStaff, token });
     } catch (error) {
