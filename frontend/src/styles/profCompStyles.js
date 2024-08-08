@@ -281,8 +281,7 @@ export const notificationsStyles = StyleSheet.create({
 
 export const clientsListStyles = StyleSheet.create({
   tableHead: {
-    borderLeft: `2px solid ${appColors.accentOpaque}`,
-    borderTop: `2px solid ${appColors.accentOpaque}`,
+    border: `2px solid ${appColors.accentOpaque}`,
   },
   tableBody: {
     border: `2px solid ${appColors.accentOpaque}`,
