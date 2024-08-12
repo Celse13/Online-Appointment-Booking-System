@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
-import about from '../../Assets/about.png';
+import about from '../../../public/Assets/about.png';
 import { aboutStyles } from '../../styles/landingStyles';
 
 class About extends React.Component {
