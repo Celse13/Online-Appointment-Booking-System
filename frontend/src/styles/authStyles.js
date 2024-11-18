@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite';
 import { appColors } from './colors';
-import calendar from '../../public/Assets/calendar2.png';
+import calendar from '../Assets/calendar2.png';
 
 const sharedInputStyles = {
   border: 'none',
@@ -9,6 +9,7 @@ const sharedInputStyles = {
   padding: '0.7rem',
   margin: '0.7rem',
   borderRadius: '10px',
+  boxShadow: 'inset -2px -2px rgba(0,0,0,0.2)',
 };
 
 export const authStyles = StyleSheet.create({
@@ -48,7 +49,8 @@ export const signStyles = StyleSheet.create({
     cursor: 'pointer',
   },
   form: {
-    backgroundColor: appColors.primaryDarkTrans,
+    backgroundColor: 'rgb(255, 255, 255, 0.7)',
+    boxShadow: '2px 2px 2px 2px rgba(0,0,0,0.2)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -63,7 +65,7 @@ export const signStyles = StyleSheet.create({
   input: {
     ...sharedInputStyles,
     color: appColors.primaryText,
-    backgroundColor: appColors.secondaryLight,
+    backgroundColor: appColors.primaryLight,
   },
   button: {
     ...sharedInputStyles,
@@ -176,7 +178,7 @@ export const switchStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: appColors.primary,
+    backgroundColor: appColors.dusty,
     transition: '.4s',
   },
   sliderBefore: {

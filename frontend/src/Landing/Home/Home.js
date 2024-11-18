@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'aphrodite';
 import { homeStyles } from '../../styles/landingStyles';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import home from '../../../public/assets/home.png';
+import home from '../../assets/home.png';
 
 class Home extends React.Component {
   render() {

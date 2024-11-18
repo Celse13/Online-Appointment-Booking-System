@@ -31,8 +31,10 @@
     "webpack-merge": "^5.10.0"
   },
   "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.25.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@syncfusion/ej2-react-schedule": "^26.2.7",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
@@ -50,6 +52,7 @@
     "lucide-react": "^0.379.0",
     "react": "^16.14.0",
     "react-bootstrap": "^2.10.2",
+    "react-calendar": "^3.9.0",
     "react-dom": "^16.14.0",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.23.1",

@@ -2,12 +2,12 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { footerStyles } from '../../styles/landingStyles';
-import gmail from '../../../public/assets/gmail-logo.png';
-import facebook from '../../../public/assets/facebook-logo.png';
-import twitter from '../../../public/assets/twitter-logo.png';
-import instagram from '../../../public/assets/instagram-logo.png';
-import whatsapp from '../../../public/assets/whatsapp-logo.png';
-import telegram from '../../../public/assets/telegram-logo.png';
+import gmail from '../../assets/gmail-logo.png';
+import facebook from '../../assets/facebook-logo.png';
+import twitter from '../../assets/twitter-logo.png';
+import instagram from '../../assets/instagram-logo.png';
+import whatsapp from '../../assets/whatsapp-logo.png';
+import telegram from '../../assets/telegram-logo.png';
 import { getFullYear } from '../../utils/utils';
 
 class Footer extends React.Component {
