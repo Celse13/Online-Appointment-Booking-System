@@ -8,7 +8,7 @@ module.exports = {
   devtool: "inline-source-map",
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js'
   },
   module: {
@@ -46,7 +46,7 @@ module.exports = {
     },
   },
   devServer: {
-    static: "./dist",
+    static: "../dist",
     compress: true,
     open: true,
     hot: true,
@@ -57,7 +57,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       name: "index.html",
       inject: false,
-      template: "./dist/index.html",
+      template: "../dist/index.html",
     }),
     new Dotenv(),
   ]
