@@ -57,7 +57,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       name: "index.html",
       inject: false,
-      template: "../dist/index.html",
+      template: "./dist/index.html",
     }),
     new Dotenv(),
   ]
