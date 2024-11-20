@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite';
 import { appColors } from './colors';
-import calendar from '../../public/images/calendar2.webp';
+import calendar from '../../public/images/calendar2.png';
 
 const sharedInputStyles = {
   border: 'none',

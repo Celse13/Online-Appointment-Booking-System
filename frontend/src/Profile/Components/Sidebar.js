@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LogOut, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 import { css } from 'aphrodite';
-import logo from '../../../public/images/logo.webp';
+import logo from '../../../public/images/logo.png';
 import { sidebarStyles } from '../../styles/sidebarStyles';
 import { withNavigate } from '../../HOC/withNavigate';
 import { handleBackHome } from '../../utils/utils';

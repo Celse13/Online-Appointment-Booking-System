@@ -1,11 +1,11 @@
-import Health from '../../../../public/images/Health.webp';
-import Fitness from '../../../../public/images/Fitness.webp';
-import Consultation from '../../../../public/images/Consultation.webp';
-import Salon from '../../../../public/images/Salon.webp';
-import Spa from '../../../../public/images/Spa.webp';
-import Counselling from '../../../../public/images/Counselling.webp';
-import Tuition from '../../../../public/images/Tuition.webp';
-import Other from '../../../../public/images/Other.webp';
+import Health from '../../../../public/images/Health.png';
+import Fitness from '../../../../public/images/Fitness.png';
+import Consultation from '../../../../public/images/Consultation.png';
+import Salon from '../../../../public/images/Salon.png';
+import Spa from '../../../../public/images/Spa.png';
+import Counselling from '../../../../public/images/Counselling.png';
+import Tuition from '../../../../public/images/Tuition.png';
+import Other from '../../../../public/images/Other.png';
 
 export const serviceCategoriesFilter = [
   { id: 1, category: 'Health', image: Health },
