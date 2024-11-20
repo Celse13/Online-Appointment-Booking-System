@@ -233,13 +233,10 @@ const Profile = ({ userType }) => {
 			{isClient && (
 				<Card className={css(myProfileStyles.clientCard)}>
           <CardHeader className={css(myProfileStyles.header)}>
-            {profileData.profilePicture === '' ?
-              <img src={ppic} alt="profile picture"
-                   className={css(myProfileStyles.ppic)} /> :
-              <img src={profileData.profilePicture} alt="profile picture"
-                   className={css(myProfileStyles.ppic)} />
-            }
-            {showProfileDetails && <SquarePlus onClick={() => document.getElementById('fileInput').click()} />}
+            <img src={ppic} alt="profile picture"
+                 className={css(myProfileStyles.ppic)} />
+            {showProfileDetails && <SquarePlus onClick={() => document.getElementById('fileInput')
+              .click()} />}
             <input
               type="file"
               id="fileInput"
@@ -291,16 +288,12 @@ const Profile = ({ userType }) => {
             <div className={css(myProfileStyles.adminBodyDivItem)}>
               <div className={css(myProfileStyles.adminPpicDiv)}>
 								<span className={css(myProfileStyles.adminPpicSpan)}>
-									{profileData.profilePicture === '' ?
-                    <img src={ppic} alt="profile picture"
-                         className={css(myProfileStyles.adminPpic)} /> :
-                    <img src={profileData.profilePicture} alt="profile picture"
-                         className={css(myProfileStyles.adminPpic)} />
-                  }
+									<img src={ppic} alt="profile picture"
+                       className={css(myProfileStyles.ppic)} />
                   {showProfileDetails &&
                     <SquarePlus
-                    onClick={() => document.getElementById('fileInput')
-                      .click()} />}
+                      onClick={() => document.getElementById('fileInput')
+                        .click()} />}
                   <input
                     type="file"
                     id="fileInput"
