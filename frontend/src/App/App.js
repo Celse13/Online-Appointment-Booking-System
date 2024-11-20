@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import Landing from '../Landing/Landing';
 import Auth from '../Auth/Auth';
 import Client from '../Profile/Client';
@@ -11,7 +11,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={css(styles.app)}>
-        <Router history={history}>
+        <Router>
           <Routes>
             <Route exact path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
