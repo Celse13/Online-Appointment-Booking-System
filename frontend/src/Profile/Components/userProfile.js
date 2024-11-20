@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardFooter, CardHeader, Form, InputGroup, Modal } from 'react-bootstrap';
-import ppic from '../../../public/images/ppic.png';
+import ppic from '../../../public/images/ppic.webp';
 import { css } from 'aphrodite';
 import { appointmentStyles, createServiceStyles, myProfileStyles, } from '../../styles/profCompStyles';
 import { BusinessServicesApi } from '../../Api/handleServicesApi';

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { css } from 'aphrodite';
 import { headerStyles } from '../../styles/landingStyles';
-import icon from '../../../public/images/icon.png';
+import icon from '../../../public/images/icon.webp';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AlignJustify, X } from 'lucide-react';
