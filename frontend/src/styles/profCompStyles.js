@@ -186,45 +186,29 @@ export const appointmentStyles = StyleSheet.create({
   container: {
     height: 'fit-content',
   },
-  listContainer: {
-    border: "none",
-    borderRadius: '25px',
-    padding: '1rem',
-    width: '80vw',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
-    columnGap: '2rem',
-    rowGap: '1rem',
-    height: '90vh',
-    overflow: 'scroll',
-    '@media (max-width: 600px)': {
-      gridTemplateColumns: '1fr',
+  circularCheckbox: {
+    circularCheckbox: {
+      appearance: 'none',
+      width: '1.2rem',
+      height: '1.2rem',
+      border: '2px solid #000',
+      borderRadius: '50%',
+      outline: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.2s ease',
+      backgroundColor: '#fff',
     },
-    '@media (min-width: 600px) and (max-width: 900px)': {
-      gridTemplateColumns: '1fr 1fr',
+    circularCheckboxChecked: {
+      backgroundColor: '#4caf50',
+      borderColor: '#4caf50',
     },
-    '@media (min-width: 900px) and (max-width: 1200px)': {
-      gridTemplateColumns: '1fr 1fr 1fr',
-    },
-  },
-  card: {
-    border: `1px solid ${appColors.accent}`,
-    height: 'fit-content',
-    width: '100%',
   },
   header: {
     ...sharedHeaderStyles,
   },
-  body: {
-    ...sharedBodyStyles,
-  },
-  bodyDiv: {
-    textAlign: 'start',
-  },
-  statusDiv: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
+
+
+
   statusButton: {
     backgroundColor: appColors.white,
     color: appColors.primaryText,
@@ -233,12 +217,13 @@ export const appointmentStyles = StyleSheet.create({
     border: 'none',
   },
   editButton: {
-    margin: '0.5rem',
-    backgroundColor: appColors.lightBlue,
+    margin: '0 0 0 0.5rem',
+    backgroundColor: 'transparent',
     border: 'none',
   },
   deleteButton: {
-    backgroundColor: appColors.red,
+    margin: '0 0 0 0.5rem',
+    backgroundColor: 'transparent',
     border: 'none',
   },
   footer: {
@@ -253,6 +238,8 @@ export const appointmentStyles = StyleSheet.create({
 	modalBody: {
 		color: appColors.primaryText,
 	},
+
+
 	timeInputSpan: {
 		padding: '0 0 0 .1rem',
 	},
@@ -265,6 +252,22 @@ export const appointmentStyles = StyleSheet.create({
 		border: 'none',
 		marginLeft: '1.5rem',
 	},
+
+  tableHead: {
+    border: `none`,
+  },
+  tableBody: {
+    border: `none`,
+  },
+  headText: {
+    backgroundColor: appColors.accentOpaque,
+    color: appColors.white,
+    textAlign: 'start',
+    fontWeight: '400',
+  },
+  text: {
+    ...sharedTextStyles
+  },
 });
 
 export const notificationsStyles = StyleSheet.create({
