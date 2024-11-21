@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
-import about from '../../../public/images/about.png';
+import about from '../../../public/images/about.webp';
 import { aboutStyles, homeStyles } from '../../styles/landingStyles';
 import AnimatedCard from '../../HOC/animatedCard';
 

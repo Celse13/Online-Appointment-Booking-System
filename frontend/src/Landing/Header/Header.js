@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { css } from 'aphrodite';
 import { headerStyles } from '../../styles/landingStyles';
-import icon from '../../../public/images/icon.png';
+import icon from '../../../public/images/icon.webp';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AlignJustify, X } from 'lucide-react';
@@ -32,7 +32,7 @@ const Header = () => {
     <Fragment>
       <nav className={css(headerStyles.navBar)}>
         <Card className={css(headerStyles.navBarCard)}>
-          <img src={icon} alt="" className={css(headerStyles.navBarIcon)} />
+          <img src={icon} alt="icon" className={css(headerStyles.navBarIcon)} />
         </Card>
         <Card className={css(headerStyles.menuCard)} onClick={toggleMenu}>
           {menuOpen ? <X size={28} /> : <AlignJustify size={28} />}

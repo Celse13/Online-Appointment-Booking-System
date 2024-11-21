@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import services from '../../../public/images/services.png';
+import services from '../../../public/images/services.webp';
 import { css } from 'aphrodite';
 import { homeStyles, servicesStyles } from '../../styles/landingStyles';
 import { serviceCategoriesFilter } from '../../Profile/Components/ServicesContainer/servicesData';

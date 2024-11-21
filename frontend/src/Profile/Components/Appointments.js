@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Spinner, Alert, Dropdown, Modal, Form, Table } from 'react-bootstrap';
-import deleteButton from '../../../public/images/delete.png';
-import editButton from '../../../public/images/edit.png';
+import deleteButton from '../../../public/images/delete.webp';
+import editButton from '../../../public/images/edit.webp';
 import { css } from 'aphrodite';
 import { appointmentStyles } from '../../styles/profCompStyles';
 import { BusinessAppointments, ClientAppointments } from '../../Api/handleAppointments';
@@ -188,7 +188,9 @@ const Appointments = () => {
                 <Button className={css(appointmentStyles.editButton)}
                         onClick={() => handleShowModal(appointment)}><img src={editButton} alt="" /></Button>
                 <Button className={css(appointmentStyles.deleteButton)}
-                        onClick={() => handleDelete(appointment.id)}><img src={deleteButton} alt="" /></Button>
+                        onClick={() => handleDelete(appointment.id)}>
+                  <img src={deleteButton} alt="" />
+                </Button>
               </div>
             </td>
           </tr>

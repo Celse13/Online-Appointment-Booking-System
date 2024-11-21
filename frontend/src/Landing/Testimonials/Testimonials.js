@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Row } from 'react-bootstrap';
 import { css } from 'aphrodite';
 import { testimonialsStyles } from '../../styles/landingStyles';
-import person1 from '../../../public/images/person1.png';
-import person2 from '../../../public/images/person2.png';
-import person3 from '../../../public/images/person3.png';
+import person1 from '../../../public/images/person1.webp';
+import person2 from '../../../public/images/person2.webp';
+import person3 from '../../../public/images/person3.webp';
 
 class Testimonials extends React.Component {
   render() {

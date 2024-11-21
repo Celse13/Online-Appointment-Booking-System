@@ -50,7 +50,7 @@ const sharedLandingCardStyles = {
 
 export const headerStyles = StyleSheet.create({
   navBar: {
-    backgroundColor: appColors.accent,
+    backgroundColor: appColors.accentOpaque,
     padding: '1rem',
     maxWidth: '100vw',
     position: 'fixed',
@@ -68,7 +68,7 @@ export const headerStyles = StyleSheet.create({
   },
   navBarIcon: {
     width: '25px',
-    height: '25px',
+    height: 'auto',
     position: 'absolute',
   },
   menuCard: {
@@ -77,7 +77,7 @@ export const headerStyles = StyleSheet.create({
     position: 'absolute',
     right: '1rem',
     backgroundColor: 'transparent',
-    color: appColors.white,
+    color: appColors.black,
     border: 'none',
     cursor: 'pointer',
     '@media (min-width: 768px)': {
@@ -105,7 +105,7 @@ export const headerStyles = StyleSheet.create({
   },
   listItem: {
     textDecoration: 'none',
-    color: appColors.primaryLight,
+    color: appColors.black,
     padding: '1rem',
     cursor: 'pointer',
     '@media (min-width: 769px)': {
