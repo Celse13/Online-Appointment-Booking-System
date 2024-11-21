@@ -1,27 +1,30 @@
 import React from 'react';
 import { css } from 'aphrodite';
 import { homeStyles } from '../../styles/landingStyles';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import home from '../../../public/images/home.png';
+import AnimatedCard from '../../HOC/animatedCard';
 
-class Home extends React.Component {
-  render() {
-    return (
-      <Container className={css(homeStyles.homeContainer)}>
-        <Row>
-          <Col md={6} className={css(homeStyles.sloganDiv)}>
-            <h1 className={css(homeStyles.slogan)}><em className={css(homeStyles.sloganEm)}>SCHEDULR</em> Where Quality Service Meets Convenience
-            </h1>
-          </Col>
-          <Col md={6}>
-            <Card className={css(homeStyles.homeCard)}>
-              <img src={home} alt=""/>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-}
+const Home = () => {
+
+  return (
+    <Container className={css(homeStyles.homeContainer)}>
+      <Row>
+        <Col md={6} className={css(homeStyles.sloganDiv)}>
+          <h1 className={css(homeStyles.slogan)}><em className={css(homeStyles.sloganEm)}>SCHEDULR</em> Where Quality Service Meets Convenience
+          </h1>
+        </Col>
+        <Col md={6}>
+          <AnimatedCard
+            imgSrc={home}
+            cardStyle={homeStyles.homeCard}
+            imgStyle={homeStyles.landingImage}
+            altText="Home image"
+          />
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default Home;

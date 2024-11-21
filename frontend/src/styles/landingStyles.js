@@ -16,6 +16,38 @@ const sharedCardStyles = {
   borderRadius: '20px',
 };
 
+const slideInLeft = {
+  from: {
+    transform: 'translateX(-100%)',
+    opacity: 0,
+  },
+  to: {
+    transform: 'translateX(0)',
+    opacity: 1,
+  },
+}
+
+const slideInRight = {
+  from: {
+    transform: 'translateX(100%)',
+    opacity: 0,
+  },
+  to: {
+    transform: 'translateX(0)',
+    opacity: 1,
+  },
+}
+
+const sharedLandingCardStyles = {
+  ...sharedCardStyles,
+  backgroundColor: appColors.primaryLight,
+  animationName: slideInLeft,
+  animationDuration: '3s',
+  animationTimingFunction: 'ease',
+  opacity: 1,
+};
+
+
 export const headerStyles = StyleSheet.create({
   navBar: {
     backgroundColor: appColors.accent,
@@ -92,6 +124,7 @@ export const headerStyles = StyleSheet.create({
   },
 });
 
+
 export const homeStyles = StyleSheet.create({
   homeContainer: {
     paddingTop: '70px',
@@ -113,9 +146,20 @@ export const homeStyles = StyleSheet.create({
   sloganEm: {
     color: appColors.primaryText,
   },
+  hidden: {
+    opacity: 0,
+    transform: 'translateX(0)',
+    transition: 'opacity 0.3s, transform 0.3s',
+  },
   homeCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.primaryLight,
+    ...sharedLandingCardStyles
+  },
+  landingImage: {
+    animationName: slideInRight,
+    animationDuration: '3s',
+    animationTimingFunction: 'ease',
+    opacity: 1,
   },
 });
 
@@ -126,7 +170,7 @@ export const servicesStyles = StyleSheet.create({
   },
   servicesCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.primaryLight,
+    ...sharedLandingCardStyles,
   },
   gridContainer: {
     margin: '2rem 0 0 3rem',
@@ -160,11 +204,15 @@ export const aboutStyles = StyleSheet.create({
     alignItems: 'center',
   },
   aboutText: {
-    textAlign: 'center',
+    textAlign: 'start',
+  },
+  h5: {
+    fontWeight: '400',
+    fontSize: '1.2rem',
   },
   aboutCard: {
     ...sharedCardStyles,
-    backgroundColor: appColors.primaryLight,
+    ...sharedLandingCardStyles,
   },
 });
 
@@ -190,6 +238,9 @@ export const testimonialsStyles = StyleSheet.create({
     borderRadius: '50%',
     padding: '.2rem',
     backgroundColor: appColors.dusty,
+  },
+  testimonialsCardBodyP: {
+    textAlign: 'start',
   },
   hr: {
     border: 'none',

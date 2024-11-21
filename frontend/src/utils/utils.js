@@ -1,16 +1,23 @@
+//get full year
 export const getFullYear = () =>{
   return new Date().getFullYear();
 }
 
+
+//get current date
 export const getCurrentDate = () => {
   const today = new Date();
   return today.toISOString().split('T')[0];
 };
 
+
+//handle back home
 export const handleBackHome = (navigate) => {
   navigate('/');
 }
 
+
+//time format
 const prefers24Hour = () => {
 	const format = new Intl.DateTimeFormat('default', {
 		hour: 'numeric'
@@ -19,6 +26,7 @@ const prefers24Hour = () => {
 };
 
 const userPrefers24HourFormat = prefers24Hour();
+
 export const formatTime = (time) => {
   if (userPrefers24HourFormat) {
     return time;
@@ -30,10 +38,16 @@ export const formatTime = (time) => {
   }
 };
 
+
+//dats of the week
 export const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+
+//permissions
 export const permissions = ['View staff', 'Manage staff', 'View Appointments', 'Manage Appointments']
 
+
+//handle change in form fields
 export const handleChange = (e, formData, setFormData, setErrorMessages) => {
   const { name, value } = e.target;
   let errorMessage = '';

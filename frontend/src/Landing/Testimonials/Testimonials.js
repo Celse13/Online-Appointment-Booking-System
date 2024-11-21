@@ -18,9 +18,10 @@ class Testimonials extends React.Component {
                 <img src={person1} alt="" width='100%' height='100%'/>
               </CardHeader>
               <CardBody>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur. Ut phasellus eu tempus urna. Ultrices
-                  lectus viverra suspendisse elit arcu mattis.
+                <p className={css(testimonialsStyles.testimonialsCardBodyP)}>
+                  “This platform has transformed the way I manage my business.
+                  Clients can book appointments effortlessly, and I no longer have to juggle phone calls and manual schedules.
+                  It’s a game-changer for my salon!”
                 </p>
                 <cite>~Riziki S.</cite>
               </CardBody>
@@ -32,9 +33,11 @@ class Testimonials extends React.Component {
                 <img src={person2} alt='' width='100%' height='100%'/>
               </CardHeader>
               <CardBody>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur. Ut phasellus eu tempus urna. Ultrices
-                  lectus viverra suspendisse elit arcu mattis.
+                <p className={css(testimonialsStyles.testimonialsCardBodyP)}>
+                  “I used to spend hours coordinating meetings with clients.
+                  With this tool, scheduling is stress-free.
+                  It’s professional, intuitive, and keeps my calendar perfectly organized.
+                  I highly recommend it!”
                 </p>
                 <cite>~Aisha N.</cite>
               </CardBody>
@@ -43,14 +46,15 @@ class Testimonials extends React.Component {
           <Col md={4}>
             <Card className={css(testimonialsStyles.testimonialsCard)}>
               <CardHeader className={css(testimonialsStyles.testimonialsCardHeader)}>
-                <img src={person3} alt='' width='100%' height='100%'/>
+                <img src={person3} alt="" width="100%" height="100%" />
               </CardHeader>
               <CardBody>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur. Ut phasellus eu tempus urna. Ultrices
-                  lectus viverra suspendisse elit arcu mattis.
+                <p className={css(testimonialsStyles.testimonialsCardBodyP)}>
+                  “Using this system has made my life so much easier.
+                  I can manage my sessions, track bookings, and send reminders—all in one place.
+                  My clients appreciate the seamless experience, and I love the time it saves me!”
                 </p>
-                <cite>~Abdul M.</cite>
+                <cite>~Max M.</cite>
               </CardBody>
             </Card>
           </Col>
