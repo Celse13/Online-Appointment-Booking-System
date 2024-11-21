@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
-    "build": "webpack build --config ./config/webpack.config.js",
+    "build": "webpack --mode production --config ./config/webpack.config.js",
     "start": "webpack-dev-server --mode development --config ./config/webpack.config.js"
   },
   "keywords": [],
@@ -57,7 +57,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.23.1",
     "react-router-hash-link": "^2.4.3",
-    "style-loader": "^3.3.4"
+    "style-loader": "^3.3.4",
+    "terser-webpack-plugin": "^5.3.10"
   },
   "jest": {
     "moduleNameMapper": {

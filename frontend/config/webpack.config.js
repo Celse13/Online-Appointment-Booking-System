@@ -1,15 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
 
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   devtool: "inline-source-map",
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.min.js',
+    clean: true,
   },
   module: {
     rules: [
@@ -65,5 +67,18 @@ module.exports = {
       template: "./dist/index.html",
     }),
     new Dotenv(),
-  ]
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+          mangle: true,
+        },
+      }),
+    ],
+  },
 };

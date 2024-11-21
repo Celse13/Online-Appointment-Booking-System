@@ -136,11 +136,8 @@ export const homeStyles = StyleSheet.create({
   },
   slogan: {
     color: appColors.dusty,
-    fontSize: '3rem',
+    fontSize: 'calc(1.5rem + 1vw)',
     textAlign: 'center',
-    '@media (max-width: 1200px)': {
-      fontSize: '2rem',
-    },
 
   },
   sloganEm: {
