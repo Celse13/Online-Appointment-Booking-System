@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const ROUTE_URL = "https://online-appointment-booking-system.onrender.com/api";
-const BASE_URL = `${ROUTE_URL}/users`;
+const BASE_URL = "https://online-appointment-booking-system.onrender.com/api/users";
 
 class UserApi {
 	static async getUserById(userId, token) {
