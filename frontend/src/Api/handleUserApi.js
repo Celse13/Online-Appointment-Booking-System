@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROUTE_URL = process.env.REACT_APP_BASE_URL;
+const ROUTE_URL = "https://online-appointment-booking-system.onrender.com/api";
 const BASE_URL = `${ROUTE_URL}/users`;
 
 class UserApi {
