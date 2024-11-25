@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.min.js',
+    filename: 'bundle.js',
     clean: true,
   },
   module: {
@@ -65,6 +66,12 @@ module.exports = {
       name: "index.html",
       inject: false,
       template: "./dist/index.html",
+      favicon: "./public/images/favicon.ico",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/images/favicon.ico', to: 'favicon.ico' },
+      ]
     }),
     new Dotenv(),
   ],
