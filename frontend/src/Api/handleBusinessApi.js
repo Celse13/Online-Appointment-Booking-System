@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ROUTE_URL } from '../../constants';
 
+const ROUTE_URL = process.env.REACT_APP_BASE_URL;
 const BASE_URL = `${ROUTE_URL}/businesses`;
 
 class BusinessApi {
